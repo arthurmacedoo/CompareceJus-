@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Comprovante Digital - CompareceJus</title>
+<!-- Inter Google Font -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "tertiary": "#745b00",
+            "on-tertiary": "#ffffff",
+            "tertiary-fixed-dim": "#f0c100",
+            "on-tertiary-fixed-variant": "#574400",
+            "surface-container": "#e5eeff",
+            "on-error": "#ffffff",
+            "surface-container-high": "#dbe9ff",
+            "on-surface": "#0e1c2d",
+            "surface-dim": "#cddbf2",
+            "govbr-green-success": "#168821",
+            "secondary-fixed-dim": "#afc6ff",
+            "govbr-yellow-warning": "#FFCD07",
+            "inverse-primary": "#b0c6ff",
+            "primary-fixed-dim": "#b0c6ff",
+            "primary-container": "#1351b4",
+            "on-primary": "#ffffff",
+            "background": "#f8f9ff",
+            "surface-light": "#F8F9FA",
+            "on-tertiary-fixed": "#241a00",
+            "primary-fixed": "#d9e2ff",
+            "surface-variant": "#d5e4fa",
+            "primary": "#003a8c",
+            "surface": "#f8f9ff",
+            "on-primary-container": "#b8cbff",
+            "on-surface-variant": "#434653",
+            "inverse-on-surface": "#eaf1ff",
+            "outline-variant": "#c3c6d5",
+            "govbr-red-danger": "#E52207",
+            "on-background": "#0e1c2d",
+            "on-secondary-fixed": "#001944",
+            "error": "#ba1a1a",
+            "govbr-blue-warm": "#001B44",
+            "on-primary-fixed-variant": "#00429c",
+            "secondary-fixed": "#d9e2ff",
+            "surface-container-low": "#eff4ff",
+            "secondary-container": "#9bb8fd",
+            "on-secondary": "#ffffff",
+            "on-error-container": "#93000a",
+            "inverse-surface": "#233143",
+            "tertiary-container": "#d0a700",
+            "outline": "#737784",
+            "secondary": "#3f5d9c",
+            "surface-muted": "#EDEDED",
+            "surface-tint": "#225abd",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-fixed": "#001945",
+            "on-secondary-fixed-variant": "#254582",
+            "border-neutral": "#D2D4D7",
+            "tertiary-fixed": "#ffe089",
+            "on-tertiary-container": "#4f3e00",
+            "error-container": "#ffdad6",
+            "surface-bright": "#f8f9ff",
+            "surface-container-highest": "#d5e4fa",
+            "on-secondary-container": "#284785"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "2xl": "1rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "gutter": "1.5rem",
+            "margin-tablet": "1.5rem",
+            "space-md": "1rem",
+            "margin": "2rem",
+            "gutter-mobile": "1rem",
+            "space-xs": "0.25rem",
+            "space-2xl": "3rem",
+            "space-3xl": "4rem",
+            "space-sm": "0.5rem",
+            "margin-mobile": "1rem",
+            "space-xl": "2rem",
+            "space-lg": "1.5rem"
+          },
+          fontFamily: {
+            "title-sm": ["Inter", "sans-serif"],
+            "label-md": ["Inter", "sans-serif"],
+            "headline-xl": ["Inter", "sans-serif"],
+            "headline-md": ["Inter", "sans-serif"],
+            "body-lg": ["Inter", "sans-serif"],
+            "body-md": ["Inter", "sans-serif"],
+            "headline-xl-mobile": ["Inter", "sans-serif"],
+            "headline-lg": ["Inter", "sans-serif"],
+            "body-sm": ["Inter", "sans-serif"],
+            "display-lg-mobile": ["Inter", "sans-serif"],
+            "label-lg": ["Inter", "sans-serif"],
+            "display-lg": ["Inter", "sans-serif"],
+            "label-sm": ["Inter", "sans-serif"],
+            "mono": ["JetBrains Mono", "monospace"]
+          },
+          fontSize: {
+            "title-sm": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "label-md": ["14px", { "lineHeight": "18px", "fontWeight": "500" }],
+            "headline-xl": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+            "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "700" }],
+            "headline-lg": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+            "body-sm": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+            "display-lg-mobile": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.01em", "fontWeight": "700" }],
+            "label-lg": ["16px", { "lineHeight": "20px", "fontWeight": "600" }],
+            "display-lg": ["48px", { "lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "label-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.04em", "fontWeight": "600" }]
+          }
+        }
+      }
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    body {
+      -webkit-font-smoothing: antialiased;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface flex items-center justify-center min-h-screen p-0 sm:p-4 font-body-md selection:bg-surface-container selection:text-primary">
+<!-- Mobile Viewport Container (390px x 844px target) -->
+<main class="w-full max-w-[390px] min-h-screen sm:min-h-[844px] bg-surface flex flex-col justify-between p-4 sm:rounded-2xl sm:shadow-lg sm:border sm:border-border-neutral overflow-y-auto">
+<!-- Top Minimalist Modal Header -->
+<header class="w-full pt-2 pb-3 px-1 flex items-center justify-between">
+<div class="flex items-center space-x-2">
+<div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">balance</span>
+</div>
+<span class="font-label-lg text-label-lg text-on-surface tracking-tight">CompareceJus</span>
+</div>
+<div class="flex items-center space-x-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Comprovante Digital</span>
+<button aria-label="Fechar" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-muted active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-primary" type="button">
+<span class="material-symbols-outlined text-xl">close</span>
+</button>
+</div>
+</header>
+<!-- Central Banking Receipt Card -->
+<section class="w-full my-auto py-1">
+<div class="bg-surface-container-lowest border border-border-neutral rounded-2xl shadow-sm overflow-hidden relative">
+<!-- Top Receipt Notches (Fintech Receipt Decorative Element) -->
+<div class="relative px-5 pt-6 pb-4">
+<!-- Success Status Header -->
+<div class="flex flex-col items-center text-center">
+<div class="w-12 h-12 rounded-full bg-govbr-green-success/10 border border-govbr-green-success/20 flex items-center justify-center mb-3">
+<span class="material-symbols-outlined text-govbr-green-success text-2xl font-bold" style="font-variation-settings: 'FILL' 1;">check</span>
+</div>
+<h1 class="font-title-sm text-title-sm text-on-surface font-bold tracking-tight">
+              Comparecimento Homologado
+            </h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+              Ciclo Outubro / 2026
+            </p>
+</div>
+<!-- Subtle Clean Dashed Divider -->
+<div class="my-5 border-t border-dashed border-border-neutral"></div>
+<!-- Key Value Details List -->
+<dl class="space-y-3.5 text-left">
+<!-- Cidadão -->
+<div class="flex items-start justify-between">
+<dt class="font-body-sm text-body-sm text-on-surface-variant">Cidadão</dt>
+<dd class="font-label-md text-label-md text-on-surface font-semibold text-right">Carlos Eduardo da Silva</dd>
+</div>
+<!-- Data e Horário -->
+<div class="flex items-start justify-between">
+<dt class="font-body-sm text-body-sm text-on-surface-variant">Data e Horário</dt>
+<dd class="font-label-md text-label-md text-on-surface font-semibold text-right">22 de Outubro de 2026 às 17:15</dd>
+</div>
+<!-- Comarca -->
+<div class="flex items-start justify-between">
+<dt class="font-body-sm text-body-sm text-on-surface-variant">Comarca</dt>
+<dd class="font-label-md text-label-md text-on-surface font-medium text-right">Comarca da Capital - SP</dd>
+</div>
+<!-- Protocolo -->
+<div class="flex items-start justify-between">
+<dt class="font-body-sm text-body-sm text-on-surface-variant">Protocolo</dt>
+<dd class="font-label-md text-label-md text-on-surface font-semibold text-right tracking-tight">CJ-2026-94810-SP</dd>
+</div>
+<!-- Hash de Autenticidade -->
+<div class="flex items-center justify-between pt-1">
+<dt class="font-body-sm text-body-sm text-on-surface-variant">Hash de Autenticidade</dt>
+<dd class="font-mono text-[11px] text-on-surface-variant bg-surface-light border border-border-neutral/60 px-2 py-0.5 rounded">
+                7f8a9b4c2e...
+              </dd>
+</div>
+</dl>
+<!-- Divider before QR Code -->
+<div class="my-5 border-t border-dashed border-border-neutral"></div>
+<!-- QR Code Section -->
+<div class="flex flex-col items-center">
+<div class="p-2.5 bg-surface-container-lowest border border-border-neutral rounded-xl shadow-sm mb-2.5">
+<!-- Crisp Vector QR Code Simulation -->
+<svg aria-label="QR Code de validação" class="w-28 h-28 text-on-surface" fill="currentColor" viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<!-- Top-Left Finder -->
+<rect fill="currentColor" height="24" rx="3" width="24" x="10" y="10"></rect>
+<rect fill="white" height="16" rx="2" width="16" x="14" y="14"></rect>
+<rect fill="currentColor" height="8" rx="1" width="8" x="18" y="18"></rect>
+<!-- Top-Right Finder -->
+<rect fill="currentColor" height="24" rx="3" width="24" x="66" y="10"></rect>
+<rect fill="white" height="16" rx="2" width="16" x="70" y="14"></rect>
+<rect fill="currentColor" height="8" rx="1" width="8" x="74" y="18"></rect>
+<!-- Bottom-Left Finder -->
+<rect fill="currentColor" height="24" rx="3" width="24" x="10" y="66"></rect>
+<rect fill="white" height="16" rx="2" width="16" x="14" y="70"></rect>
+<rect fill="currentColor" height="8" rx="1" width="8" x="18" y="74"></rect>
+<!-- Data Blocks -->
+<rect height="6" rx="1" width="6" x="40" y="12"></rect>
+<rect height="6" rx="1" width="6" x="50" y="12"></rect>
+<rect height="6" rx="1" width="8" x="42" y="24"></rect>
+<rect height="8" rx="1" width="6" x="54" y="22"></rect>
+<rect height="6" rx="1" width="6" x="12" y="42"></rect>
+<rect height="6" rx="1" width="8" x="22" y="42"></rect>
+<rect height="8" rx="1" width="6" x="16" y="52"></rect>
+<rect height="8" rx="1.5" width="8" x="40" y="40"></rect>
+<rect height="6" rx="1" width="6" x="52" y="40"></rect>
+<rect height="8" rx="1" width="6" x="40" y="52"></rect>
+<rect height="10" rx="1.5" width="10" x="50" y="50"></rect>
+<rect height="6" rx="1" width="8" x="68" y="42"></rect>
+<rect height="8" rx="1" width="8" x="80" y="42"></rect>
+<rect height="6" rx="1" width="6" x="70" y="52"></rect>
+<rect height="6" rx="1" width="6" x="82" y="54"></rect>
+<rect height="6" rx="1" width="8" x="40" y="68"></rect>
+<rect height="8" rx="1" width="6" x="52" y="70"></rect>
+<rect height="6" rx="1" width="6" x="42" y="78"></rect>
+<rect height="6" rx="1" width="6" x="68" y="68"></rect>
+<rect height="6" rx="1" width="8" x="78" y="70"></rect>
+<rect height="8" rx="1" width="8" x="68" y="78"></rect>
+<rect height="6" rx="1" width="6" x="80" y="80"></rect>
+</svg>
+</div>
+<p class="font-label-sm text-[11px] text-on-surface-variant text-center max-w-[240px] leading-tight">
+              QR Code de conferência para autoridades públicas
+            </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Bottom Actions & Discreet Footer -->
+<footer class="w-full pt-3 pb-2 space-y-3">
+<!-- Action Buttons -->
+<div class="space-y-2">
+<!-- Primary Action: Baixar PDF -->
+<button class="w-full h-11 bg-primary hover:bg-govbr-blue-warm text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center space-x-2 transition-colors duration-150 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-govbr-yellow-warning" type="button">
+<span class="material-symbols-outlined text-xl">download</span>
+<span>Baixar PDF</span>
+</button>
+<!-- Secondary Action: Concluir -->
+<button class="w-full h-11 bg-transparent hover:bg-surface-muted text-on-surface font-label-lg text-label-lg rounded-xl flex items-center justify-center transition-colors duration-150 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-primary border border-border-neutral" type="button">
+<span>Concluir</span>
+</button>
+</div>
+<!-- Discreet Brand Footer -->
+<p class="font-label-sm text-[11px] text-on-surface-variant/70 text-center tracking-normal">
+        CompareceJus • Apresentação Periódica Digital
+      </p>
+</footer>
+</main>
+</body></html>
