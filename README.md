@@ -85,42 +85,7 @@ Desenvolvido para eliminar o trabalho manual repetitivo da secretaria da vara cr
   - Exibição de mapa com o ponto exato da captura e status do detector **anti-mocking** (anti-emulador de GPS).
 * **⚖️ Protocolo em Lote no PJe / SEEU:**
   - Botão *"Juntar Certidões nos Autos em Lote"* que assina digitalmente e protocola centenas de certidões nos processos com apenas 1 clique, emitindo recibo geral unificado.
-
----
-
-## 🎬 Roteiro de Demonstração ao Vivo (Para Apresentar ao seu Irmão)
-
-Quando você for mostrar o projeto funcionando para o seu irmão servidor público, siga este passo a passo para causar o máximo impacto:
-
-### 1º Momento: Apresente o Painel da Vara no Computador
-1. Abra no navegador do PC o painel da secretaria:  
-   👉 **`http://localhost:3000/painel`** *(ou o link do Render no PC)*.
-2. Mostre para ele a tabela de processos e a filosofia de **"Gestão por Exceção"**:
-   > *"Olha como a secretaria não perde mais tempo com quem cumpre a regra: dos 412 réus do mês, 389 já foram validados sozinhos pelo sistema. Apenas 5 caíram na triagem humana para o escrevente auditar."*
-3. Clique em **"Auditar Dossiê"** em qualquer linha para mostrar a comparação facial e o mapa de geofencing.
-
-### 2º Momento: Pegue o Celular e Faça a Validação na Frente Dele
-1. Abra no seu smartphone o App do Cidadão:  
-   👉 **`http://192.168.1.7:3000/app`** *(ou pelo link permanente do Render)*.
-2. Mostre a simplicidade da tela inicial (prazo e processo).
-3. Toque em **"Realizar Comparecimento"**:
-   - Aponte a câmera para você no visor oval.
-   - Mostre as etapas de liveness (*"Pisque devagar..."*).
-   - Toque em **"Capturar e Validar"**.
-
-### 3º Momento: O Efeito "Uau" no Computador (Sincronização Instantânea)
-1. **Peça para ele olhar para a tela do computador:**
-   - O PC emitirá o sinal sonoro imediatamente.
-   - Uma linha verde destacada **`● AO VIVO • CELULAR`** surgirá no topo da lista.
-   - O painel lateral abrirá automaticamente com a **sua foto real tirada do celular** aparecendo na tela do PC dele!
-2. Mostre a conclusão no celular:
-   - Abertura da **Certidão Digital com QR Code**, pronta para salvar em PDF ou enviar no WhatsApp.
-
-### 4º Momento: O Fechamento Cartorário
-1. No computador, clique no botão azul inferior: **"Juntar Certidões nos Autos em Lote (SEEU/PJe)"**.
-2. Mostre a barra de progresso simulando a assinatura ICP-Brasil e o protocolo de lote:
-   > *"Isso aqui substitui o trabalho manual de juntar certidão por certidão em centenas de processos todo mês."*
-
+    
 ---
 
 ## 🏛️ Conformidade Legal e Regulatória
@@ -132,25 +97,6 @@ Quando você for mostrar o projeto funcionando para o seu irmão servidor públi
 | **Resolução CNJ nº 288/2019** | Incentivo à modernização e despenalização de procedimentos burocráticos em alternativas penais. |
 | **LGPD (Lei nº 13.709/2018)** | Princípio da necessidade e finalidade: **coleta pontual no momento do ato** (sem monitoramento 24h contínuo). |
 | **Fé Pública (ICP-Brasil)** | Hash SHA-256 e carimbo de tempo do Observatório Nacional garantindo autenticidade e não-repúdio. |
-
----
-
-## 🚀 Como Executar o Projeto
-
-### Opção A: Acesso em Nuvem 24h (Sem dependência de máquina local)
-* **App Mobile:** `https://comparecejus.onrender.com/app`
-* **Painel da Vara:** `https://comparecejus.onrender.com/painel`
-* **Hub com Alternador:** `https://comparecejus.onrender.com`
-
-### Opção B: Execução Local no Computador
-1. Certifique-se de ter o [Node.js](https://nodejs.org) instalado.
-2. Na pasta do projeto, inicie o servidor:
-   ```bash
-   node server.js
-   ```
-3. Acesse no navegador:
-   - Computador: `http://localhost:3000/painel`
-   - Celular (mesma rede): `http://<SEU_IP_LOCAL>:3000/app`
 
 ---
 
