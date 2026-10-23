@@ -97,13 +97,25 @@ const server = http.createServer((req, res) => {
   if (pathname === '/api/stream') {
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      'Connection': 'keep-alive'
+      'Cache-Control': 'no-cache, no-transform',
+      'Connection': 'keep-alive',
+      'X-Accel-Buffering': 'no' // Desabilita buffering em proxies de nuvem (Render, Nginx, Cloudflare)
     });
-    res.write('retry: 5000\n\n');
+    res.write('retry: 3000\n\n');
     sseClients.add(res);
 
+    // Ping periódico a cada 20 segundos para manter conexões de nuvem vivas
+    const pingInterval = setInterval(() => {
+      try {
+        res.write(': keep-alive ping\n\n');
+      } catch (e) {
+        clearInterval(pingInterval);
+        sseClients.delete(res);
+      }
+    }, 20000);
+
     req.on('close', () => {
+      clearInterval(pingInterval);
       sseClients.delete(res);
     });
     return;
@@ -175,11 +187,16 @@ const server = http.createServer((req, res) => {
   // Obter dados de rede para exibir no celular/PC
   if (pathname === '/api/info') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
+    const proto = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const isCloud = process.env.RENDER || process.env.RENDER_EXTERNAL_URL;
+    const baseUrl = process.env.RENDER_EXTERNAL_URL || (isCloud ? `${proto}://${host}` : `http://${getLocalIp()}:${PORT}`);
+
     res.end(JSON.stringify({
       localIp: getLocalIp(),
       port: PORT,
-      mobileUrl: `http://${getLocalIp()}:${PORT}/app`,
-      desktopUrl: `http://localhost:${PORT}/painel`
+      mobileUrl: `${baseUrl}/app`,
+      desktopUrl: `${baseUrl}/painel`
     }));
     return;
   }
