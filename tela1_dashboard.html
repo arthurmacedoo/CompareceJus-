@@ -137,7 +137,7 @@
 <div class="flex items-center justify-between">
 <!-- Brand Identity -->
 <div class="flex items-center gap-2.5">
-<div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shrink-0 shadow-sm">
+<div class="w-9 h-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shrink-0 shadow-sm cursor-pointer" onclick="switchTab('inicio')">
 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
 <path d="M12 3v18"></path>
 <path d="m6 8 6-2 6 2"></path>
@@ -146,25 +146,26 @@
 <path class="text-blue-300 stroke-blue-200" d="m9 18 2 2 4-4" stroke-width="2.5"></path>
 </svg>
 </div>
-<div class="flex flex-col">
+<div class="flex flex-col cursor-pointer" onclick="switchTab('inicio')">
 <span class="font-headline-md text-headline-md tracking-tight text-slate-900 leading-tight">CompareceJus</span>
 <span class="font-label-sm text-label-sm text-slate-400 font-normal">Apresentação Periódica Digital</span>
 </div>
 </div>
-<!-- User Profile Snippet -->
-<div class="flex items-center gap-2 text-right">
+<!-- User Profile Snippet (Clickable) -->
+<div class="flex items-center gap-2 text-right cursor-pointer group" onclick="openProfileModal()">
 <div class="flex flex-col">
-<span class="font-label-md text-label-md text-slate-800 font-medium leading-none">Olá, Carlos Eduardo</span>
+<span class="font-label-md text-label-md text-slate-800 font-medium leading-none group-hover:text-blue-700 transition-colors">Carlos Eduardo</span>
 <span class="font-label-sm text-label-sm text-slate-400 font-mono mt-1">•••.458.912-••</span>
 </div>
-<div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-700 font-label-md text-label-md font-semibold shrink-0">
-            CE
-          </div>
+<div class="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center text-blue-700 font-label-md text-label-md font-bold shrink-0 group-hover:bg-blue-100 transition-colors">
+  CE
+</div>
 </div>
 </div>
 </header>
-<!-- Scrollable Main Content -->
-<div class="flex-1 px-5 pt-6 pb-4 flex flex-col gap-6">
+
+<!-- ==================== ABA 1: INÍCIO (DASHBOARD) ==================== -->
+<div id="tabContentInicio" class="tab-page flex-1 px-5 pt-6 pb-4 flex flex-col gap-6">
 <!-- 2. Single Primary Focus Hero Card -->
 <section class="rounded-2xl border border-blue-100/70 bg-gradient-to-b from-blue-50/50 via-white to-white p-6 shadow-sm relative overflow-hidden">
 <div class="flex items-center justify-between">
@@ -189,38 +190,46 @@
 <span>Realizar Comparecimento</span>
 </button>
 </section>
+
 <!-- 3. Compact Process Summary -->
 <section class="px-1 py-1">
 <div class="flex flex-col gap-3 py-2">
 <!-- Item 1: Process Number -->
 <div class="flex items-center justify-between text-slate-600">
-<div class="flex items-center gap-2 min-w-0">
+<div class="flex items-center gap-2 min-w-0 cursor-pointer" onclick="switchTab('processos')">
 <span class="material-symbols-outlined text-slate-400 text-lg shrink-0" data-icon="gavel">gavel</span>
 <span class="font-body-sm text-body-sm text-slate-700 font-medium truncate">Processo nº 0014298-55.2026.8.26.0100</span>
 </div>
-<button aria-label="Copiar número do processo" class="text-slate-400 hover:text-slate-700 p-1 rounded-md active:bg-slate-100 transition-colors" type="button">
-<span class="material-symbols-outlined text-base" data-icon="content_copy">content_copy</span>
+<button onclick="copyProcessNumber()" aria-label="Copiar número do processo" class="text-slate-400 hover:text-slate-700 p-1.5 rounded-md hover:bg-slate-100 active:bg-slate-200 transition-colors" type="button" title="Copiar processo">
+<span id="copyIcon" class="material-symbols-outlined text-base">content_copy</span>
 </button>
 </div>
 <!-- Divider -->
 <div class="h-px bg-slate-100 w-full"></div>
 <!-- Item 2: Courthouse / Location -->
-<div class="flex items-center gap-2 text-slate-600">
+<div class="flex items-center justify-between text-slate-600 cursor-pointer" onclick="switchTab('processos')">
+<div class="flex items-center gap-2">
 <span class="material-symbols-outlined text-slate-400 text-lg shrink-0" data-icon="location_on">location_on</span>
-<span class="font-body-sm text-body-sm text-slate-500">Comarca da Capital - Foro Central</span>
+<span class="font-body-sm text-body-sm text-slate-500">2ª Vara Criminal • Comarca da Capital</span>
+</div>
+<span class="text-xs text-blue-600 font-semibold hover:underline">Detalhes →</span>
 </div>
 </div>
 </section>
+
 <!-- 4. Minimalist Recent History -->
 <section class="mt-1">
-<h2 class="font-label-sm text-label-sm text-slate-400 font-semibold tracking-wider uppercase mb-3">
-          Histórico Recente
-        </h2>
+<div class="flex items-center justify-between mb-3">
+  <h2 class="font-label-sm text-label-sm text-slate-400 font-semibold tracking-wider uppercase">
+    Histórico Recente
+  </h2>
+  <span class="text-xs text-slate-400 font-mono">2 validados</span>
+</div>
 <div class="flex flex-col divide-y divide-slate-100 rounded-xl bg-surface-container-lowest">
-<!-- Record 1 -->
-<div class="flex items-center justify-between py-3.5">
+<!-- Record 1 (Clickable) -->
+<div onclick="openHistoryModal('Setembro / 2026', '24/09/2026 às 14:32', 'CJ-2026-88190-SP', 'São Paulo - SP')" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors group">
 <div class="flex flex-col">
-<span class="font-label-lg text-label-lg text-slate-800 font-medium">Setembro / 2026</span>
+<span class="font-label-lg text-label-lg text-slate-800 font-medium group-hover:text-blue-700 transition-colors">Setembro / 2026</span>
 <span class="font-label-sm text-label-sm text-slate-400">Efetuado em 24/09 às 14:32</span>
 </div>
 <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-label-sm text-label-sm font-medium">
@@ -228,10 +237,10 @@
 <span>Validado</span>
 </div>
 </div>
-<!-- Record 2 -->
-<div class="flex items-center justify-between py-3.5">
+<!-- Record 2 (Clickable) -->
+<div onclick="openHistoryModal('Agosto / 2026', '28/08/2026 às 09:15', 'CJ-2026-72410-SP', 'São Paulo - SP')" class="flex items-center justify-between py-3.5 px-2 hover:bg-slate-50 rounded-lg cursor-pointer transition-colors group">
 <div class="flex flex-col">
-<span class="font-label-lg text-label-lg text-slate-800 font-medium">Agosto / 2026</span>
+<span class="font-label-lg text-label-lg text-slate-800 font-medium group-hover:text-blue-700 transition-colors">Agosto / 2026</span>
 <span class="font-label-sm text-label-sm text-slate-400">Efetuado em 28/08 às 09:15</span>
 </div>
 <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/60 font-label-sm text-label-sm font-medium">
@@ -241,34 +250,441 @@
 </div>
 </div>
 </section>
+
 <!-- 5. Secondary Action / Justification Link -->
 <section class="mt-auto pt-2 pb-2 text-center">
-<a class="inline-flex items-center gap-1.5 font-body-sm text-body-sm text-slate-500 hover:text-slate-800 active:text-slate-900 transition-colors py-2 px-3 rounded-lg hover:bg-slate-50" href="#justificar">
-<span class="material-symbols-outlined text-base" data-icon="help_outline">help_outline</span>
-<span>Precisa justificar ausência? Clique aqui</span>
-</a>
+<button onclick="openJustifyModal()" class="inline-flex items-center gap-1.5 font-body-sm text-body-sm text-slate-500 hover:text-slate-800 active:text-slate-900 transition-colors py-2 px-3 rounded-lg hover:bg-slate-50 cursor-pointer">
+<span class="material-symbols-outlined text-base text-amber-600">help_outline</span>
+<span class="text-slate-600 font-medium">Precisa justificar ausência? Clique aqui</span>
+</button>
 </section>
 </div>
-<!-- 6. Bottom Navigation Bar (Docked minimalist 3 tabs) -->
+
+<!-- ==================== ABA 2: PROCESSOS (DETALHES LEGAIS) ==================== -->
+<div id="tabContentProcessos" class="tab-page hidden flex-1 px-5 pt-5 pb-6 flex flex-col gap-4">
+  <div class="space-y-1">
+    <h2 class="font-headline-lg text-headline-lg text-slate-900">Meus Processos</h2>
+    <p class="text-xs text-slate-500">Medidas cautelares vinculadas ao seu CPF</p>
+  </div>
+
+  <!-- Cartão do Processo Ativo -->
+  <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+      <span class="bg-blue-50 text-blue-800 border border-blue-200 font-bold text-[11px] px-2.5 py-0.5 rounded-full">
+        EM CUMPRIMENTO REGULAR
+      </span>
+      <span class="text-xs text-slate-400 font-mono">TJSP</span>
+    </div>
+
+    <div>
+      <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Número dos Autos</span>
+      <p class="font-mono font-bold text-slate-900 text-sm mt-0.5 select-all">0014298-55.2026.8.26.0100</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-3 text-xs">
+      <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+        <span class="text-slate-400 block text-[10px]">Vara de Origem</span>
+        <span class="font-semibold text-slate-800">2ª Vara Criminal</span>
+        <span class="text-slate-500 block text-[10px]">Barra Funda - SP</span>
+      </div>
+      <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+        <span class="text-slate-400 block text-[10px]">Periodicidade</span>
+        <span class="font-semibold text-slate-800">Mensal Obrigatória</span>
+        <span class="text-slate-500 block text-[10px]">Até o dia 31</span>
+      </div>
+    </div>
+
+    <div class="space-y-2 pt-1 text-xs">
+      <div class="flex items-start gap-2 text-slate-600">
+        <span class="material-symbols-outlined text-blue-600 text-sm mt-0.5">verified</span>
+        <span><strong>Medida Aplicada:</strong> Art. 319, inciso I do Código de Processo Penal.</span>
+      </div>
+      <div class="flex items-start gap-2 text-slate-600">
+        <span class="material-symbols-outlined text-blue-600 text-sm mt-0.5">pin_drop</span>
+        <span><strong>Comarca Permitida:</strong> Região Metropolitana de São Paulo.</span>
+      </div>
+      <div class="flex items-start gap-2 text-slate-600">
+        <span class="material-symbols-outlined text-blue-600 text-sm mt-0.5">nightlight</span>
+        <span><strong>Recolhimento Noturno:</strong> Permanecer em domicílio das 22h às 06h.</span>
+      </div>
+    </div>
+
+    <div class="pt-2 border-t border-slate-100 flex items-center justify-between">
+      <div class="text-[11px] text-slate-500">
+        Advogada: <span class="font-semibold text-slate-700">Dra. Camila N. (OAB 384.192)</span>
+      </div>
+      <button onclick="copyProcessNumber()" class="text-xs text-blue-700 font-semibold hover:underline">
+        Copiar Autos
+      </button>
+    </div>
+  </div>
+
+  <!-- Próximos Ciclos -->
+  <div class="bg-slate-50 border border-slate-200/80 rounded-2xl p-4 space-y-3">
+    <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Cronograma de Apresentações</h3>
+    <div class="space-y-2 text-xs">
+      <div class="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200">
+        <span class="font-semibold text-slate-800">Novembro / 2026</span>
+        <span class="text-slate-500">Abre em 01/11/2026</span>
+      </div>
+      <div class="flex items-center justify-between p-2 rounded-lg bg-white border border-slate-200">
+        <span class="font-semibold text-slate-800">Dezembro / 2026</span>
+        <span class="text-slate-500">Abre em 01/12/2026</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== ABA 3: AJUDA & FAQ ==================== -->
+<div id="tabContentAjuda" class="tab-page hidden flex-1 px-5 pt-5 pb-6 flex flex-col gap-4">
+  <div class="space-y-1">
+    <h2 class="font-headline-lg text-headline-lg text-slate-900">Central de Ajuda</h2>
+    <p class="text-xs text-slate-500">Dúvidas frequentes sobre o CompareceJus</p>
+  </div>
+
+  <!-- FAQ Accordion -->
+  <div class="space-y-2">
+    <!-- FAQ 1 -->
+    <details class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs group">
+      <summary class="font-semibold text-xs text-slate-800 cursor-pointer list-none flex items-center justify-between">
+        <span>Como funciona o comparecimento pelo app?</span>
+        <span class="material-symbols-outlined text-sm text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+        Você não precisa mais ir presencialmente ao Fórum. Basta abrir o CompareceJus, apontar a câmera do celular para o visor oval, piscar devagar para provar vida e confirmar. O sistema valida sua localização por GPS e gera uma certidão digital assinada que é anexada direto ao seu processo judicial.
+      </p>
+    </details>
+
+    <!-- FAQ 2 -->
+    <details class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs group">
+      <summary class="font-semibold text-xs text-slate-800 cursor-pointer list-none flex items-center justify-between">
+        <span>O que acontece se a câmera não me reconhecer?</span>
+        <span class="material-symbols-outlined text-sm text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+        Procure um local bem iluminado, sem sol direto atrás de você. Retire bonés, óculos escuros e máscaras. Se ainda assim houver divergência, o sistema encaminha sua foto para a triagem humana do servidor da vara, que pode homologar sem prejuízo ao seu prazo.
+      </p>
+    </details>
+
+    <!-- FAQ 3 -->
+    <details class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs group">
+      <summary class="font-semibold text-xs text-slate-800 cursor-pointer list-none flex items-center justify-between">
+        <span>Preciso viajar ou fiquei doente, e agora?</span>
+        <span class="material-symbols-outlined text-sm text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+        Utilize a opção <strong>"Precisa justificar ausência?"</strong> na tela inicial. Você pode anexar atestado médico ou declaração de trabalho. O cartório analisará e submeterá ao Juiz antes de aplicar qualquer penalidade.
+      </p>
+    </details>
+
+    <!-- FAQ 4 -->
+    <details class="bg-white border border-slate-200 rounded-xl p-3.5 shadow-xs group">
+      <summary class="font-semibold text-xs text-slate-800 cursor-pointer list-none flex items-center justify-between">
+        <span>Como comprovo para a polícia em uma abordagem?</span>
+        <span class="material-symbols-outlined text-sm text-slate-400 group-open:rotate-180 transition-transform">expand_more</span>
+      </summary>
+      <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+        Basta abrir o comprovante do mês no app ou apresentar o PDF salvo. O policial pode escanear o QR Code de alta precisão com a câmera de qualquer celular para confirmar instantaneamente a autenticidade junto ao Tribunal de Justiça.
+      </p>
+    </details>
+  </div>
+
+  <!-- Contato Balcão Virtual -->
+  <div class="mt-auto bg-blue-50 border border-blue-200 rounded-2xl p-4 text-center space-y-2">
+    <div class="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center mx-auto">
+      <span class="material-symbols-outlined text-xl">support_agent</span>
+    </div>
+    <h3 class="text-xs font-bold text-slate-900">Balcão Virtual da 2ª Vara Criminal</h3>
+    <p class="text-[11px] text-slate-600">
+      Atendimento de segunda a sexta, das 13h às 19h (Horário de Brasília).
+    </p>
+    <button onclick="showToast('Atendimento Iniciado', 'Conectando ao Balcão Virtual do TJSP...', 'chat')" class="w-full py-2 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs rounded-xl transition-colors">
+      Falar com a Secretaria da Vara
+    </button>
+  </div>
+</div>
+
+<!-- ==================== 6. BOTTOM NAVIGATION BAR (DOCK) ==================== -->
 <nav class="fixed bottom-0 left-0 right-0 max-w-[390px] mx-auto bg-surface-container-lowest border-t border-slate-100 flex items-center justify-around h-16 px-4 z-50">
-<!-- Início (Active) -->
-<button class="flex flex-col items-center justify-center flex-1 h-full text-slate-900 font-medium transition-colors" type="button">
+<!-- Início -->
+<button id="navBtnInicio" onclick="switchTab('inicio')" class="flex flex-col items-center justify-center flex-1 h-full text-slate-900 font-medium transition-colors" type="button">
 <span class="material-symbols-outlined text-2xl" data-icon="home" data-weight="fill">home</span>
 <span class="font-label-sm text-label-sm mt-0.5 font-bold">Início</span>
-<span class="w-1 h-1 rounded-full bg-slate-900 mt-0.5"></span>
+<span id="navDotInicio" class="w-1 h-1 rounded-full bg-slate-900 mt-0.5"></span>
 </button>
-<!-- Processos (Inactive) -->
-<button class="flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-700 transition-colors" type="button">
+<!-- Processos -->
+<button id="navBtnProcessos" onclick="switchTab('processos')" class="flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-700 transition-colors" type="button">
 <span class="material-symbols-outlined text-2xl" data-icon="gavel">gavel</span>
 <span class="font-label-sm text-label-sm mt-0.5 font-normal">Processos</span>
-<span class="w-1 h-1 rounded-full bg-transparent mt-0.5"></span>
+<span id="navDotProcessos" class="w-1 h-1 rounded-full bg-transparent mt-0.5"></span>
 </button>
-<!-- Ajuda / Comprovantes (Inactive) -->
-<button class="flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-700 transition-colors" type="button">
+<!-- Ajuda -->
+<button id="navBtnAjuda" onclick="switchTab('ajuda')" class="flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-700 transition-colors" type="button">
 <span class="material-symbols-outlined text-2xl" data-icon="help_outline">help_outline</span>
 <span class="font-label-sm text-label-sm mt-0.5 font-normal">Ajuda</span>
-<span class="w-1 h-1 rounded-full bg-transparent mt-0.5"></span>
+<span id="navDotAjuda" class="w-1 h-1 rounded-full bg-transparent mt-0.5"></span>
 </button>
 </nav>
 </main>
+
+<!-- ==================== MODAL: JUSTIFICATIVA DE AUSÊNCIA ==================== -->
+<div id="modalJustify" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4 transition-all">
+  <div class="bg-white rounded-t-3xl sm:rounded-2xl max-w-[390px] w-full p-6 space-y-4 max-h-[90vh] overflow-y-auto animate-slide-up shadow-2xl">
+    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center">
+          <span class="material-symbols-outlined text-lg">edit_note</span>
+        </div>
+        <h3 class="font-bold text-sm text-slate-900">Justificar Ausência</h3>
+      </div>
+      <button onclick="closeJustifyModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <form onsubmit="submitJustification(event)" class="space-y-3 text-xs">
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Motivo Principal</label>
+        <select id="justifyReason" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-blue-600 focus:outline-none">
+          <option value="medico">Consulta Médica / Internação (com Atestado)</option>
+          <option value="audiencia">Audiência ou Intimação em outra Comarca</option>
+          <option value="trabalho">Atividade Profissional Inadiável</option>
+          <option value="forca_maior">Motivo de Força Maior / Falecimento</option>
+          <option value="outro">Outro motivo fundamentado</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Descrição dos Fatos</label>
+        <textarea id="justifyDesc" rows="3" required placeholder="Explique brevemente ao Juízo o motivo do não comparecimento no período regular..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs focus:ring-1 focus:ring-blue-600 focus:outline-none"></textarea>
+      </div>
+
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Anexar Documento / Atestado (Opcional)</label>
+        <div class="border-2 border-dashed border-slate-200 rounded-xl p-3 text-center cursor-pointer hover:bg-slate-50 transition-colors" onclick="document.getElementById('fileJustify').click()">
+          <span class="material-symbols-outlined text-slate-400 text-2xl">attach_file</span>
+          <p id="justifyFileName" class="text-[11px] text-slate-500 mt-1">Toque para selecionar imagem ou PDF do atestado</p>
+          <input type="file" id="fileJustify" class="hidden" onchange="handleJustifyFile(event)">
+        </div>
+      </div>
+
+      <div class="bg-amber-50 p-2.5 rounded-xl border border-amber-200 text-[11px] text-amber-900 leading-snug">
+        ⚖ A justificativa será submetida à apreciação do Juiz da 2ª Vara Criminal e juntada aos autos 0014298-55.2026.8.26.0100.
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button type="button" onclick="closeJustifyModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" class="flex-1 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold transition-colors">
+          Protocolar
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- ==================== MODAL: DETALHE DO HISTÓRICO ==================== -->
+<div id="modalHistory" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 transition-all">
+  <div class="bg-white rounded-2xl max-w-[360px] w-full p-6 space-y-4 shadow-2xl animate-scale-up">
+    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold">
+          ✓
+        </div>
+        <div>
+          <h3 id="histModalMonth" class="font-bold text-sm text-slate-900">Setembro / 2026</h3>
+          <p class="text-[11px] text-slate-400">Certidão de Comparecimento Homologada</p>
+        </div>
+      </div>
+      <button onclick="closeHistoryModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-xs space-y-2 font-mono">
+      <div class="flex justify-between">
+        <span class="text-slate-500">Data e Hora:</span>
+        <span id="histModalDate" class="font-bold text-slate-800">24/09/2026 às 14:32</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Protocolo:</span>
+        <span id="histModalProtocol" class="font-bold text-slate-800">CJ-2026-88190-SP</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Localização:</span>
+        <span id="histModalLoc" class="font-bold text-slate-800">São Paulo - SP</span>
+      </div>
+      <div class="flex justify-between">
+        <span class="text-slate-500">Biometria:</span>
+        <span class="font-bold text-emerald-700">99.4% Match Aprovado</span>
+      </div>
+    </div>
+
+    <div class="text-center pt-1">
+      <button onclick="showToast('Certidão Emitida', 'Baixando PDF oficial de comparecimento...', 'download'); closeHistoryModal();" class="w-full py-2.5 bg-blue-700 hover:bg-blue-800 text-white rounded-xl text-xs font-bold transition-colors flex items-center justify-center gap-1.5">
+        <span class="material-symbols-outlined text-sm">download</span>
+        <span>Baixar Certidão (PDF)</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== MODAL: PERFIL DO CIDADÃO ==================== -->
+<div id="modalProfile" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 transition-all">
+  <div class="bg-white rounded-2xl max-w-[360px] w-full p-6 space-y-4 shadow-2xl animate-scale-up">
+    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+      <h3 class="font-bold text-sm text-slate-900">Perfil do Cidadão</h3>
+      <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <div class="w-12 h-12 rounded-full bg-blue-700 text-white flex items-center justify-center text-lg font-bold shadow-sm">
+        CE
+      </div>
+      <div>
+        <h4 class="font-bold text-sm text-slate-900">Carlos Eduardo da Silva</h4>
+        <p class="text-xs text-slate-500 font-mono">CPF •••.458.912-••</p>
+      </div>
+    </div>
+
+    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1.5">
+      <div class="flex justify-between text-slate-600">
+        <span>Cadastro Biométrico:</span>
+        <span class="font-medium text-slate-900">14/01/2024 (TSE / TJ)</span>
+      </div>
+      <div class="flex justify-between text-slate-600">
+        <span>Vara Responsável:</span>
+        <span class="font-medium text-slate-900">2ª Vara Criminal - Capital</span>
+      </div>
+      <div class="flex justify-between text-slate-600">
+        <span>Versão do App:</span>
+        <span class="font-medium text-slate-900">v2.4.1 (Oficial)</span>
+      </div>
+    </div>
+
+    <button onclick="closeProfileModal()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold transition-colors">
+      Fechar
+    </button>
+  </div>
+</div>
+
+<!-- ==================== TOAST INTERATIVO ==================== -->
+<div id="appToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-2.5 text-xs font-medium transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none max-w-xs w-full">
+  <span id="toastIcon" class="material-symbols-outlined text-emerald-400 text-lg">check_circle</span>
+  <div class="flex-1 min-w-0">
+    <p id="toastTitle" class="font-bold text-white text-[12px] truncate">Operação realizada</p>
+    <p id="toastMsg" class="text-[11px] text-slate-300 truncate">Mensagem de confirmação</p>
+  </div>
+</div>
+
+<script>
+// Alternador de Abas SPA
+function switchTab(tab) {
+  // Ocultar todas as páginas
+  document.querySelectorAll('.tab-page').forEach(el => el.classList.add('hidden'));
+
+  // Resetar botões
+  ['Inicio', 'Processos', 'Ajuda'].forEach(t => {
+    const btn = document.getElementById('navBtn' + t);
+    const dot = document.getElementById('navDot' + t);
+    if (btn) {
+      btn.className = 'flex flex-col items-center justify-center flex-1 h-full text-slate-400 hover:text-slate-700 transition-colors';
+      btn.querySelector('span:nth-child(2)').className = 'font-label-sm text-label-sm mt-0.5 font-normal';
+    }
+    if (dot) dot.className = 'w-1 h-1 rounded-full bg-transparent mt-0.5';
+  });
+
+  if (tab === 'inicio') {
+    document.getElementById('tabContentInicio').classList.remove('hidden');
+    document.getElementById('navBtnInicio').className = 'flex flex-col items-center justify-center flex-1 h-full text-slate-900 font-medium transition-colors';
+    document.getElementById('navBtnInicio').querySelector('span:nth-child(2)').className = 'font-label-sm text-label-sm mt-0.5 font-bold';
+    document.getElementById('navDotInicio').className = 'w-1 h-1 rounded-full bg-slate-900 mt-0.5';
+  } else if (tab === 'processos') {
+    document.getElementById('tabContentProcessos').classList.remove('hidden');
+    document.getElementById('navBtnProcessos').className = 'flex flex-col items-center justify-center flex-1 h-full text-slate-900 font-medium transition-colors';
+    document.getElementById('navBtnProcessos').querySelector('span:nth-child(2)').className = 'font-label-sm text-label-sm mt-0.5 font-bold';
+    document.getElementById('navDotProcessos').className = 'w-1 h-1 rounded-full bg-slate-900 mt-0.5';
+  } else if (tab === 'ajuda') {
+    document.getElementById('tabContentAjuda').classList.remove('hidden');
+    document.getElementById('navBtnAjuda').className = 'flex flex-col items-center justify-center flex-1 h-full text-slate-900 font-medium transition-colors';
+    document.getElementById('navBtnAjuda').querySelector('span:nth-child(2)').className = 'font-label-sm text-label-sm mt-0.5 font-bold';
+    document.getElementById('navDotAjuda').className = 'w-1 h-1 rounded-full bg-slate-900 mt-0.5';
+  }
+}
+
+// Copiar número do processo
+function copyProcessNumber() {
+  const proc = '0014298-55.2026.8.26.0100';
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(proc);
+  }
+  const icon = document.getElementById('copyIcon');
+  if (icon) {
+    icon.innerText = 'check';
+    setTimeout(() => icon.innerText = 'content_copy', 1500);
+  }
+  showToast('Número Copiado', proc, 'content_copy');
+}
+
+// Modal Justificativa
+function openJustifyModal() {
+  document.getElementById('modalJustify').classList.remove('hidden');
+}
+function closeJustifyModal() {
+  document.getElementById('modalJustify').classList.add('hidden');
+}
+function handleJustifyFile(e) {
+  const file = e.target.files[0];
+  if (file) {
+    document.getElementById('justifyFileName').innerText = 'Anexado: ' + file.name;
+    document.getElementById('justifyFileName').className = 'text-[11px] text-emerald-700 font-bold mt-1';
+  }
+}
+function submitJustification(e) {
+  e.preventDefault();
+  closeJustifyModal();
+  const protocol = 'JUST-2026-SP-' + Math.floor(10000 + Math.random() * 90000);
+  showToast('Justificativa Protocolada', 'Protocolo nº ' + protocol + ' anexado aos autos.', 'verified');
+}
+
+// Modal Histórico
+function openHistoryModal(month, date, protocol, loc) {
+  document.getElementById('histModalMonth').innerText = month;
+  document.getElementById('histModalDate').innerText = date;
+  document.getElementById('histModalProtocol').innerText = protocol;
+  document.getElementById('histModalLoc').innerText = loc;
+  document.getElementById('modalHistory').classList.remove('hidden');
+}
+function closeHistoryModal() {
+  document.getElementById('modalHistory').classList.add('hidden');
+}
+
+// Modal Perfil
+function openProfileModal() {
+  document.getElementById('modalProfile').classList.remove('hidden');
+}
+function closeProfileModal() {
+  document.getElementById('modalProfile').classList.add('hidden');
+}
+
+// Toast
+function showToast(title, msg, icon) {
+  const toast = document.getElementById('appToast');
+  document.getElementById('toastTitle').innerText = title;
+  document.getElementById('toastMsg').innerText = msg;
+  const iconEl = document.getElementById('toastIcon');
+  if (icon) iconEl.innerText = icon;
+
+  toast.classList.remove('-translate-y-20', 'opacity-0');
+  toast.classList.add('translate-y-0', 'opacity-100');
+
+  setTimeout(() => {
+    toast.classList.add('-translate-y-20', 'opacity-0');
+    toast.classList.remove('translate-y-0', 'opacity-100');
+  }, 3200);
+}
+</script>
 </body></html>

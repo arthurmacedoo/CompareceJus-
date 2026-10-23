@@ -153,11 +153,15 @@
 <!-- Top Minimalist Modal Header -->
 <header class="w-full pt-2 pb-3 px-1 flex items-center justify-between">
 <div class="flex items-center space-x-2">
-<div class="w-6 h-6 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
+<div class="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center text-on-primary">
 <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">balance</span>
 </div>
 <span class="font-label-lg text-label-lg text-on-surface tracking-tight">CompareceJus</span>
 </div>
+<button onclick="window.location.href='tela1_dashboard.html'" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500 hover:text-slate-800 transition-colors" title="Fechar e voltar ao início">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</header>
 <div class="flex items-center space-x-2">
 <span class="font-label-sm text-label-sm text-on-surface-variant font-medium">Comprovante Digital</span>
 <button aria-label="Fechar" class="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant hover:bg-surface-muted active:scale-95 transition-all focus:outline-none focus:ring-2 focus:ring-primary" type="button">
@@ -270,39 +274,60 @@
 <!-- Action Buttons -->
 <div class="space-y-2">
 <!-- Primary Action: Baixar PDF -->
-<button onclick="window.print()" class="w-full h-11 bg-primary hover:bg-govbr-blue-warm text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center space-x-2 transition-colors duration-150 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-govbr-yellow-warning cursor-pointer" type="button">
+<button onclick="downloadReceipt()" class="w-full h-11 bg-primary hover:bg-govbr-blue-warm text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center space-x-2 transition-colors duration-150 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-govbr-yellow-warning cursor-pointer shadow-sm" type="button">
 <span class="material-symbols-outlined text-xl">download</span>
-<span>Baixar PDF</span>
+<span>Baixar PDF Oficial</span>
 </button>
-<!-- Secondary Action: Concluir -->
-<button onclick="window.location.href='tela1_dashboard.html'" class="w-full h-11 bg-transparent hover:bg-surface-muted text-on-surface font-label-lg text-label-lg rounded-xl flex items-center justify-center transition-colors duration-150 active:scale-[0.99] focus:outline-none focus:ring-2 focus:ring-primary border border-border-neutral cursor-pointer" type="button">
-<span>Concluir</span>
+
+<!-- Secondary Action: Compartilhar -->
+<button onclick="shareReceipt()" class="w-full h-11 bg-surface-light hover:bg-slate-100 text-slate-800 font-label-lg text-label-lg rounded-xl flex items-center justify-center space-x-2 transition-colors duration-150 active:scale-[0.99] border border-border-neutral cursor-pointer" type="button">
+<span class="material-symbols-outlined text-lg">share</span>
+<span>Compartilhar Comprovante</span>
+</button>
+
+<!-- Tertiary Action: Concluir -->
+<button onclick="window.location.href='tela1_dashboard.html'" class="w-full h-10 bg-transparent hover:bg-surface-muted text-slate-500 hover:text-slate-800 font-label-md text-xs rounded-xl flex items-center justify-center transition-colors cursor-pointer" type="button">
+<span>Voltar ao Início</span>
 </button>
 </div>
 <!-- Discreet Brand Footer -->
 <p class="font-label-sm text-[11px] text-on-surface-variant/70 text-center tracking-normal">
-        CompareceJus • Apresentação Periódica Digital
+        CompareceJus • Certidão Autêntica Art. 319, I, CPP
 </p>
 </footer>
 </main>
 
+<!-- Toast de Notificação -->
+<div id="receiptToast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-2.5 text-xs font-medium transform -translate-y-20 opacity-0 transition-all duration-300 pointer-events-none max-w-xs w-full">
+  <span id="toastIcon" class="material-symbols-outlined text-emerald-400 text-lg">check_circle</span>
+  <span id="toastMsg" class="truncate flex-1">Operação realizada com sucesso!</span>
+</div>
+
 <script>
+let currentProtocol = 'CJ-2026-94810-SP';
+let currentHash = '7f8a9b4c2e105d8f63aa82c199e4b772d1f0e24b';
+let currentDate = '23/10/2026 às 14:15';
+
 document.addEventListener('DOMContentLoaded', () => {
   try {
     const raw = sessionStorage.getItem('comparece_latest');
     if (raw) {
       const data = JSON.parse(raw);
-      // Se houver dados da submissão recente, atualizar carimbo de tempo
+      if (data.protocol) currentProtocol = data.protocol;
+      if (data.hash) currentHash = data.hash;
+      if (data.date && data.time) currentDate = `${data.date} às ${data.time}`;
+
+      // Atualizar textos na tela
       const cells = document.querySelectorAll('dd, span, p');
       cells.forEach(el => {
-        if (el.innerText.includes('22 de Outubro de 2026') && data.date && data.time) {
-          el.innerText = data.date + ' às ' + data.time;
+        if (el.innerText.includes('22 de Outubro de 2026') || el.innerText.includes('às')) {
+          el.innerText = currentDate;
         }
-        if (el.innerText.includes('CJ-2026-94810-SP') && data.protocol) {
-          el.innerText = data.protocol;
+        if (el.innerText.includes('CJ-2026-94810-SP')) {
+          el.innerText = currentProtocol;
         }
-        if (el.innerText.includes('7f8a9b4c2e') && data.hash) {
-          el.innerText = data.hash;
+        if (el.innerText.includes('7f8a9b4c2e')) {
+          el.innerText = currentHash.substring(0, 10) + '...';
         }
       });
     }
@@ -310,5 +335,47 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log(e);
   }
 });
+
+function downloadReceipt() {
+  showToast('Gerando Certidão em PDF...', 'download');
+  setTimeout(() => {
+    window.print();
+  }, 400);
+}
+
+function shareReceipt() {
+  const shareText = `⚖️ *COMPROVANTE DE COMPARECIMENTO JUDICIAL*\n\n` +
+    `Cidadão: Carlos Eduardo da Silva\n` +
+    `Processo: 0014298-55.2026.8.26.0100 (2ª Vara Criminal SP)\n` +
+    `Data/Hora: ${currentDate}\n` +
+    `Protocolo: ${currentProtocol}\n` +
+    `Hash Autenticidade: ${currentHash}\n\n` +
+    `Certidão assinada digitalmente pelo sistema CompareceJus.`;
+
+  if (navigator.share) {
+    navigator.share({
+      title: 'Comprovante CompareceJus',
+      text: shareText
+    }).catch(() => {});
+  } else if (navigator.clipboard) {
+    navigator.clipboard.writeText(shareText);
+    showToast('Texto do comprovante copiado!', 'content_copy');
+  } else {
+    showToast('Compartilhamento não suportado neste navegador', 'info');
+  }
+}
+
+function showToast(msg, icon = 'check_circle') {
+  const toast = document.getElementById('receiptToast');
+  document.getElementById('toastMsg').innerText = msg;
+  document.getElementById('toastIcon').innerText = icon;
+  toast.classList.remove('-translate-y-20', 'opacity-0');
+  toast.classList.add('translate-y-0', 'opacity-100');
+
+  setTimeout(() => {
+    toast.classList.add('-translate-y-20', 'opacity-0');
+    toast.classList.remove('translate-y-0', 'opacity-100');
+  }, 3000);
+}
 </script>
 </body></html>
