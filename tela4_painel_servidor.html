@@ -169,6 +169,11 @@
 <span class="font-medium text-on-surface">2ª Vara Criminal</span>
 <span class="text-secondary">• Comarca da Capital - SP</span>
 </div>
+<!-- Live SSE Status Indicator -->
+<div id="liveSyncStatus" class="hidden sm:flex items-center gap-1.5 text-label-sm font-label-sm text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-300">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-bold text-xs" id="liveSyncText">Sincronizado ao Vivo</span>
+</div>
 <!-- Notification Bell -->
 <button class="relative p-1.5 text-secondary hover:text-on-surface rounded-lg hover:bg-surface-container-low transition-colors" title="Alertas de Auditoria">
 <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
@@ -278,7 +283,7 @@
 </div>
 <div class="mt-2">
 <div class="flex items-baseline gap-2">
-<span class="text-headline-xl font-headline-xl font-bold text-on-surface tracking-tight">389</span>
+<span id="kpiValidados" class="text-headline-xl font-headline-xl font-bold text-on-surface tracking-tight transition-all duration-300">389</span>
 <span class="text-label-sm font-label-sm text-emerald-600 font-medium">Conformes</span>
 </div>
 <p class="text-body-sm font-body-sm text-secondary mt-1">Certidão pronta para juntada no PJe/SEEU</p>
@@ -294,7 +299,7 @@
             </span>
 </div>
 <div class="mt-2">
-<span class="text-headline-xl font-headline-xl font-bold text-on-surface tracking-tight">18</span>
+<span id="kpiAguardando" class="text-headline-xl font-headline-xl font-bold text-on-surface tracking-tight transition-all duration-300">18</span>
 <p class="text-body-sm font-body-sm text-secondary mt-1">Pendentes dentro do ciclo legal regular</p>
 </div>
 </div>
@@ -328,7 +333,7 @@
 <!-- Tab 2: Validados Automaticamente -->
 <button class="flex items-center gap-space-xs px-space-md py-3 text-label-md font-label-md text-secondary hover:text-on-surface transition-colors">
 <span>Validados Automaticamente</span>
-<span class="text-secondary text-label-sm font-label-sm">(389)</span>
+<span id="tabValidadosCount" class="text-secondary text-label-sm font-label-sm">(389)</span>
 </button>
 <!-- Tab 3: Pendentes no Prazo -->
 <button class="flex items-center gap-space-xs px-space-md py-3 text-label-md font-label-md text-secondary hover:text-on-surface transition-colors">
@@ -365,7 +370,7 @@
 <th class="py-2.5 px-3 text-right">Ações</th>
 </tr>
 </thead>
-<tbody class="divide-y divide-outline-variant/30 text-body-sm font-body-sm">
+<tbody id="casesTableBody" class="divide-y divide-outline-variant/30 text-body-sm font-body-sm">
 <!-- ROW 1: SELECTED / ACTIVE ROW -->
 <tr class="bg-surface-container-high/40 hover:bg-surface-container-high/70 transition-colors border-l-4 border-primary">
 <td class="py-3 px-3 align-middle">
@@ -524,12 +529,12 @@
 <div>
 <div class="flex items-center gap-2">
 <span class="text-label-sm font-label-sm uppercase tracking-wide text-secondary font-semibold">Auditoria Ativa</span>
-<span class="bg-red-100 text-red-800 text-[10px] font-bold px-1.5 rounded">RÉU EM AUDITORIA</span>
+<span id="dossierTag" class="bg-red-100 text-red-800 text-[10px] font-bold px-1.5 rounded">RÉU EM AUDITORIA</span>
 </div>
-<h2 class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight mt-0.5">
+<h2 id="dossierName" class="text-headline-sm font-headline-sm font-bold text-on-surface leading-tight mt-0.5">
                 Lucas Mendes Silveira
               </h2>
-<p class="text-label-sm font-label-sm text-secondary font-tabular-mono mt-0.5">Dossiê nº 0014298-55.2026.8.26.0100</p>
+<p id="dossierDoc" class="text-label-sm font-label-sm text-secondary font-tabular-mono mt-0.5">Dossiê nº 0014298-55.2026.8.26.0100</p>
 </div>
 <div class="flex items-center gap-1">
 <button class="p-1 text-secondary hover:text-on-surface rounded hover:bg-surface-container" title="Expandir visualização">
@@ -547,7 +552,7 @@
 <span class="material-symbols-outlined text-primary text-[18px] mt-0.5" data-icon="gavel">gavel</span>
 <div>
 <p class="text-label-md font-label-md font-semibold text-on-surface">Medida Cautelar Art. 319, I do CPP</p>
-<p class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">
+<p id="dossierRuleText" class="text-body-sm font-body-sm text-on-surface-variant mt-0.5">
                     Comparecimento periódico mensal obrigatório e <strong>proibição de ausentar-se da Comarca da Capital</strong> sem prévia autorização judicial.
                   </p>
 </div>
@@ -560,7 +565,7 @@
 <span class="material-symbols-outlined text-primary text-[16px]" data-icon="face">face</span>
                   Validação Biométrica Facial
                 </span>
-<span class="text-label-sm text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-semibold">
+<span id="dossierLivenessBadge" class="text-label-sm text-emerald-700 bg-emerald-50 border border-emerald-200 px-1.5 py-0.2 rounded font-semibold">
                   Liveness 3D OK
                 </span>
 </div>
@@ -569,7 +574,7 @@
 <!-- Reference Photo -->
 <div class="bg-surface border border-outline-variant/40 rounded p-space-xs flex flex-col items-center">
 <div class="w-full aspect-[4/3] rounded bg-secondary-container overflow-hidden mb-1.5 relative">
-<img class="w-full h-full object-cover" data-alt="Official criminal identification registry photograph of Lucas Mendes Silveira against a light neutral background, frontal view, neutral expression, crisp lighting, high resolution judicial archive photograph." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZxUX-TtJvcSHQSRJZna2U4QvO7TE_wLE7HVjBJFhQxbuQMdMdi6QFd7MZjt2R0Lcj73-3pSjhpwsr0nSUEQeeWZecC-WCbmKA7mNqottnO5_sMfWVudHKWVh1tZMv74QJBrDb_Q58tdIzaZqIDMjvSk0PZnNgXV48rNrHsHp7L6LMzgNtDUkVFqkw5Zq2yF5VHVGvtS7KFsLnSD2eIvWEBDwnXQPkHWHSHDhJMt0EXeLOnZXLlw9kI5c57rAOBTamEuSlFuztIC4"/>
+<img id="dossierCadastralPhoto" class="w-full h-full object-cover" data-alt="Official criminal identification registry photograph of Lucas Mendes Silveira against a light neutral background, frontal view, neutral expression, crisp lighting, high resolution judicial archive photograph." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZxUX-TtJvcSHQSRJZna2U4QvO7TE_wLE7HVjBJFhQxbuQMdMdi6QFd7MZjt2R0Lcj73-3pSjhpwsr0nSUEQeeWZecC-WCbmKA7mNqottnO5_sMfWVudHKWVh1tZMv74QJBrDb_Q58tdIzaZqIDMjvSk0PZnNgXV48rNrHsHp7L6LMzgNtDUkVFqkw5Zq2yF5VHVGvtS7KFsLnSD2eIvWEBDwnXQPkHWHSHDhJMt0EXeLOnZXLlw9kI5c57rAOBTamEuSlFuztIC4"/>
 <span class="absolute bottom-1 left-1 bg-on-surface/80 text-white text-[9px] px-1 rounded font-medium">TJ/CNJ Oficial</span>
 </div>
 <p class="text-label-sm font-label-sm font-semibold text-on-surface text-center">Referência Cadastral</p>
@@ -578,16 +583,16 @@
 <!-- Live Capture Photo -->
 <div class="bg-surface border border-outline-variant/40 rounded p-space-xs flex flex-col items-center relative">
 <div class="w-full aspect-[4/3] rounded bg-secondary-container overflow-hidden mb-1.5 relative">
-<img class="w-full h-full object-cover" data-alt="Selfie captured via smartphone judicial app for digital check-in by Lucas Mendes Silveira, natural daylight, biometric facial scanning vectors overlayed faintly, authentic facial expression, clear focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7sv68aqzfmZsrpm0lBtZ3taXPO2kBGej1u6shfBua_eYbECrI6qHNu3S0gndLvJ5ZUr1ofVQ2pxlElnWkRVxYVfvCRJ7nTzAi7r2qqnG6tD_ilE09FhG7d65fNGj4G4SBPXGuleBpwVj-3nqCa1zaM3t5PRwIJV80zb4A-290G-RSqktyeeAQ7iJ0SqDltjdS7Y8KWcfON9Hh4Txwef55WJkB3TzEgQWl2JpqTVCyzys2dDg4k9ABuxOuum7DCA6805BTagxkiZg"/>
+<img id="dossierLivePhoto" class="w-full h-full object-cover" data-alt="Selfie captured via smartphone judicial app for digital check-in by Lucas Mendes Silveira, natural daylight, biometric facial scanning vectors overlayed faintly, authentic facial expression, clear focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC7sv68aqzfmZsrpm0lBtZ3taXPO2kBGej1u6shfBua_eYbECrI6qHNu3S0gndLvJ5ZUr1ofVQ2pxlElnWkRVxYVfvCRJ7nTzAi7r2qqnG6tD_ilE09FhG7d65fNGj4G4SBPXGuleBpwVj-3nqCa1zaM3t5PRwIJV80zb4A-290G-RSqktyeeAQ7iJ0SqDltjdS7Y8KWcfON9Hh4Txwef55WJkB3TzEgQWl2JpqTVCyzys2dDg4k9ABuxOuum7DCA6805BTagxkiZg"/>
 <span class="absolute bottom-1 left-1 bg-emerald-700 text-white text-[9px] px-1 rounded font-semibold">App Mobile</span>
 </div>
 <p class="text-label-sm font-label-sm font-semibold text-on-surface text-center">Captura ao Vivo</p>
-<p class="text-[10px] text-secondary">22/10/2026 16:40:12</p>
+<p id="dossierLiveDate" class="text-[10px] text-secondary font-mono">22/10/2026 16:40:12</p>
 </div>
 </div>
 <!-- Match Indicator -->
 <div class="mt-2 p-2 bg-emerald-50 border border-emerald-200 rounded text-center">
-<span class="text-label-md font-label-md font-semibold text-emerald-800">
+<span id="dossierMatchIndicator" class="text-label-md font-label-md font-semibold text-emerald-800">
                   97.2% de Similaridade Facial • Prova de Vida Validada
                 </span>
 </div>
@@ -681,7 +686,7 @@
 <span class="material-symbols-outlined text-[18px]" data-icon="task_alt">task_alt</span>
 </div>
 <div>
-<p class="text-label-md font-label-md font-bold text-on-surface">
+<p id="footerValidadosText" class="text-label-md font-label-md font-bold text-on-surface">
               389 comparecimentos com validação 100% em conformidade jurídica
             </p>
 <p class="text-label-sm font-label-sm text-secondary">
@@ -695,9 +700,9 @@
 <span class="material-symbols-outlined text-[16px]" data-icon="download">download</span>
             Exportar Relatório Mensal CNJ (CSV/PDF)
           </a>
-<button class="bg-primary text-on-primary hover:bg-tertiary-container px-space-lg py-2.5 rounded-lg text-label-md font-label-md font-semibold shadow-xs flex items-center gap-2 transition-transform active:scale-[0.99]">
+<button id="btnBatchFooter" class="bg-primary text-on-primary hover:bg-tertiary-container px-space-lg py-2.5 rounded-lg text-label-md font-label-md font-semibold shadow-xs flex items-center gap-2 transition-transform active:scale-[0.99]">
 <span class="material-symbols-outlined text-[18px]" data-icon="post_add">post_add</span>
-<span>Juntar Certidões nos Autos em Lote (SEEU/PJe) [389 Processos]</span>
+<span id="btnBatchFooterText">Juntar Certidões nos Autos em Lote (SEEU/PJe) [389 Processos]</span>
 </button>
 </div>
 </footer>
@@ -790,101 +795,107 @@ const auditCases = {
     doc: '0014298-55.2026.8.26.0100',
     cpf: '•••.819.340-••',
     rule: 'Comparecimento periódico mensal e proibição de ausentar-se da Comarca da Capital sem prévia autorização judicial.',
-    match: '97.2%',
+    match: '97.2% de Similaridade Facial • Prova de Vida Validada',
     liveness: 'Prova de Vida Aprovada',
     locationText: 'Campinas - SP (45.3 km fora do limite autorizado)',
     mapAlert: 'Dispositivo detectado a 45.3 km fora do perímetro judicial',
     antiMock: 'Dispositivo Autêntico (Sem mock/emulador)',
-    tag: 'RÉU EM AUDITORIA (ALERTA TERRITORIAL)'
+    tag: 'RÉU EM AUDITORIA (ALERTA TERRITORIAL)',
+    photo: null,
+    date: '22/10/2026',
+    time: '16:40:12'
   },
   'case-marcos': {
     name: 'Marcos Vinícius Pires',
     doc: '0029381-88.2023.8.26.0050',
     cpf: '•••.102.483-••',
     rule: 'Comparecimento periódico mensal em Juízo sob pena de revogação do benefício.',
-    match: '68.4% (Inconclusiva)',
+    match: '68.4% (Inconclusiva) • Requer Análise Humana',
     liveness: 'Iluminação atípica / Não passou no teste de liveness passivo',
     locationText: 'São Paulo - SP (Dentro da Comarca)',
     mapAlert: 'Localização regular dentro do perímetro de São Paulo',
     antiMock: 'Dispositivo Autêntico (Sem mock)',
-    tag: 'RÉU EM AUDITORIA (BIOMETRIA DIVERGENTE)'
+    tag: 'RÉU EM AUDITORIA (BIOMETRIA DIVERGENTE)',
+    photo: null,
+    date: '22/10/2026',
+    time: '15:15:44'
   },
   'case-fernando': {
     name: 'Fernando Augusto Rocha',
     doc: '0005124-12.2025.8.26.0100',
     cpf: '•••.938.712-••',
     rule: 'Comparecimento periódico e proibição de frequentar locais com venda de bebidas.',
-    match: '99.1%',
+    match: '99.1% de Similaridade Facial • Prova de Vida Validada',
     liveness: 'Prova de Vida Aprovada',
     locationText: 'Santos - SP (Flag de GPS Fake detectado)',
     mapAlert: 'App de GPS Simulado (Mock Location) interceptado pelo sistema',
     antiMock: 'ALERTA: Flag de Mock Location Ativo no Android',
-    tag: 'RÉU EM AUDITORIA (MOCK GPS FRAUDE)'
+    tag: 'RÉU EM AUDITORIA (MOCK GPS FRAUDE)',
+    photo: null,
+    date: '22/10/2026',
+    time: '14:02:19'
   },
   'case-renan': {
     name: 'Renan Oliveira Castro',
     doc: '0038192-33.2024.8.26.0050',
     cpf: '•••.441.902-••',
     rule: 'Comparecimento periódico mensal e recolhimento noturno.',
-    match: '98.8%',
+    match: '98.8% de Similaridade Facial • Prova de Vida Validada',
     liveness: 'Prova de Vida Aprovada',
     locationText: 'Guarulhos - SP (12 km fora da Comarca)',
     mapAlert: 'Dispositivo fora da comarca autorizada da Capital',
     antiMock: 'Dispositivo Autêntico',
-    tag: 'RÉU EM AUDITORIA (FORA DA COMARCA)'
+    tag: 'RÉU EM AUDITORIA (FORA DA COMARCA)',
+    photo: null,
+    date: '22/10/2026',
+    time: '11:48:03'
   }
 };
 
 let activeCaseId = 'case-lucas';
+let validadosCount = 389;
+let aguardandoCount = 18;
+
+// Sinal Sonoro Institucional de Notificação (Web Audio API)
+function playJudicialChime() {
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+    if (ctx.state === 'suspended') {
+      ctx.resume();
+    }
+    const osc1 = ctx.createOscillator();
+    const osc2 = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+    osc1.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.14); // A5
+
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(880, ctx.currentTime);
+    osc2.frequency.exponentialRampToValueAtTime(1174.66, ctx.currentTime + 0.22); // D6
+
+    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.65);
+
+    osc1.connect(gain);
+    osc2.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc1.start();
+    osc2.start();
+    osc1.stop(ctx.currentTime + 0.65);
+    osc2.stop(ctx.currentTime + 0.65);
+  } catch (e) {
+    console.log('Audio chime ignorado pelo navegador:', e);
+  }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   // Configurar botões de auditar dossiê na tabela
-  const allButtons = document.querySelectorAll('button');
-  allButtons.forEach(btn => {
-    const text = btn.innerText.trim();
-    if (text.includes('Auditar Dossiê') || text.includes('Auditar')) {
-      btn.style.cursor = 'pointer';
-      btn.addEventListener('click', (e) => {
-        const row = e.target.closest('tr');
-        if (row) {
-          const rowText = row.innerText;
-          let caseId = 'case-lucas';
-          if (rowText.includes('Marcos Vinícius')) caseId = 'case-marcos';
-          else if (rowText.includes('Fernando Augusto')) caseId = 'case-fernando';
-          else if (rowText.includes('Renan Oliveira')) caseId = 'case-renan';
-          openDossier(caseId, row);
-        }
-      });
-    }
-
-    if (text.includes('Juntar Certidões nos Autos em Lote')) {
-      btn.style.cursor = 'pointer';
-      btn.addEventListener('click', () => {
-        openBatchModal();
-      });
-    }
-
-    if (text.includes('Intimar Defesa')) {
-      btn.style.cursor = 'pointer';
-      btn.addEventListener('click', () => {
-        showToast('Intimação Expedida', 'Ordem de intimação enviada eletronicamente para a Defesa via DJE (Prazo: 48h).', 'gavel');
-      });
-    }
-
-    if (text.includes('Homologar Excepcionalmente')) {
-      btn.style.cursor = 'pointer';
-      btn.addEventListener('click', () => {
-        showToast('Homologação Registrada', 'Comparecimento homologado com ressalva nos autos do processo.', 'check_circle');
-      });
-    }
-
-    if (text.includes('Remeter Conclusão ao Juiz')) {
-      btn.style.cursor = 'pointer';
-      btn.addEventListener('click', () => {
-        showToast('Conclusão ao Juiz', 'Autos conclusos para decisão do Juiz Titular da 2ª Vara Criminal.', 'send');
-      });
-    }
-  });
+  setupAuditButtons();
 
   // Fechar Modal Lote
   const closeBatchX = document.getElementById('closeBatchX');
@@ -893,6 +904,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (btnCancelBatch) btnCancelBatch.addEventListener('click', closeBatchModal);
   const btnStartBatch = document.getElementById('btnStartBatch');
   if (btnStartBatch) btnStartBatch.addEventListener('click', runBatchSimulation);
+
+  // Botão Juntar Certidões em Lote no rodapé
+  const btnBatchFooter = document.getElementById('btnBatchFooter');
+  if (btnBatchFooter) {
+    btnBatchFooter.addEventListener('click', openBatchModal);
+  }
 
   // Configurar botão de fechar dossiê
   const closeBtn = document.querySelector('button[title="Fechar"]');
@@ -905,7 +922,51 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // Conectar ao fluxo em tempo real (SSE) do CompareceJus
+  initRealtimeSSE();
 });
+
+function setupAuditButtons() {
+  const allButtons = document.querySelectorAll('button');
+  allButtons.forEach(btn => {
+    const text = btn.innerText.trim();
+    if (text.includes('Auditar Dossiê') || text.includes('Auditar Foto Real')) {
+      btn.style.cursor = 'pointer';
+      btn.onclick = (e) => {
+        const row = e.target.closest('tr');
+        if (row) {
+          const rowText = row.innerText;
+          let caseId = row.dataset.caseId || 'case-lucas';
+          if (!row.dataset.caseId) {
+            if (rowText.includes('Marcos Vinícius')) caseId = 'case-marcos';
+            else if (rowText.includes('Fernando Augusto')) caseId = 'case-fernando';
+            else if (rowText.includes('Renan Oliveira')) caseId = 'case-renan';
+          }
+          openDossier(caseId, row);
+        }
+      };
+    }
+
+    if (text.includes('Intimar Defesa')) {
+      btn.onclick = () => {
+        showToast('Intimação Expedida', 'Ordem de intimação enviada eletronicamente para a Defesa via DJE (Prazo: 48h).', 'gavel');
+      };
+    }
+
+    if (text.includes('Homologar Excepcional')) {
+      btn.onclick = () => {
+        showToast('Homologação Registrada', 'Comparecimento homologado com ressalva nos autos do processo.', 'check_circle');
+      };
+    }
+
+    if (text.includes('Remeter Conclusão ao Juiz')) {
+      btn.onclick = () => {
+        showToast('Conclusão ao Juiz', 'Autos conclusos para decisão do Juiz Titular da 2ª Vara Criminal.', 'send');
+      };
+    }
+  });
+}
 
 function openDossier(caseId, rowElement) {
   const data = auditCases[caseId] || auditCases['case-lucas'];
@@ -918,26 +979,220 @@ function openDossier(caseId, rowElement) {
   }
 
   // Atualizar dados no painel
-  if (panel) {
-    const nameEl = panel.querySelector('h2');
-    if (nameEl) nameEl.innerText = data.name;
+  const nameEl = document.getElementById('dossierName');
+  if (nameEl) nameEl.innerText = data.name;
 
-    const docEl = panel.querySelector('p.font-tabular-mono');
-    if (docEl) docEl.innerText = 'Dossiê nº ' + data.doc;
+  const docEl = document.getElementById('dossierDoc');
+  if (docEl) docEl.innerText = 'Dossiê nº ' + data.doc;
 
-    const tagEl = panel.querySelector('span.bg-red-100');
-    if (tagEl) tagEl.innerText = data.tag;
+  const tagEl = document.getElementById('dossierTag');
+  if (tagEl) {
+    tagEl.innerText = data.tag;
+    if (data.tag.includes('AO VIVO') || data.tag.includes('HOMOLOGADO')) {
+      tagEl.className = 'bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 rounded animate-pulse';
+    } else {
+      tagEl.className = 'bg-red-100 text-red-800 text-[10px] font-bold px-1.5 rounded';
+    }
+  }
+
+  const ruleEl = document.getElementById('dossierRuleText');
+  if (ruleEl) ruleEl.innerText = data.rule;
+
+  // Foto capturada pelo celular do cidadão
+  const livePhoto = document.getElementById('dossierLivePhoto');
+  if (livePhoto) {
+    if (data.photo) {
+      livePhoto.src = data.photo;
+      livePhoto.style.filter = 'none';
+    } else {
+      livePhoto.src = 'https://lh3.googleusercontent.com/aida-public/AB6AXuC7sv68aqzfmZsrpm0lBtZ3taXPO2kBGej1u6shfBua_eYbECrI6qHNu3S0gndLvJ5ZUr1ofVQ2pxlElnWkRVxYVfvCRJ7nTzAi7r2qqnG6tD_ilE09FhG7d65fNGj4G4SBPXGuleBpwVj-3nqCa1zaM3t5PRwIJV80zb4A-290G-RSqktyeeAQ7iJ0SqDltjdS7Y8KWcfON9Hh4Txwef55WJkB3TzEgQWl2JpqTVCyzys2dDg4k9ABuxOuum7DCA6805BTagxkiZg';
+    }
+  }
+
+  const liveDate = document.getElementById('dossierLiveDate');
+  if (liveDate) {
+    liveDate.innerText = (data.date && data.time) ? `${data.date} ${data.time}` : '22/10/2026 16:40:12';
+  }
+
+  const matchEl = document.getElementById('dossierMatchIndicator');
+  if (matchEl) {
+    matchEl.innerText = data.match;
   }
 
   // Destaque visual na linha selecionada
   document.querySelectorAll('tbody tr').forEach(r => {
-    r.classList.remove('bg-blue-50/60', 'ring-2', 'ring-blue-500/30');
+    r.classList.remove('bg-blue-50/60', 'ring-2', 'ring-blue-500/30', 'bg-emerald-100/70');
   });
   if (rowElement) {
     rowElement.classList.add('bg-blue-50/60', 'ring-2', 'ring-blue-500/30');
   }
 
   showToast('Dossiê Carregado', 'Visualizando auditoria de ' + data.name, 'folder_open');
+}
+
+// ==================== SINCRONIZAÇÃO EM TEMPO REAL (SSE) ====================
+function initRealtimeSSE() {
+  if (!window.EventSource) {
+    console.warn('Navegador sem suporte a SSE');
+    return;
+  }
+
+  const evtSource = new EventSource('/api/stream');
+
+  evtSource.onopen = () => {
+    const statusText = document.getElementById('liveSyncText');
+    if (statusText) statusText.innerText = 'Sincronizado ao Vivo';
+  };
+
+  evtSource.onerror = () => {
+    const statusText = document.getElementById('liveSyncText');
+    if (statusText) statusText.innerText = 'Aguardando Servidor...';
+  };
+
+  evtSource.addEventListener('novo_comparecimento', (e) => {
+    try {
+      const sub = JSON.parse(e.data);
+      handleIncomingSubmission(sub);
+    } catch (err) {
+      console.error('Erro ao interpretar evento SSE:', err);
+    }
+  });
+
+  // Buscar se já há comparecimentos prévios na inicialização
+  fetch('/api/comparecimentos')
+    .then(r => r.json())
+    .then(list => {
+      // Se houver algum envio real com foto, adiciona
+      list.forEach(sub => {
+        if (sub.photo && !document.getElementById('row-' + sub.id)) {
+          handleIncomingSubmission(sub, false);
+        }
+      });
+    })
+    .catch(() => {});
+}
+
+function handleIncomingSubmission(sub, isLive = true) {
+  // Salvar no dicionário de casos
+  auditCases[sub.id] = {
+    name: sub.name,
+    doc: sub.processNumber,
+    cpf: sub.cpf,
+    rule: 'Comparecimento periódico mensal em Juízo (Art. 319, I, CPP).',
+    match: `${sub.matchPercent || '98.9%'} de Similaridade Facial • Prova de Vida Validada`,
+    liveness: 'Prova de Vida e Autenticidade Validadas',
+    locationText: sub.location || 'São Paulo - SP (Dentro da Comarca)',
+    mapAlert: 'Localização verificada via GPS autenticado da Comarca',
+    antiMock: sub.antiMock || 'Dispositivo Autêntico (Sem Mock)',
+    tag: 'RECEBIDO AO VIVO • HOMOLOGADO',
+    photo: sub.photo,
+    date: sub.date,
+    time: sub.time,
+    protocol: sub.protocol
+  };
+
+  if (isLive) {
+    // Tocar sinal sonoro no computador
+    playJudicialChime();
+
+    // Notificação Toast
+    showToast(
+      'Novo Comparecimento Recebido!',
+      `${sub.name} acabou de validar a presença via smartphone.`,
+      'cell_tower'
+    );
+
+    // Incrementar contadores
+    validadosCount++;
+    aguardandoCount = Math.max(0, aguardandoCount - 1);
+
+    const kpiVal = document.getElementById('kpiValidados');
+    if (kpiVal) {
+      kpiVal.innerText = validadosCount;
+      kpiVal.classList.add('text-emerald-500', 'scale-110');
+      setTimeout(() => kpiVal.classList.remove('text-emerald-500', 'scale-110'), 800);
+    }
+
+    const kpiAgu = document.getElementById('kpiAguardando');
+    if (kpiAgu) kpiAgu.innerText = aguardandoCount;
+
+    const tabCount = document.getElementById('tabValidadosCount');
+    if (tabCount) tabCount.innerText = `(${validadosCount})`;
+
+    const footerText = document.getElementById('footerValidadosText');
+    if (footerText) {
+      footerText.innerText = `${validadosCount} comparecimentos com validação 100% em conformidade jurídica`;
+    }
+
+    const btnFooterText = document.getElementById('btnBatchFooterText');
+    if (btnFooterText) {
+      btnFooterText.innerText = `Juntar Certidões nos Autos em Lote (SEEU/PJe) [${validadosCount} Processos]`;
+    }
+  }
+
+  // Preceder linha na tabela
+  const tbody = document.getElementById('casesTableBody');
+  if (tbody) {
+    // Evitar duplicação
+    const existingRow = document.getElementById('row-' + sub.id);
+    if (existingRow) existingRow.remove();
+
+    const tr = document.createElement('tr');
+    tr.id = 'row-' + sub.id;
+    tr.dataset.caseId = sub.id;
+    tr.className = 'bg-emerald-50/80 hover:bg-emerald-100/70 transition-all border-l-4 border-emerald-600 animate-pulse-once';
+    tr.innerHTML = `
+      <td class="py-3 px-3 align-middle">
+        <span class="inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 border border-emerald-300 text-[11px] font-bold px-2 py-0.5 rounded">
+          <span class="w-2 h-2 rounded-full bg-emerald-600 animate-ping"></span>
+          AO VIVO • CELULAR
+        </span>
+      </td>
+      <td class="py-3 px-3 align-middle">
+        <p class="font-bold text-on-surface text-body-sm flex items-center gap-1.5">
+          <span>${sub.name}</span>
+          <span class="material-symbols-outlined text-emerald-600 text-[16px]">verified</span>
+        </p>
+        <p class="text-label-sm text-secondary">CPF ${sub.cpf}</p>
+      </td>
+      <td class="py-3 px-3 align-middle">
+        <span class="font-tabular-mono text-label-md font-semibold text-primary">${sub.processNumber}</span>
+        <span class="block text-label-sm text-secondary">319, I CPP • Protocolo ${sub.protocol || 'Online'}</span>
+      </td>
+      <td class="py-3 px-3 align-middle whitespace-nowrap">
+        <p class="text-label-md text-emerald-800 font-bold">${sub.date}</p>
+        <p class="text-label-sm text-emerald-700 font-mono font-medium">${sub.time}</p>
+      </td>
+      <td class="py-3 px-3 align-middle">
+        <span class="text-emerald-800 bg-emerald-100 border border-emerald-300 text-label-sm font-bold px-2 py-0.5 rounded inline-block">
+          ${sub.matchPercent || '98.9%'} Match
+        </span>
+      </td>
+      <td class="py-3 px-3 align-middle">
+        <p class="text-on-surface font-medium text-label-md">${sub.location}</p>
+        <p class="text-emerald-700 text-label-sm font-medium">GPS Certificado</p>
+      </td>
+      <td class="py-3 px-3 align-middle text-right whitespace-nowrap">
+        <button class="btn-audit-live bg-emerald-700 text-white hover:bg-emerald-800 px-3 py-1.5 rounded text-label-sm font-bold shadow-xs transition-colors inline-flex items-center gap-1">
+          <span>Auditar Foto Real</span>
+          <span class="material-symbols-outlined text-[14px]">photo_camera</span>
+        </button>
+      </td>
+    `;
+
+    tbody.insertBefore(tr, tbody.firstChild);
+
+    // Botão de clique na linha inserida
+    const btnAudit = tr.querySelector('.btn-audit-live');
+    if (btnAudit) {
+      btnAudit.onclick = () => openDossier(sub.id, tr);
+    }
+
+    if (isLive) {
+      // Abre automaticamente o dossiê com a foto do celular
+      openDossier(sub.id, tr);
+    }
+  }
 }
 
 function openBatchModal() {
@@ -997,7 +1252,7 @@ function runBatchSimulation() {
         document.getElementById('batchProgressSection').classList.add('hidden');
         document.getElementById('batchSuccessSection').classList.remove('hidden');
         btnStart.classList.add('hidden');
-        showToast('Juntada em Lote Concluída', '389 certidões protocoladas no SEEU/PJe com sucesso.', 'verified');
+        showToast('Juntada em Lote Concluída', `${validadosCount} certidões protocoladas no SEEU/PJe com sucesso.`, 'verified');
       }, 400);
     }
   }, 100);

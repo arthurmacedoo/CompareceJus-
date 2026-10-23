@@ -216,10 +216,27 @@
 </div>
 <!-- Oval Glass Viewfinder Container -->
 <div class="w-full h-full rounded-[50%] overflow-hidden relative border-2 border-primary/30 bg-surface-container-lowest shadow-sm flex items-center justify-center ring-4 ring-primary-fixed/20">
+<!-- Video ao Vivo da Câmera -->
+<video id="liveVideo" autoplay playsinline muted class="w-full h-full object-cover hidden"></video>
+<!-- Foto Capturada (Preview) -->
+<img id="previewImage" class="w-full h-full object-cover hidden" alt="Selfie Capturada">
+<!-- Canvas Oculto para Snapshot -->
+<canvas id="captureCanvas" class="hidden"></canvas>
+<!-- Input de Câmera Nativa do Celular (Fallback universal que funciona 100% no iPhone/Android mesmo via HTTP) -->
+<input type="file" id="cameraFileInput" accept="image/*" capture="user" class="hidden">
+
+<!-- Overlay de Carregamento / Liveness Scan -->
+<div id="scanOverlay" class="absolute inset-0 bg-slate-900/70 backdrop-blur-xs flex flex-col items-center justify-center text-white hidden z-30">
+  <div class="w-8 h-8 rounded-full border-2 border-white border-t-transparent animate-spin mb-2"></div>
+  <span class="text-xs font-bold tracking-wider uppercase">Validando Biometria</span>
+  <span class="text-[10px] text-slate-300">Prova de Vida 3D...</span>
+</div>
+
 <!-- Subtle Animated Scan Line Indicator -->
-<div class="absolute left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent scanner-line z-20 pointer-events-none"></div>
+<div id="scannerLine" class="absolute left-4 right-4 h-0.5 bg-gradient-to-r from-transparent via-primary to-transparent scanner-line z-20 pointer-events-none"></div>
+
 <!-- Realistic Minimal Silhouette Guideline Hint -->
-<div class="absolute inset-0 flex items-center justify-center opacity-25 z-10 pointer-events-none">
+<div id="silhouetteHint" class="absolute inset-0 flex items-center justify-center opacity-25 z-10 pointer-events-none">
 <svg class="w-48 h-64 text-outline" fill="none" stroke="currentColor" stroke-dasharray="2 3" stroke-width="1.2" viewbox="0 0 100 130">
 <!-- Head & Forehead contour -->
 <ellipse cx="50" cy="46" rx="28" ry="34"></ellipse>
@@ -234,11 +251,11 @@
 <path d="M20 120 Q50 96 80 120"></path>
 </svg>
 </div>
-<!-- Ambient Optical Texture / Viewfinder Depth -->
-<div class="absolute inset-0 bg-gradient-to-b from-primary-fixed-dim/15 via-transparent to-primary-fixed-dim/20 pointer-events-none"></div>
-<div class="w-full h-full flex flex-col items-center justify-center text-on-surface-variant/40 space-y-2">
+
+<!-- Ambient Optical Texture / Placeholder quando câmera não iniciou -->
+<div id="cameraPlaceholder" class="w-full h-full flex flex-col items-center justify-center text-on-surface-variant/40 space-y-2">
 <span class="material-symbols-outlined text-[64px] text-primary/30">face</span>
-<span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">Enquadramento Ativo</span>
+<span class="font-label-sm text-label-sm text-outline tracking-wider uppercase">Toque em Capturar para abrir a câmera</span>
 </div>
 </div>
 <!-- Pulse Halo Behind Oval -->
@@ -257,18 +274,176 @@
 <footer class="w-full bg-surface-container-lowest/80 backdrop-blur-sm border-t border-surface-container-high/60 py-space-md">
 <div class="max-w-md mx-auto px-space-md flex flex-col items-center gap-space-sm">
 <!-- Primary Action: Capturar e Validar -->
-<button class="w-full h-12 bg-primary hover:bg-govbr-blue-warm active:scale-[0.99] text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary" type="button">
+<button id="btnCapture" class="w-full h-12 bg-primary hover:bg-govbr-blue-warm active:scale-[0.99] text-on-primary font-label-lg text-label-lg rounded-xl flex items-center justify-center gap-2 shadow-sm transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary cursor-pointer" type="button">
 <span class="material-symbols-outlined text-[20px]">photo_camera</span>
-        Capturar e Validar
-      </button>
+<span id="btnCaptureText">Capturar e Validar</span>
+</button>
 <!-- Secondary Action: Cancelar e voltar -->
-<button class="w-full h-11 bg-transparent hover:bg-surface-container-low active:bg-surface-container text-on-surface-variant font-label-md text-label-md rounded-xl flex items-center justify-center transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary" type="button">
+<button id="btnCancel" onclick="window.location.href='tela1_dashboard.html'" class="w-full h-11 bg-transparent hover:bg-surface-container-low active:bg-surface-container text-on-surface-variant font-label-md text-label-md rounded-xl flex items-center justify-center transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer" type="button">
         Cancelar e voltar
-      </button>
+</button>
 <!-- 4. Legal & Privacy Notice -->
 <p class="font-body-sm text-body-sm text-on-surface-variant text-center px-space-sm pt-1 leading-snug">
         Sua imagem e localização são capturadas estritamente para comprovação desta presença.
-      </p>
+</p>
 </div>
 </footer>
+
+<script>
+let stream = null;
+let capturedBase64 = null;
+let userCoords = { lat: -23.5505, lng: -46.6333, locationText: 'São Paulo - SP (Dentro da Comarca)' };
+
+const liveVideo = document.getElementById('liveVideo');
+const previewImage = document.getElementById('previewImage');
+const captureCanvas = document.getElementById('captureCanvas');
+const cameraFileInput = document.getElementById('cameraFileInput');
+const scanOverlay = document.getElementById('scanOverlay');
+const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+const btnCapture = document.getElementById('btnCapture');
+const btnCaptureText = document.getElementById('btnCaptureText');
+
+// Tentar iniciar câmera nativa WebRTC (funciona em HTTPS ou localhost)
+async function startLiveCamera() {
+  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+    try {
+      stream = await navigator.mediaDevices.getUserMedia({
+        video: { facingMode: 'user', width: { ideal: 720 }, height: { ideal: 960 } },
+        audio: false
+      });
+      liveVideo.srcObject = stream;
+      liveVideo.classList.remove('hidden');
+      cameraPlaceholder.classList.add('hidden');
+    } catch (err) {
+      console.warn('Câmera WebRTC indisponível ou bloqueada:', err);
+      // Fallback para input nativo do celular
+      cameraPlaceholder.querySelector('.font-label-sm').innerText = 'Toque em Capturar para abrir a câmera';
+    }
+  }
+}
+
+// Obter GPS do celular
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(
+    (pos) => {
+      userCoords.lat = pos.coords.latitude;
+      userCoords.lng = pos.coords.longitude;
+      userCoords.locationText = 'São Paulo - SP (GPS ±' + Math.round(pos.coords.accuracy) + 'm)';
+    },
+    (err) => console.log('GPS padrão mantido')
+  );
+}
+
+// Tirar snapshot da câmera WebRTC
+function captureVideoSnapshot() {
+  captureCanvas.width = liveVideo.videoWidth || 480;
+  captureCanvas.height = liveVideo.videoHeight || 640;
+  const ctx = captureCanvas.getContext('2d');
+  // Espelhar horizontalmente para selfie natural
+  ctx.translate(captureCanvas.width, 0);
+  ctx.scale(-1, 1);
+  ctx.drawImage(liveVideo, 0, 0, captureCanvas.width, captureCanvas.height);
+  return captureCanvas.toDataURL('image/jpeg', 0.85);
+}
+
+// Processar a foto e enviar para o backend
+async function processAndSend(photoBase64) {
+  scanOverlay.classList.remove('hidden');
+  btnCapture.disabled = true;
+  btnCaptureText.innerText = 'Processando Validação...';
+
+  // Simular análise biométrica liveness 3D
+  setTimeout(async () => {
+    const submissionData = {
+      name: 'Carlos Eduardo da Silva',
+      cpf: '•••.458.912-••',
+      processNumber: '0014298-55.2026.8.26.0100',
+      photo: photoBase64,
+      location: userCoords.locationText,
+      matchPercent: '98.9%',
+      antiMock: 'Dispositivo Autêntico (Sem Mock)',
+      timestamp: new Date().toISOString()
+    };
+
+    try {
+      const resp = await fetch('/api/comparecer', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(submissionData)
+      });
+      const result = await resp.json();
+      if (result.success) {
+        sessionStorage.setItem('comparece_latest', JSON.stringify(result.submission));
+      }
+    } catch (e) {
+      console.warn('Erro ao sincronizar com backend (salvando localmente):', e);
+      sessionStorage.setItem('comparece_latest', JSON.stringify(submissionData));
+    }
+
+    // Parar câmera se ativa
+    if (stream) {
+      stream.getTracks().forEach(t => t.stop());
+    }
+
+    // Avançar para Tela 3 (Comprovante Oficial)
+    window.location.href = 'tela3_comprovante_qrcode.html';
+  }, 1400);
+}
+
+// Botão de Captura
+btnCapture.addEventListener('click', () => {
+  if (stream && !liveVideo.classList.contains('hidden')) {
+    // Foto tirada via stream ao vivo da câmera
+    const base64 = captureVideoSnapshot();
+    liveVideo.classList.add('hidden');
+    previewImage.src = base64;
+    previewImage.classList.remove('hidden');
+    processAndSend(base64);
+  } else {
+    // Abrir câmera nativa do smartphone
+    cameraFileInput.click();
+  }
+});
+
+// Quando o usuário tira a foto na câmera nativa do celular
+cameraFileInput.addEventListener('change', (e) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        // Redimensionar para tamanho ideal mantendo proporção
+        const maxDim = 960;
+        let w = img.width;
+        let h = img.height;
+        if (w > maxDim || h > maxDim) {
+          if (w > h) {
+            h = Math.round((h * maxDim) / w);
+            w = maxDim;
+          } else {
+            w = Math.round((w * maxDim) / h);
+            h = maxDim;
+          }
+        }
+        captureCanvas.width = w;
+        captureCanvas.height = h;
+        const ctx = captureCanvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, w, h);
+        const optimizedBase64 = captureCanvas.toDataURL('image/jpeg', 0.85);
+
+        cameraPlaceholder.classList.add('hidden');
+        previewImage.src = optimizedBase64;
+        previewImage.classList.remove('hidden');
+        processAndSend(optimizedBase64);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+});
+
+// Iniciar câmera na montagem
+startLiveCamera();
+</script>
 </body></html>
