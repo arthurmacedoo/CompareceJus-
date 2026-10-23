@@ -1,0 +1,13 @@
+{
+  "name": "comparecejus",
+  "version": "1.0.0",
+  "description": "CompareceJus - Apresentação Periódica Digital (Medida Cautelar Art. 319, I, CPP)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "tunnel": "\"C:\\Program Files (x86)\\cloudflared\\cloudflared.exe\" tunnel --url http://localhost:3000"
+  },
+  "keywords": ["comparecejus", "judicial", "biometria", "geofence"],
+  "author": "Arthur Macedo",
+  "license": "ISC"
+}
