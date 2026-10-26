@@ -558,6 +558,37 @@
 </div>
 </div>
 </div>
+
+<!-- ETAPA 1: LAUDO DE PRÉ-ANÁLISE DA IA DO TRIBUNAL (PROCESSAMENTO ASSÍNCRONO) -->
+<div class="bg-gradient-to-r from-blue-900/5 via-indigo-900/5 to-blue-900/5 p-3 rounded-lg border border-blue-200/90 space-y-2">
+  <div class="flex items-center justify-between">
+    <div class="flex items-center gap-1.5">
+      <span class="material-symbols-outlined text-blue-700 text-[16px]">psychology</span>
+      <span class="text-[11px] font-bold text-blue-950 uppercase tracking-wide">1. Pré-Análise da IA do Tribunal</span>
+    </div>
+    <span class="text-[10px] bg-blue-100 text-blue-800 font-semibold px-2 py-0.5 rounded-full font-mono">Triagem Assíncrona</span>
+  </div>
+  <div class="grid grid-cols-2 gap-2 text-xs">
+    <div class="bg-white p-2 rounded border border-blue-100/80 shadow-2xs">
+      <span class="text-[10px] text-slate-500 block">1.1 Índice de Fraude / Spoofing:</span>
+      <span id="aiFraudScore" class="font-bold text-emerald-700 flex items-center gap-1 mt-0.5">
+        <span class="material-symbols-outlined text-[14px]">shield_check</span>
+        <span>0.02 • Risco Nulo</span>
+      </span>
+    </div>
+    <div class="bg-white p-2 rounded border border-blue-100/80 shadow-2xs">
+      <span class="text-[10px] text-slate-500 block">1.2 Geofence & Endereço:</span>
+      <span id="aiGeoScore" class="font-bold text-emerald-700 flex items-center gap-1 mt-0.5">
+        <span class="material-symbols-outlined text-[14px]">pin_drop</span>
+        <span>Comarca Confirmada (SP)</span>
+      </span>
+    </div>
+  </div>
+  <div class="bg-blue-50/70 p-2 rounded border border-blue-100 text-[11px] text-slate-700 leading-snug">
+    <span class="font-bold text-blue-900">Parecer Técnico da IA:</span> 
+    <span id="aiRecommendationText">Apresentação regular. Sugerida homologação de plano pelo servidor da secretaria.</span>
+  </div>
+</div>
 <!-- MODULE 1: BIOMETRIC VALIDATION -->
 <div>
 <div class="flex items-center justify-between mb-2">
@@ -657,10 +688,17 @@
 </div>
 <!-- MODULE 3: JUDICIAL DECISION WORKFLOW ACTIONS -->
 <div class="pt-space-sm border-t border-outline-variant/50 space-y-2">
-<span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider block">
-                Determinações &amp; Despacho de Secretaria
-              </span>
+<div class="flex items-center justify-between">
+  <span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider block">
+    2. Homologação pelo Servidor
+  </span>
+  <span class="text-[10px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold">Decisão Humana Final</span>
+</div>
 <div class="flex flex-col gap-2">
+<button onclick="homologateCurrentDossier()" class="w-full py-2.5 px-space-md bg-emerald-700 hover:bg-emerald-800 text-white rounded text-label-md font-label-md font-bold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+<span>Homologar Apresentação (Aprovar Parecer da IA)</span>
+</button>
 <button class="w-full py-2 px-space-md bg-primary text-on-primary hover:bg-tertiary-container rounded text-label-md font-label-md font-semibold shadow-xs transition-colors flex items-center justify-center gap-2">
 <span class="material-symbols-outlined text-[18px]" data-icon="send">send</span>
 <span>Remeter Conclusão ao Juiz de Direito</span>
@@ -803,7 +841,10 @@ const auditCases = {
     tag: 'RÉU EM AUDITORIA (ALERTA TERRITORIAL)',
     photo: null,
     date: '22/10/2026',
-    time: '16:40:12'
+    time: '16:40:12',
+    aiFraud: '<span class="material-symbols-outlined text-[14px] text-emerald-600">shield_check</span><span class="text-emerald-700">0.01 • Risco Nulo</span>',
+    aiGeo: '<span class="material-symbols-outlined text-[14px] text-red-600">warning</span><span class="text-red-700">Fora do Raio (+45km)</span>',
+    aiRecommendation: '⚠️ Não homologar automaticamente. Réu descumpriu o perímetro territorial autorizado da Capital.'
   },
   'case-marcos': {
     name: 'Marcos Vinícius Pires',
@@ -818,7 +859,10 @@ const auditCases = {
     tag: 'RÉU EM AUDITORIA (BIOMETRIA DIVERGENTE)',
     photo: null,
     date: '22/10/2026',
-    time: '15:15:44'
+    time: '15:15:44',
+    aiFraud: '<span class="material-symbols-outlined text-[14px] text-amber-600">help</span><span class="text-amber-800">0.38 • Inconclusivo (Luz)</span>',
+    aiGeo: '<span class="material-symbols-outlined text-[14px] text-emerald-600">pin_drop</span><span class="text-emerald-700">Comarca de SP Confirmada</span>',
+    aiRecommendation: '⚠️ Biometria facial divergente. Sugerida auditoria visual pelo escrevente ou comparecimento assistido.'
   },
   'case-fernando': {
     name: 'Fernando Augusto Rocha',
@@ -833,7 +877,10 @@ const auditCases = {
     tag: 'RÉU EM AUDITORIA (MOCK GPS FRAUDE)',
     photo: null,
     date: '22/10/2026',
-    time: '14:02:19'
+    time: '14:02:19',
+    aiFraud: '<span class="material-symbols-outlined text-[14px] text-red-600">gpp_bad</span><span class="text-red-700">0.98 • ALTO RISCO (GPS Fake)</span>',
+    aiGeo: '<span class="material-symbols-outlined text-[14px] text-red-600">near_me_disabled</span><span class="text-red-700">Mock Location Interceptado</span>',
+    aiRecommendation: '🚨 Fraude de telemetria interceptada pela IA. Recomendada remessa imediata ao Juiz de Direito.'
   },
   'case-renan': {
     name: 'Renan Oliveira Castro',
@@ -848,7 +895,10 @@ const auditCases = {
     tag: 'RÉU EM AUDITORIA (FORA DA COMARCA)',
     photo: null,
     date: '22/10/2026',
-    time: '11:48:03'
+    time: '11:48:03',
+    aiFraud: '<span class="material-symbols-outlined text-[14px] text-emerald-600">shield_check</span><span class="text-emerald-700">0.02 • Risco Nulo</span>',
+    aiGeo: '<span class="material-symbols-outlined text-[14px] text-amber-600">pin_drop</span><span class="text-amber-800">Guarulhos (+12km da Capital)</span>',
+    aiRecommendation: '⚠️ Réu em comarca limítrofe da Grande SP. Avaliar se há autorização judicial para trabalho externo.'
   }
 };
 
@@ -1019,6 +1069,14 @@ function openDossier(caseId, rowElement) {
     matchEl.innerText = data.match;
   }
 
+  // Atualizar Parecer Técnico e Scores da IA
+  const fraudEl = document.getElementById('aiFraudScore');
+  const geoEl = document.getElementById('aiGeoScore');
+  const recEl = document.getElementById('aiRecommendationText');
+  if (fraudEl) fraudEl.innerHTML = data.aiFraud || '<span class="material-symbols-outlined text-[14px] text-emerald-600">shield_check</span><span class="text-emerald-700">0.02 • Risco Nulo</span>';
+  if (geoEl) geoEl.innerHTML = data.aiGeo || '<span class="material-symbols-outlined text-[14px] text-emerald-600">pin_drop</span><span class="text-emerald-700">Comarca Confirmada (SP)</span>';
+  if (recEl) recEl.innerText = data.aiRecommendation || 'Apresentação regular. Sugerida homologação de plano pelo servidor da secretaria.';
+
   // Destaque visual na linha selecionada
   document.querySelectorAll('tbody tr').forEach(r => {
     r.classList.remove('bg-blue-50/60', 'ring-2', 'ring-blue-500/30', 'bg-emerald-100/70');
@@ -1028,6 +1086,28 @@ function openDossier(caseId, rowElement) {
   }
 
   showToast('Dossiê Carregado', 'Visualizando auditoria de ' + data.name, 'folder_open');
+}
+
+// Homologação Assíncrona Individual do Parecer da IA
+function homologateCurrentDossier() {
+  const data = auditCases[activeCaseId];
+  if (!data) return;
+  showToast('Homologação Registrada', `Comparecimento de ${data.name} homologado e assinado digitalmente.`, 'verified');
+
+  const tagEl = document.getElementById('dossierTag');
+  if (tagEl) {
+    tagEl.innerText = 'HOMOLOGADO PELO SERVIDOR';
+    tagEl.className = 'bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 rounded';
+  }
+
+  const activeRow = document.querySelector('tbody tr.bg-blue-50\\/60');
+  if (activeRow) {
+    const badge = activeRow.querySelector('td:first-child span');
+    if (badge) {
+      badge.className = 'inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 border border-emerald-300 text-label-sm px-2 py-0.5 rounded font-bold';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Homologado';
+    }
+  }
 }
 
 // ==================== SINCRONIZAÇÃO EM TEMPO REAL (SSE) ====================
