@@ -2,101 +2,88 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>CompareceJus - Regras de Negócio e Custódia</title>
+<title>CompareceJus • Regras e Custódia</title>
 <style>
   @page {
     size: A4;
-    margin: 20mm 18mm 20mm 18mm;
-    @bottom-right {
-      content: counter(page);
-    }
+    margin: 15mm 16mm 15mm 16mm;
   }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1e293b;
-    line-height: 1.6;
-    font-size: 11pt;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.5;
+    font-size: 10pt;
     margin: 0;
     padding: 0;
   }
-  h1 {
-    font-size: 18pt;
-    color: #0f172a;
-    border-bottom: 2px solid #2563eb;
-    padding-bottom: 6px;
-    margin-top: 0;
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 8px;
     margin-bottom: 14px;
   }
-  h2 {
-    font-size: 14pt;
+  .header-title {
+    font-size: 16pt;
+    font-weight: 800;
     color: #1e3a8a;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 4px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin: 0;
+  }
+  .header-tag {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #1e40af;
+    background: #dbeafe;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  h1 { display: none; } /* Já no header */
+  h2 {
+    font-size: 12pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 3px;
+    margin-top: 14px;
+    margin-bottom: 8px;
     page-break-after: avoid;
   }
   h3 {
-    font-size: 12pt;
+    font-size: 10.5pt;
     color: #334155;
-    margin-top: 14px;
-    margin-bottom: 6px;
+    margin-top: 10px;
+    margin-bottom: 4px;
     page-break-after: avoid;
   }
   p {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: justify;
   }
   ul, ol {
     margin-top: 0;
-    margin-bottom: 12px;
-    padding-left: 24px;
+    margin-bottom: 10px;
+    padding-left: 20px;
   }
   li {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   hr {
     border: none;
     border-top: 1px solid #e2e8f0;
-    margin: 18px 0;
-  }
-  blockquote {
-    border-left: 4px solid #94a3b8;
     margin: 12px 0;
-    padding: 6px 14px;
-    background-color: #f8fafc;
-    color: #475569;
-    font-style: italic;
-  }
-  .alert {
-    border-radius: 6px;
-    padding: 10px 14px;
-    margin: 12px 0;
-    font-size: 10pt;
-  }
-  .alert-important {
-    background-color: #eff6ff;
-    border-left: 4px solid #2563eb;
-    color: #1e40af;
-  }
-  .alert-note {
-    background-color: #f8fafc;
-    border-left: 4px solid #64748b;
-    color: #334155;
   }
   .table-wrapper {
-    margin: 14px 0;
-    overflow-x: auto;
+    margin: 10px 0;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 9.5pt;
+    font-size: 9pt;
   }
   th, td {
     border: 1px solid #cbd5e1;
-    padding: 6px 8px;
+    padding: 6px 10px;
     text-align: left;
   }
   th {
@@ -112,17 +99,17 @@
     color: #0f172a;
     padding: 2px 4px;
     border-radius: 4px;
-    font-size: 9pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.5pt;
+    font-family: Consolas, monospace;
   }
   pre {
     background-color: #0f172a;
     color: #f8fafc;
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 6px;
-    overflow-x: auto;
     font-size: 8.5pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-family: Consolas, monospace;
+    margin: 8px 0;
     page-break-inside: avoid;
   }
   pre code {
@@ -131,10 +118,13 @@
     padding: 0;
   }
   .footer-stamp {
-    margin-top: 30px;
-    padding-top: 10px;
-    border-top: 1px dashed #cbd5e1;
-    font-size: 8.5pt;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt;
     color: #64748b;
     display: flex;
     justify-content: space-between;
@@ -142,6 +132,13 @@
 </style>
 </head>
 <body>
+  <div class="header-top">
+    <div>
+      <h1 class="header-title">CompareceJus • Regras e Custódia</h1>
+      <p style="margin: 2px 0 0 0; font-size: 9pt; color: #475569;">Apresentação Periódica Digital Cautelar • Fora do SEEU</p>
+    </div>
+    <div class="header-tag">Módulo Cautelar PDPJ-Br</div>
+  </div>
   <h1>Regras de Negócio, Cadastro na Custódia e Matriz de Riscos da IA • CompareceJus</h1>
 <p>Este documento detalha o ciclo de vida dos atos judiciais, as 3 formas oficiais de ingestão da Foto-Mestra (Base da Custódia), a matriz de 23 sinais pré-analíticos da Inteligência Artificial, a governança de homologação com assinatura ICP-Brasil e o protocolo de contingência para exclusão digital.</p>
 <hr/>
@@ -208,8 +205,8 @@ stateDiagram-v2
 <li><strong>Módulo de Justificativa Judicial:</strong> O réu impossibilitado de comparecer (por internação, doença ou trabalho) protocola justificativa pelo app com anexo comprobatório, gerando protocolo <code>JUST-AAAA-NNNNNN-D</code> para análise da secretaria.</li>
 <li><strong>Fechamento Automático de Ciclo (Gestão de Descumprimento):</strong> No 1º dia útil subsequente, o sistema lista apenas os réus que não se apresentaram pelo app, não realizaram comparecimento assistido no Fórum e não protocolaram justificativa tempestiva, gerando minuta de Certidão de Descumprimento para apreciação do Magistrado (Art. 312, parágrafo único, do CPP).</li>
   <div class="footer-stamp">
-    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
-    <span>Documento Técnico Institucional</span>
+    <span>CompareceJus v2.0 • Proposta Técnica para o CNJ (DMF e DTI)</span>
+    <span>Documento Institucional</span>
   </div>
 </body>
 </html>

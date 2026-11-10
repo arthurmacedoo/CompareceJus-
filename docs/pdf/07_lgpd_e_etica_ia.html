@@ -2,101 +2,88 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>CompareceJus - LGPD e Não-Exclusão Digital</title>
+<title>CompareceJus • LGPD e Acessibilidade</title>
 <style>
   @page {
     size: A4;
-    margin: 20mm 18mm 20mm 18mm;
-    @bottom-right {
-      content: counter(page);
-    }
+    margin: 15mm 16mm 15mm 16mm;
   }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1e293b;
-    line-height: 1.6;
-    font-size: 11pt;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.5;
+    font-size: 10pt;
     margin: 0;
     padding: 0;
   }
-  h1 {
-    font-size: 18pt;
-    color: #0f172a;
-    border-bottom: 2px solid #2563eb;
-    padding-bottom: 6px;
-    margin-top: 0;
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 8px;
     margin-bottom: 14px;
   }
-  h2 {
-    font-size: 14pt;
+  .header-title {
+    font-size: 16pt;
+    font-weight: 800;
     color: #1e3a8a;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 4px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin: 0;
+  }
+  .header-tag {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #1e40af;
+    background: #dbeafe;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  h1 { display: none; } /* Já no header */
+  h2 {
+    font-size: 12pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 3px;
+    margin-top: 14px;
+    margin-bottom: 8px;
     page-break-after: avoid;
   }
   h3 {
-    font-size: 12pt;
+    font-size: 10.5pt;
     color: #334155;
-    margin-top: 14px;
-    margin-bottom: 6px;
+    margin-top: 10px;
+    margin-bottom: 4px;
     page-break-after: avoid;
   }
   p {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: justify;
   }
   ul, ol {
     margin-top: 0;
-    margin-bottom: 12px;
-    padding-left: 24px;
+    margin-bottom: 10px;
+    padding-left: 20px;
   }
   li {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   hr {
     border: none;
     border-top: 1px solid #e2e8f0;
-    margin: 18px 0;
-  }
-  blockquote {
-    border-left: 4px solid #94a3b8;
     margin: 12px 0;
-    padding: 6px 14px;
-    background-color: #f8fafc;
-    color: #475569;
-    font-style: italic;
-  }
-  .alert {
-    border-radius: 6px;
-    padding: 10px 14px;
-    margin: 12px 0;
-    font-size: 10pt;
-  }
-  .alert-important {
-    background-color: #eff6ff;
-    border-left: 4px solid #2563eb;
-    color: #1e40af;
-  }
-  .alert-note {
-    background-color: #f8fafc;
-    border-left: 4px solid #64748b;
-    color: #334155;
   }
   .table-wrapper {
-    margin: 14px 0;
-    overflow-x: auto;
+    margin: 10px 0;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 9.5pt;
+    font-size: 9pt;
   }
   th, td {
     border: 1px solid #cbd5e1;
-    padding: 6px 8px;
+    padding: 6px 10px;
     text-align: left;
   }
   th {
@@ -112,17 +99,17 @@
     color: #0f172a;
     padding: 2px 4px;
     border-radius: 4px;
-    font-size: 9pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.5pt;
+    font-family: Consolas, monospace;
   }
   pre {
     background-color: #0f172a;
     color: #f8fafc;
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 6px;
-    overflow-x: auto;
     font-size: 8.5pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-family: Consolas, monospace;
+    margin: 8px 0;
     page-break-inside: avoid;
   }
   pre code {
@@ -131,10 +118,13 @@
     padding: 0;
   }
   .footer-stamp {
-    margin-top: 30px;
-    padding-top: 10px;
-    border-top: 1px dashed #cbd5e1;
-    font-size: 8.5pt;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt;
     color: #64748b;
     display: flex;
     justify-content: space-between;
@@ -142,6 +132,13 @@
 </style>
 </head>
 <body>
+  <div class="header-top">
+    <div>
+      <h1 class="header-title">CompareceJus • LGPD e Acessibilidade</h1>
+      <p style="margin: 2px 0 0 0; font-size: 9pt; color: #475569;">Apresentação Periódica Digital Cautelar • Fora do SEEU</p>
+    </div>
+    <div class="header-tag">Módulo Cautelar PDPJ-Br</div>
+  </div>
   <h1>Conformidade com a LGPD, Ética no Uso de IA e Não-Exclusão Digital</h1>
 <p>Este documento formaliza as salvaguardas jurídicas, técnicas e humanitárias adotadas pelo <strong>CompareceJus (v2.0)</strong> para assegurar estrita aderência à <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD)</strong>, à governança de Inteligência Artificial do Poder Judiciário (<strong>Resolução CNJ nº 615/2025</strong>) e à Política de Alternativas Penais (<strong>Resolução CNJ nº 288/2019</strong>).</p>
 <hr/>
@@ -152,7 +149,8 @@
 <h2>2. Princípio da Minimização e Não-Rastreamento Contínuo</h2>
 <p>Uma das principais salvaguardas constitucionais do CompareceJus reside na diferenciação técnica e jurídica em relação à monitoração eletrônica contínua (tornozeleira eletrônica — art. 319, IX, do CPP):</p>
 <div class="table-wrapper"><table><tr><th>Característica</th><th>Tornozeleira Eletrônica (Art. 319, IX)</th><th>CompareceJus (Art. 319, I e IV)</th></tr><tr><td></strong>Grau de Invasividade<strong></td><td>Monitoramento 24 horas ininterrupto.</td><td></strong>Coleta pontual nos 30 segundos do ato mensal.<strong></td></tr><tr><td></strong>Vigilância de Rotina<strong></td><td>Rastreia itinerários, locais de repouso e trabalho.</td><td></strong>Não armazena histórico de deslocamentos nem roda em background.<strong></td></tr><tr><td></strong>Bateria e Conectividade<strong></td><td>Exige recarga diária e sinal contínuo.</td><td>Exige apenas acesso momentâneo à internet no dia escolhido.</td></tr><tr><td></strong>Estigmatização Social<strong></td><td>Dispositivo visível no corpo do cidadão.</td><td></strong>Zero estigma corporal:<strong> realizado no smartphone ou totem institucional.</td></tr></table></div>
-<div class="alert alert-note"><strong>[NOTE]</strong> </strong>Desligamento Imediato de Sensores:</em><em> O aplicativo encerra completamente a sessão de câmera e GPS no exato instante em que o recibo criptográfico é emitido. Nenhuma permissão de localização em segundo plano (<code>ACCESS_BACKGROUND_LOCATION</code>) é solicitada pelo aplicativo.</div>
+> [!NOTE]
+> </strong>Desligamento Imediato de Sensores:</em><em> O aplicativo encerra completamente a sessão de câmera e GPS no exato instante em que o recibo criptográfico é emitido. Nenhuma permissão de localização em segundo plano (<code>ACCESS_BACKGROUND_LOCATION</code>) é solicitada pelo aplicativo.
 <hr/>
 <h2>3. Governança Ética de Inteligência Artificial (Resolução CNJ nº 615/2025)</h2>
 <p>Em conformidade com as diretrizes do Conselho Nacional de Justiça para sistemas de IA no Poder Judiciário:</p>
@@ -177,8 +175,8 @@ Para os cidadãos em situação de hipossuficiência, população em situação 
 <ul><li><strong>Canal 4 — Central de Alternativas Penais (CAP / CIAP):</strong> Registro unificado no momento do atendimento multidisciplinar da equipe técnica.</li>
 <p></ul>Dessa forma, o CompareceJus extingue o arcaico livro de papel para 100% dos processos da vara, ao mesmo tempo em que protege integralmente os cidadãos digitalmente excluídos.</p>
   <div class="footer-stamp">
-    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
-    <span>Documento Técnico Institucional</span>
+    <span>CompareceJus v2.0 • Proposta Técnica para o CNJ (DMF e DTI)</span>
+    <span>Documento Institucional</span>
   </div>
 </body>
 </html>

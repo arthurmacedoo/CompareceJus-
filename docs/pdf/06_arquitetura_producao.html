@@ -2,101 +2,88 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>CompareceJus - Arquitetura de Produção PDPJ-Br</title>
+<title>CompareceJus • Arquitetura PDPJ-Br</title>
 <style>
   @page {
     size: A4;
-    margin: 20mm 18mm 20mm 18mm;
-    @bottom-right {
-      content: counter(page);
-    }
+    margin: 15mm 16mm 15mm 16mm;
   }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1e293b;
-    line-height: 1.6;
-    font-size: 11pt;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.5;
+    font-size: 10pt;
     margin: 0;
     padding: 0;
   }
-  h1 {
-    font-size: 18pt;
-    color: #0f172a;
-    border-bottom: 2px solid #2563eb;
-    padding-bottom: 6px;
-    margin-top: 0;
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 8px;
     margin-bottom: 14px;
   }
-  h2 {
-    font-size: 14pt;
+  .header-title {
+    font-size: 16pt;
+    font-weight: 800;
     color: #1e3a8a;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 4px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin: 0;
+  }
+  .header-tag {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #1e40af;
+    background: #dbeafe;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  h1 { display: none; } /* Já no header */
+  h2 {
+    font-size: 12pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 3px;
+    margin-top: 14px;
+    margin-bottom: 8px;
     page-break-after: avoid;
   }
   h3 {
-    font-size: 12pt;
+    font-size: 10.5pt;
     color: #334155;
-    margin-top: 14px;
-    margin-bottom: 6px;
+    margin-top: 10px;
+    margin-bottom: 4px;
     page-break-after: avoid;
   }
   p {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: justify;
   }
   ul, ol {
     margin-top: 0;
-    margin-bottom: 12px;
-    padding-left: 24px;
+    margin-bottom: 10px;
+    padding-left: 20px;
   }
   li {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   hr {
     border: none;
     border-top: 1px solid #e2e8f0;
-    margin: 18px 0;
-  }
-  blockquote {
-    border-left: 4px solid #94a3b8;
     margin: 12px 0;
-    padding: 6px 14px;
-    background-color: #f8fafc;
-    color: #475569;
-    font-style: italic;
-  }
-  .alert {
-    border-radius: 6px;
-    padding: 10px 14px;
-    margin: 12px 0;
-    font-size: 10pt;
-  }
-  .alert-important {
-    background-color: #eff6ff;
-    border-left: 4px solid #2563eb;
-    color: #1e40af;
-  }
-  .alert-note {
-    background-color: #f8fafc;
-    border-left: 4px solid #64748b;
-    color: #334155;
   }
   .table-wrapper {
-    margin: 14px 0;
-    overflow-x: auto;
+    margin: 10px 0;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 9.5pt;
+    font-size: 9pt;
   }
   th, td {
     border: 1px solid #cbd5e1;
-    padding: 6px 8px;
+    padding: 6px 10px;
     text-align: left;
   }
   th {
@@ -112,17 +99,17 @@
     color: #0f172a;
     padding: 2px 4px;
     border-radius: 4px;
-    font-size: 9pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.5pt;
+    font-family: Consolas, monospace;
   }
   pre {
     background-color: #0f172a;
     color: #f8fafc;
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 6px;
-    overflow-x: auto;
     font-size: 8.5pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-family: Consolas, monospace;
+    margin: 8px 0;
     page-break-inside: avoid;
   }
   pre code {
@@ -131,10 +118,13 @@
     padding: 0;
   }
   .footer-stamp {
-    margin-top: 30px;
-    padding-top: 10px;
-    border-top: 1px dashed #cbd5e1;
-    font-size: 8.5pt;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt;
     color: #64748b;
     display: flex;
     justify-content: space-between;
@@ -142,6 +132,13 @@
 </style>
 </head>
 <body>
+  <div class="header-top">
+    <div>
+      <h1 class="header-title">CompareceJus • Arquitetura PDPJ-Br</h1>
+      <p style="margin: 2px 0 0 0; font-size: 9pt; color: #475569;">Apresentação Periódica Digital Cautelar • Fora do SEEU</p>
+    </div>
+    <div class="header-tag">Módulo Cautelar PDPJ-Br</div>
+  </div>
   <h1>Arquitetura Alvo para Produção • Ecossistema PDPJ-Br (Módulo Cautelar)</h1>
 <p>Este documento descreve a topologia técnica, a governança de segurança e os padrões de interoperabilidade do <strong>CompareceJus (v2.0)</strong> desenhado estritamente como um <strong>microsserviço nativo da Plataforma Digital do Poder Judiciário Brasileiro (PDPJ-Br — Resolução CNJ nº 335/2020)</strong>.</p>
 <hr/>
@@ -163,9 +160,7 @@ flowchart TD
 <p>CLIENTE --&gt; GATEWAY<br/>    GATEWAY --&gt; API_CORE</code></pre></p>
 <hr/>
 <h2>2. Estratégia de Segurança de Borda Mobile: Play Integrity API (Android) e App Attest / DeviceCheck (iOS)</h2>
-<div class="alert alert-important"><strong>[IMPORTANT]</strong> <strong>Distinção Formal entre Protótipo Web e Aplicativo Homologado de Produção:</strong>
-A versão web executada em navegador mobile neste repositório constitui um <strong>protótipo conceitual e funcional de demonstração</strong> para avaliação de fluxo negocial pelo CNJ (DMF e DTI). Navegadores web convencionais possuem isolamento em <em>sandbox</em> que impede a inspeção profunda de <em>kernel</em> contra aplicativos de GPS falso (<em>Mock Location</em> a nível de sistema) ou drivers de câmera virtual emulada.
-Por essa razão, <strong>o aplicativo final homologado para distribuição oficial aos réus opera obrigatoriamente em camada nativa sob atestação criptográfica de integridade de hardware</strong>.</div>
+<p>> [!IMPORTANT]<br/>> <strong>Distinção Formal entre Protótipo Web e Aplicativo Homologado de Produção:</strong><br/>> A versão web executada em navegador mobile neste repositório constitui um <strong>protótipo conceitual e funcional de demonstração</strong> para avaliação de fluxo negocial pelo CNJ (DMF e DTI). Navegadores web convencionais possuem isolamento em <em>sandbox</em> que impede a inspeção profunda de <em>kernel</em> contra aplicativos de GPS falso (<em>Mock Location</em> a nível de sistema) ou drivers de câmera virtual emulada.<br/>> Por essa razão, <strong>o aplicativo final homologado para distribuição oficial aos réus opera obrigatoriamente em camada nativa sob atestação criptográfica de integridade de hardware</strong>.</p>
 <h3>2.1 Camada de Atestação Criptográfica de Hardware</h3>
 <li><strong>Google Play Integrity API (Android):</strong></li>
 <ul><li>Antes de abrir a câmera ou coletar o GPS, o backend do CompareceJus gera um <code>nonce</code> criptográfico único e solicita o veredito assinado pelos servidores do Google Play Services:</li>
@@ -219,8 +214,8 @@ Todos os serviços do microsserviço seguem arquitetura RESTful documentada sob 
 <h2>6. Plano de Implantação Gradual (Roadmap Proposto)</h2>
 <div class="table-wrapper"><table><tr><th>Fase</th><th>Duração</th><th>Escopo Principal</th><th>Critérios de Sucesso</th></tr><tr><td><strong>Fase 1: Projeto Piloto em Vara Única</strong></td><td>90 dias</td><td>Implantação em 1 Vara Criminal ou Central de Alternativas Penais com adesão de réus em liberdade provisória.</td><td>> 85% de comparecimento digital regular; redução de 90% das filas de assinatura em livro físico.</td></tr><tr><td><strong>Fase 2: Expansão Estadual via MNI</strong></td><td>180 dias</td><td>Ativação do conector MNI v2.2.2 com PJe/e-SAJ/eproc e assinatura PJeOffice em todas as Varas Criminais do TJ piloto.</td><td>Homologação e juntada 100% automatizadas; tempo médio de homologação < 2 horas úteis.</td></tr><tr><td><strong>Fase 3: Módulo Cautelar Nacional PDPJ-Br</strong></td><td>Contínua</td><td>Publicação oficial no catálogo da PDPJ-Br como extensão cautelar integrada ao ecossistema SAREF/BNMP 3.0.</td><td>Padronização nacional do cumprimento eletrônico das medidas cautelares do art. 319 do CPP.</td></tr></table></div>
   <div class="footer-stamp">
-    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
-    <span>Documento Técnico Institucional</span>
+    <span>CompareceJus v2.0 • Proposta Técnica para o CNJ (DMF e DTI)</span>
+    <span>Documento Institucional</span>
   </div>
 </body>
 </html>

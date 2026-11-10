@@ -2,101 +2,88 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>CompareceJus - Roteiro de Apresentação CNJ</title>
+<title>CompareceJus • Roteiro CNJ</title>
 <style>
   @page {
     size: A4;
-    margin: 20mm 18mm 20mm 18mm;
-    @bottom-right {
-      content: counter(page);
-    }
+    margin: 15mm 16mm 15mm 16mm;
   }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: #1e293b;
-    line-height: 1.6;
-    font-size: 11pt;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    color: #0f172a;
+    line-height: 1.5;
+    font-size: 10pt;
     margin: 0;
     padding: 0;
   }
-  h1 {
-    font-size: 18pt;
-    color: #0f172a;
-    border-bottom: 2px solid #2563eb;
-    padding-bottom: 6px;
-    margin-top: 0;
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #1e3a8a;
+    padding-bottom: 8px;
     margin-bottom: 14px;
   }
-  h2 {
-    font-size: 14pt;
+  .header-title {
+    font-size: 16pt;
+    font-weight: 800;
     color: #1e3a8a;
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 4px;
-    margin-top: 20px;
-    margin-bottom: 10px;
+    margin: 0;
+  }
+  .header-tag {
+    font-size: 8.5pt;
+    font-weight: 600;
+    color: #1e40af;
+    background: #dbeafe;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  h1 { display: none; } /* Já no header */
+  h2 {
+    font-size: 12pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #cbd5e1;
+    padding-bottom: 3px;
+    margin-top: 14px;
+    margin-bottom: 8px;
     page-break-after: avoid;
   }
   h3 {
-    font-size: 12pt;
+    font-size: 10.5pt;
     color: #334155;
-    margin-top: 14px;
-    margin-bottom: 6px;
+    margin-top: 10px;
+    margin-bottom: 4px;
     page-break-after: avoid;
   }
   p {
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: justify;
   }
   ul, ol {
     margin-top: 0;
-    margin-bottom: 12px;
-    padding-left: 24px;
+    margin-bottom: 10px;
+    padding-left: 20px;
   }
   li {
-    margin-bottom: 4px;
+    margin-bottom: 3px;
   }
   hr {
     border: none;
     border-top: 1px solid #e2e8f0;
-    margin: 18px 0;
-  }
-  blockquote {
-    border-left: 4px solid #94a3b8;
     margin: 12px 0;
-    padding: 6px 14px;
-    background-color: #f8fafc;
-    color: #475569;
-    font-style: italic;
-  }
-  .alert {
-    border-radius: 6px;
-    padding: 10px 14px;
-    margin: 12px 0;
-    font-size: 10pt;
-  }
-  .alert-important {
-    background-color: #eff6ff;
-    border-left: 4px solid #2563eb;
-    color: #1e40af;
-  }
-  .alert-note {
-    background-color: #f8fafc;
-    border-left: 4px solid #64748b;
-    color: #334155;
   }
   .table-wrapper {
-    margin: 14px 0;
-    overflow-x: auto;
+    margin: 10px 0;
   }
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 9.5pt;
+    font-size: 9pt;
   }
   th, td {
     border: 1px solid #cbd5e1;
-    padding: 6px 8px;
+    padding: 6px 10px;
     text-align: left;
   }
   th {
@@ -112,17 +99,17 @@
     color: #0f172a;
     padding: 2px 4px;
     border-radius: 4px;
-    font-size: 9pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-size: 8.5pt;
+    font-family: Consolas, monospace;
   }
   pre {
     background-color: #0f172a;
     color: #f8fafc;
-    padding: 10px;
+    padding: 8px 12px;
     border-radius: 6px;
-    overflow-x: auto;
     font-size: 8.5pt;
-    font-family: Consolas, "Courier New", monospace;
+    font-family: Consolas, monospace;
+    margin: 8px 0;
     page-break-inside: avoid;
   }
   pre code {
@@ -131,10 +118,13 @@
     padding: 0;
   }
   .footer-stamp {
-    margin-top: 30px;
-    padding-top: 10px;
-    border-top: 1px dashed #cbd5e1;
-    font-size: 8.5pt;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding-top: 8px;
+    border-top: 1px solid #e2e8f0;
+    font-size: 8pt;
     color: #64748b;
     display: flex;
     justify-content: space-between;
@@ -142,17 +132,24 @@
 </style>
 </head>
 <body>
+  <div class="header-top">
+    <div>
+      <h1 class="header-title">CompareceJus • Roteiro CNJ</h1>
+      <p style="margin: 2px 0 0 0; font-size: 9pt; color: #475569;">Apresentação Periódica Digital Cautelar • Fora do SEEU</p>
+    </div>
+    <div class="header-tag">Módulo Cautelar PDPJ-Br</div>
+  </div>
   <h1>Roteiro de Apresentação Institucional ao CNJ — DMF e DTI (15 minutos)</h1>
-<div class="alert alert-note"><strong>[NOTE]</strong> Cada slide traz o <strong>conteúdo visual</strong> e a <strong>fala técnica sugerida</strong>, já alinhada à linguagem da <strong>PDPJ-Br (Res. CNJ 335/2020)</strong>, do <strong>MNI v2.2.2</strong>, da <strong>Lei nº 11.419/2006 (ICP-Brasil)</strong> e das <strong>Resoluções CNJ nº 288/2019 e nº 615/2025</strong>.</div>
-Tempo sugerido: 10 min de exposição executiva + 5 min de demonstração ao vivo do protótipo v2.0 (ver [03_roteiro_demonstracao.md](03_roteiro_demonstracao.md)).
+<p>> [!NOTE]<br/>> Cada slide traz o <strong>conteúdo visual</strong> e a <strong>fala técnica sugerida</strong>, já alinhada à linguagem da <strong>PDPJ-Br (Res. CNJ 335/2020)</strong>, do <strong>MNI v2.2.2</strong>, da <strong>Lei nº 11.419/2006 (ICP-Brasil)</strong> e das <strong>Resoluções CNJ nº 288/2019 e nº 615/2025</strong>.</p>
+<p>Tempo sugerido: 10 min de exposição executiva + 5 min de demonstração ao vivo do protótipo v2.0 (ver [03_roteiro_demonstracao.md](03_roteiro_demonstracao.md)).</p>
 <hr/>
 <h2>Slide 1: Abertura — O Módulo Cautelar da PDPJ-Br (45 s)</h2>
 <p><strong>Tela:</strong><br/><ul><li><strong>CompareceJus v2.0:</strong> Microsserviço Nativo PDPJ-Br para Apresentação Periódica Cautelar (Art. 319, I e IV, do CPP)</li><br/><li>Interoperabilidade nativa <strong>MNI v2.2.2</strong> (PJe, e-SAJ, eproc) + Assinatura <strong>PJeOffice / ICP-Brasil</strong></li></p>
-<p></ul><strong>Fala:</strong><br/><blockquote>"Bom dia. Apresento o CompareceJus v2.0, concebido estritamente como um microsserviço nativo da nuvem PDPJ-Br — um 'Módulo Cautelar' para estender a transformação digital que o SAREF trouxe na execução penal para os processos de conhecimento que tramitam no PJe, no e-SAJ e no eproc: liberdade provisória oriunda de audiência de custódia, medidas cautelares diversas da prisão, ANPP e suspensão condicional do processo."</blockquote></p>
+<p></ul><strong>Fala:</strong><br/>> "Bom dia. Apresento o CompareceJus v2.0, concebido estritamente como um microsserviço nativo da nuvem PDPJ-Br — um 'Módulo Cautelar' para estender a transformação digital que o SAREF trouxe na execução penal para os processos de conhecimento que tramitam no PJe, no e-SAJ e no eproc: liberdade provisória oriunda de audiência de custódia, medidas cautelares diversas da prisão, ANPP e suspensão condicional do processo."</p>
 <hr/>
 <h2>Slide 2: O Gargalo Atual nas Varas Criminais (1 min)</h2>
 <p><strong>Tela:</strong><br/><ul><li><strong>Escopo Legal:</strong> Art. 319, I e IV, CPP · Art. 28-A CPP (ANPP) · Art. 89 da Lei 9.099/95</li><br/><li><strong>Realidade operacional fora do SEEU:</strong> Fila mensal no balcão → assinatura em livro de papel → certidão manual no PJe/e-SAJ/eproc</li><br/><li><strong>Fragilidade probatória:</strong> Livro físico não atesta permanência na comarca nem possui carimbo de tempo auditável</li></p>
-<p></ul><strong>Fala:</strong><br/><blockquote>"O SAREF foi um marco para a Vara de Execuções Penais integrada ao SEEU. Porém, quem recebe liberdade provisória na audiência de custódia responde ao processo no PJe, e-SAJ ou eproc. Na maioria das comarcas brasileiras, esse cidadão ainda precisa faltar ao trabalho todo mês para assinar um livro físico no balcão, e o servidor precisa lançar essa presença manualmente nos autos."</blockquote></p>
+<p></ul><strong>Fala:</strong><br/>> "O SAREF foi um marco para a Vara de Execuções Penais integrada ao SEEU. Porém, quem recebe liberdade provisória na audiência de custódia responde ao processo no PJe, e-SAJ ou eproc. Na maioria das comarcas brasileiras, esse cidadão ainda precisa faltar ao trabalho todo mês para assinar um livro físico no balcão, e o servidor precisa lançar essa presença manualmente nos autos."</p>
 <hr/>
 <h2>Slide 3: Arquitetura End-to-End do CompareceJus v2.0 (1 min 30 s)</h2>
 <p><strong>Tela:</strong> Fluxo em 5 etapas blindadas</p>
@@ -162,19 +159,19 @@ flowchart LR
     B --&gt; C["3. IA Pré-Analítica (23 Sinais): Triagem Verde, Amarelo, Vermelho"]
     C --&gt; D["4. Servidor (/painel): Homologa e Assina via PJeOffice (ICP-Brasil)"]
     D --&gt; E["5. Mensageria + MNI v2.2.2: Juntada Automática no PJe/e-SAJ/eproc"]</code></pre>
-<p><strong>Fala:</strong><br/><blockquote>"Blindamos todo o ciclo de ponta a ponta. Primeiro: a Foto-Mestra nasce na própria sala da audiência de custódia em 30 segundos, por captura de webcam, extração do PDF do Auto de Prisão em Flagrante ou consulta ao BNMP 3.0 / TSE. Segundo: o réu se apresenta pelo celular dentro da janela mensal. Terceiro: a IA do Tribunal aplica 23 regras explicáveis e organiza a fila da secretaria. Quarto: o servidor homologa — individualmente ou em lote — assinando com seu certificado ICP-Brasil via PJeOffice. Quinto: um barramento assíncrono RabbitMQ/Kafka entrega a certidão automaticamente nos autos via MNI v2.2.2."</blockquote></p>
+<p><strong>Fala:</strong><br/>> "Blindamos todo o ciclo de ponta a ponta. Primeiro: a Foto-Mestra nasce na própria sala da audiência de custódia em 30 segundos, por captura de webcam, extração do PDF do Auto de Prisão em Flagrante ou consulta ao BNMP 3.0 / TSE. Segundo: o réu se apresenta pelo celular dentro da janela mensal. Terceiro: a IA do Tribunal aplica 23 regras explicáveis e organiza a fila da secretaria. Quarto: o servidor homologa — individualmente ou em lote — assinando com seu certificado ICP-Brasil via PJeOffice. Quinto: um barramento assíncrono RabbitMQ/Kafka entrega a certidão automaticamente nos autos via MNI v2.2.2."</p>
 <hr/>
 <h2>Slide 4: Interoperabilidade MNI v2.2.2 e Fé Pública ICP-Brasil (1 min 15 s)</h2>
 <p><strong>Tela:</strong><br/><ul><li><strong>Zero trabalho manual de upload:</strong> Operação SOAP/REST <code>entregarManifestacaoProcessual</code> (MNI v2.2.2)</li><br/><li><strong>Movimentação Processual Padronizada:</strong> Código TPU/CNJ <code>85</code> (<em>Juntada de Certidão</em>) + Complemento <code>12266</code> (<em>Comparecimento Periódico</em>) + Tipo Documento <code>58</code></li><br/><li><strong>Validade Jurídica (Lei 11.419/2006):</strong> Assinatura qualificada ICP-Brasil (<code>AC-JUS v5</code>) + Carimbo do Tempo RFC 3161 (Observatório Nacional)</li><br/><li><strong>Verificação Pública (<code>/verificar</code>):</strong> QR Code exibe a cadeia X.509 e a matrícula do servidor signatário</li></p>
-<p></ul><strong>Fala:</strong><br/><blockquote>"O servidor jamais baixa PDF para subir manualmente no PJe. Ao clicar em 'Homologar e Assinar Digitalmente', o sistema aciona o PJeOffice, anexa o envelope criptográfico X.509 com carimbo do tempo do Observatório Nacional e enfileira a entrega via MNI v2.2.2 já com o código 85 das Tabelas Processuais Unificadas do CNJ."</blockquote></p>
+<p></ul><strong>Fala:</strong><br/>> "O servidor jamais baixa PDF para subir manualmente no PJe. Ao clicar em 'Homologar e Assinar Digitalmente', o sistema aciona o PJeOffice, anexa o envelope criptográfico X.509 com carimbo do tempo do Observatório Nacional e enfileira a entrega via MNI v2.2.2 já com o código 85 das Tabelas Processuais Unificadas do CNJ."</p>
 <hr/>
 <h2>Slide 5: Segurança de Hardware Mobile e IA Supervisionada (1 min 15 s)</h2>
 <p><strong>Tela:</strong><br/><ul><li><strong>Borda Mobile em Produção:</strong> <em>Google Play Integrity API</em> (Android) e <em>Apple App Attest / DeviceCheck</em> (iOS)</li><br/><li><strong>Detecção de Fraude (<code>src/analise-ia.js</code>):</strong> 23 sinais incluindo <code>MOCK_LOCATION_ATIVO</code>, <code>TELEMETRIA_GPS_SINTETICA</code>, <code>EMULADOR_OU_AMBIENTE_VIRTUAL</code> e <code>CAMERA_VIRTUAL_DETECTADA</code></li><br/><li><strong>Governança de IA (Res. CNJ 615/2025):</strong> A IA nunca decide nem revoga cautelar; apenas classifica em 🟢 Verde, 🟡 Amarelo ou 🔴 Vermelho para decisão humana</li></p>
-<p></ul><strong>Fala:</strong><br/><blockquote>"Deixamos explícito no dossiê de arquitetura: enquanto o protótipo web permite testar a experiência imediatamente no navegador, a distribuição final aos réus opera sob atestação criptográfica de hardware com Play Integrity e App Attest, impedindo aparelhos com root, jailbreak, câmeras virtuais ou aplicativos de Fake GPS. E em total aderência à Resolução 615/2025, a IA nunca pune ninguém sozinha: qualquer anomalia exige revisão humana."</blockquote></p>
+<p></ul><strong>Fala:</strong><br/>> "Deixamos explícito no dossiê de arquitetura: enquanto o protótipo web permite testar a experiência imediatamente no navegador, a distribuição final aos réus opera sob atestação criptográfica de hardware com Play Integrity e App Attest, impedindo aparelhos com root, jailbreak, câmeras virtuais ou aplicativos de Fake GPS. E em total aderência à Resolução 615/2025, a IA nunca pune ninguém sozinha: qualquer anomalia exige revisão humana."</p>
 <hr/>
 <h2>Slide 6: Inclusão Social e Não-Exclusão Digital — Res. CNJ nº 288/2019 (1 min)</h2>
 <p><strong>Tela:</strong><br/><ul><li><strong>Problema:</strong> Réus hipossuficientes sem smartphone, sem internet ou com aparelho furtado não podem sofrer prisão preventiva por exclusão digital</li><br/><li><strong>Solução implementada no Painel (<code>/painel</code>):</strong> Botão <em>"Registrar Comparecimento Assistido / Presencial no Fórum"</em></li><br/><li><strong>4 Canais Físicos Integrados:</strong> Balcão da Secretaria, Totem de Autoatendimento no Fórum, Defensoria Pública e Central de Alternativas Penais (CAP)</li></p>
-<p></ul><strong>Fala:</strong><br/><blockquote>"Em respeito à Resolução CNJ 288/2019, a tecnologia nunca pode penalizar a pobreza. Se o réu não tem celular ou ficou sem bateria, ele comparece ao balcão, ao totem do fórum ou à Defensoria. O servidor registra o Comparecimento Assistido em dois cliques, gerando a mesma certidão eletrônica assinada com ICP-Brasil e juntada via MNI. Assim, aposentamos 100% do livro de papel sem excluir nenhum cidadão."</blockquote></p>
+<p></ul><strong>Fala:</strong><br/>> "Em respeito à Resolução CNJ 288/2019, a tecnologia nunca pode penalizar a pobreza. Se o réu não tem celular ou ficou sem bateria, ele comparece ao balcão, ao totem do fórum ou à Defensoria. O servidor registra o Comparecimento Assistido em dois cliques, gerando a mesma certidão eletrônica assinada com ICP-Brasil e juntada via MNI. Assim, aposentamos 100% do livro de papel sem excluir nenhum cidadão."</p>
 <hr/>
 <h2>Slide 7: Impacto Operacional Estimado por Vara Criminal (1 min)</h2>
 <p><strong>Tela:</strong></p>
@@ -182,11 +179,11 @@ flowchart LR
 $$
 \text{Economia Mensal} = R \cdot A \cdot \left[T_b - V \cdot T_v - (1 - V) \cdot T_r\right]
 $$
-<p><strong>Fala:</strong><br/><blockquote>"Em uma única vara com 300 réus em liberdade provisória, economizamos mais de 150 horas de trabalho cartorário por ano e evitamos milhares de deslocamentos desnecessários de pessoas que muitas vezes perdem o emprego por faltar um turno todo mês para assinar o livro."</blockquote></p>
+<p><strong>Fala:</strong><br/>> "Em uma única vara com 300 réus em liberdade provisória, economizamos mais de 150 horas de trabalho cartorário por ano e evitamos milhares de deslocamentos desnecessários de pessoas que muitas vezes perdem o emprego por faltar um turno todo mês para assinar o livro."</p>
 <hr/>
 <h2>Slide 8: Alinhamento com a Nuvem PDPJ-Br (Kubernetes / OpenShift) (1 min)</h2>
 <p><strong>Tela:</strong><br/><ul><li><strong>Containerização Pronta:</strong> <code>Dockerfile</code> (Node 22 Alpine, Non-Root <code>UID 1001</code> compatível com OpenShift Restricted SCC) e <code>docker-compose.yml</code></li><br/><li><strong>Identidade Federada:</strong> Autenticação via <strong>SSO-JUS / Keycloak</strong> da PDPJ-Br para servidores e <strong>Gov.br (Prata/Ouro)</strong> para cidadãos</li><br/><li><strong>Padrão de API:</strong> Endpoints RESTful documentados sob especificação <strong>OpenAPI 3.1</strong></li></p>
-<p></ul><strong>Fala:</strong><br/><blockquote>"Para a equipe da DTI: o projeto já conta com <code>Dockerfile</code> non-root homologável no Red Hat OpenShift da nuvem PDPJ-Br, healthchecks nativos, desacoplamento por mensageria e especificação para o Keycloak SSO-JUS."</blockquote></p>
+<p></ul><strong>Fala:</strong><br/>> "Para a equipe da DTI: o projeto já conta com <code>Dockerfile</code> non-root homologável no Red Hat OpenShift da nuvem PDPJ-Br, healthchecks nativos, desacoplamento por mensageria e especificação para o Keycloak SSO-JUS."</p>
 <hr/>
 <h2>Slide 9: Demonstração ao Vivo do Protótipo v2.0 (5 min)</h2>
 <p><strong>Roteiro em tela:</strong><br/><li><strong><code>/cadastro-custodia</code>:</strong> Cadastrar um réu em 30 segundos na sala de custódia (Webcam / APF / BNMP 3.0).</li><br/><li><strong><code>/app</code>:</strong> Simular o comparecimento biométrico pelo celular e gerar o recibo.</li><br/><li><strong><code>/painel</code>:</strong> Visualizar os 23 sinais da IA, testar o <strong>Comparecimento Assistido (Res. 288/2019)</strong> e clicar em <strong>"Homologar e Assinar Digitalmente (PJeOffice / ICP-Brasil)"</strong> vendo o protocolo MNI v2.2.2 gerado na hora.</li><br/><li><strong><code>/verificar</code>:</strong> Validar publicamente a certidão assinada com certificado ICP-Brasil e a juntada MNI.</li></p>
@@ -194,8 +191,8 @@ $$
 <h2>Slide 10: Proposta de Encaminhamento (30 s)</h2>
 <p><strong>Tela:</strong><br/><li><strong>Incorporação como "Módulo Cautelar"</strong> na PDPJ-Br / SAREF.</li><br/><li><strong>Projeto Piloto de 90 a 180 dias</strong> em 1 Vara Criminal ou Central de Alternativas Penais com métricas abertas ao DMF e à DTI/CNJ.</li></p>
   <div class="footer-stamp">
-    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
-    <span>Documento Técnico Institucional</span>
+    <span>CompareceJus v2.0 • Proposta Técnica para o CNJ (DMF e DTI)</span>
+    <span>Documento Institucional</span>
   </div>
 </body>
 </html>

@@ -3,436 +3,243 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CompareceJus • Central do Projeto (App Cidadão & Painel do Servidor)</title>
+  <title>CompareceJus • Central do Projeto (Módulo Cautelar PDPJ-Br)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: 'Inter', sans-serif; background-color: #0b1120; color: #f8fafc; }
-    .custom-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
-    .custom-scroll::-webkit-scrollbar-track { background: #0f172a; }
-    .custom-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+    body { font-family: 'Inter', sans-serif; background-color: #090d16; color: #f8fafc; }
   </style>
 </head>
-<body class="min-h-screen flex flex-col">
-  <!-- Header Principal com Alternador de Visão -->
-  <header class="bg-[#0f172a] text-white border-b border-slate-800 px-6 py-3 flex flex-wrap items-center justify-between gap-4 shadow-md sticky top-0 z-50">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-blue-700 flex items-center justify-center text-white font-bold shadow-md text-lg">
-        ⚖
-      </div>
-      <div>
-        <div class="flex items-center gap-2">
-          <span class="font-extrabold text-base tracking-tight text-white">CompareceJus</span>
-          <span class="text-[11px] text-blue-300 bg-blue-950/80 border border-blue-800/80 px-2.5 py-0.5 rounded-full font-semibold">
-            Projeto Institucional TJ
-          </span>
+<body class="min-h-screen flex flex-col justify-between">
+
+  <!-- HEADER INSTITUCIONAL LIMPO -->
+  <header class="border-b border-slate-800 bg-[#0c1222]/90 backdrop-blur px-6 py-4 sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-blue-500/20">
+          ⚖
         </div>
-        <p class="text-xs text-slate-400">Medida Cautelar • Apresentação Periódica Digital (Art. 319, I, CPP)</p>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-extrabold text-lg text-white tracking-tight">CompareceJus</span>
+            <span class="text-[11px] font-bold bg-blue-950 text-blue-400 border border-blue-800 px-2 py-0.5 rounded-full">
+              Versão 2.0 • PDPJ-Br
+            </span>
+          </div>
+          <p class="text-xs text-slate-400">Apresentação Periódica Digital para Medidas Cautelares (Art. 319, I, CPP)</p>
+        </div>
       </div>
-    </div>
 
-    <!-- Switcher de Telas do Sistema (Todas as 4 Telas Oficiais da Versão 2.0) -->
-    <div class="flex items-center bg-slate-900 p-1 rounded-xl border border-slate-800 gap-1 flex-wrap">
-      <button id="viewMobileBtn" onclick="switchViewMode('mobile')" class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-blue-600 text-white shadow-sm">
-        <span class="material-symbols-outlined text-[16px]">smartphone</span>
-        <span>1. App Mobile (Cidadão)</span>
-      </button>
-      <button id="viewCustodiaBtn" onclick="switchViewMode('custodia')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[16px]">how_to_reg</span>
-        <span>2. Audiência de Custódia (30s)</span>
-      </button>
-      <button id="viewDesktopBtn" onclick="switchViewMode('desktop')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[16px]">desktop_windows</span>
-        <span>3. Painel da Secretaria (ICP/MNI)</span>
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      </button>
-      <button id="viewVerificarBtn" onclick="switchViewMode('verificar')" class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-[16px]">verified</span>
-        <span>4. Validador Público (QR Code)</span>
-      </button>
-    </div>
-
-    <div class="flex items-center gap-2">
-      <!-- Botão Baixar Dossiê / PDFs -->
-      <button onclick="openPdfModal()" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-700 hover:bg-indigo-600 text-white shadow-sm flex items-center gap-1.5 transition-all">
-        <span class="material-symbols-outlined text-[16px]">picture_as_pdf</span>
-        <span>Dossiê em PDF</span>
-      </button>
-
-      <!-- Botão Conectar Smartphone Físico -->
-      <button onclick="openPhoneModal()" class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white shadow-sm flex items-center gap-1.5 transition-all animate-pulse">
-        <span class="material-symbols-outlined text-[16px]">qr_code_scanner</span>
-        <span>Testar no Celular Real</span>
-      </button>
-
-      <a id="direct-link" href="tela1_dashboard.html" target="_blank" class="text-xs text-blue-400 hover:text-blue-300 hover:underline flex items-center gap-1 bg-slate-800/60 px-3 py-1.5 rounded-lg border border-slate-700">
-        <span>Abrir em aba inteira ↗</span>
-      </a>
+      <!-- Ações Diretas no Topo -->
+      <div class="flex items-center gap-3">
+        <a href="docs/pdf/CompareceJus_01_Resumo_Executivo.pdf" target="_blank" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 shadow-sm">
+          <span class="material-symbols-outlined text-[18px] text-red-400">picture_as_pdf</span>
+          <span>Resumo Executivo (PDF)</span>
+        </a>
+        <button onclick="openPhoneModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/20">
+          <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
+          <span>Abrir no Celular Real</span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <!-- Sub-barra de Navegação Mobile (Telas 1, 2 e 3) -->
-  <div id="mobileTabsBar" class="bg-[#111c35] border-b border-slate-800/80 px-6 py-2.5 flex items-center justify-between gap-4">
-    <div class="flex items-center gap-2">
-      <button onclick="setMobileScreen('tela1_dashboard.html', this)" class="screen-btn bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-blue-500 transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm">home</span>
-        <span>1. Dashboard Minimalista</span>
-      </button>
-      <button onclick="setMobileScreen('tela2_validacao_gps_biometria.html', this)" class="screen-btn bg-slate-800/90 text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-slate-700 transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm">face</span>
-        <span>2. Câmera & GPS Full</span>
-      </button>
-      <button onclick="setMobileScreen('tela3_comprovante_qrcode.html', this)" class="screen-btn bg-slate-800/90 text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-slate-700 transition-all flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm">verified</span>
-        <span>3. Comprovante Clean / QR Code</span>
-      </button>
-    </div>
-    <span class="text-[11px] text-slate-400 font-mono hidden md:block">Viewport: 390 × 844 px (iPhone / Android)</span>
-  </div>
+  <!-- CONTEÚDO PRINCIPAL: DIRETO AO PONTO -->
+  <main class="max-w-6xl mx-auto px-6 py-10 w-full flex-1">
 
-  <!-- Sub-barra de Status Desktop / Custódia / Verificador -->
-  <div id="desktopTabsBar" class="hidden bg-[#111c35] border-b border-slate-800/80 px-6 py-2.5 flex flex-wrap items-center justify-between gap-4">
-    <div class="flex items-center gap-2">
-      <span id="desktopModeBadge" class="bg-blue-950 text-blue-300 border border-blue-800 text-xs px-3 py-1 rounded-lg font-bold flex items-center gap-1.5">
-        <span class="material-symbols-outlined text-sm">account_balance</span>
-        2ª Vara Criminal • Central de Medidas Cautelares
-      </span>
-      <span id="desktopFeatureBadge" class="bg-emerald-950 text-emerald-300 border border-emerald-800 text-xs px-2.5 py-1 rounded-lg font-medium flex items-center gap-1">
-        ✓ Assinatura ICP-Brasil + MNI v2.2.2
-      </span>
-      <span id="desktopAuxBadge" class="bg-amber-950 text-amber-300 border border-amber-800 text-xs px-2.5 py-1 rounded-lg font-medium flex items-center gap-1">
-        ⚡ Res. CNJ 288/2019 (Não-Exclusão Digital)
-      </span>
-    </div>
-    <div class="flex items-center gap-3 text-xs text-slate-400">
-      <span id="desktopHelpText" class="flex items-center gap-1">
-        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        Simulação completa de back-office: homologação com fé pública e protocolo automático.
-      </span>
-    </div>
-  </div>
-
-  <!-- CONTAINER DE VISUALIZAÇÃO -->
-  <main class="flex-1 flex flex-col items-center justify-center p-4">
-    <!-- VISÃO 1: Moldura Mobile (Cidadão) -->
-    <div id="mobileContainer" class="flex flex-col items-center justify-center py-4">
-      <div class="relative w-[400px] h-[840px] bg-slate-950 rounded-[48px] p-3 shadow-2xl border-4 border-slate-800 ring-1 ring-white/10 flex flex-col">
-        <!-- Speaker Notch -->
-        <div class="absolute top-4 left-1/2 -translate-x-1/2 w-28 h-4 bg-slate-900 rounded-full z-30 flex items-center justify-center">
-          <div class="w-10 h-1 bg-slate-700 rounded-full"></div>
-        </div>
-        <!-- Screen Iframe -->
-        <div class="w-full h-full rounded-[38px] overflow-hidden bg-white relative">
-          <iframe id="mobileFrame" src="tela1_dashboard.html" class="w-full h-full border-0"></iframe>
-        </div>
+    <!-- HERO DIRETO NA VEIA -->
+    <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-950/70 border border-blue-800/60 text-blue-300 text-xs font-semibold">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Extensão do SAREF para Processos do PJe, e-SAJ e eproc
       </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+        Acabe com as filas de papel no balcão do Fórum.
+      </h1>
+      <p class="text-slate-400 text-sm md:text-base leading-relaxed">
+        O SAREF atende quem está condenado no SEEU. O <strong>CompareceJus</strong> atende os réus em liberdade provisória da Audiência de Custódia: cadastro em 30 segundos, validação biométrica com GPS e juntada automática nos autos com assinatura digital ICP-Brasil.
+      </p>
     </div>
 
-    <!-- VISÃO 2: Frame Desktop (Servidor da Vara) -->
-    <div id="desktopContainer" class="hidden w-full max-w-[1440px] flex-1 flex flex-col bg-slate-900 rounded-2xl shadow-2xl border border-slate-800 overflow-hidden min-h-[820px]">
-      <!-- Browser Top Bar Mock -->
-      <div class="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <div class="flex items-center gap-1.5">
-            <span class="w-3 h-3 rounded-full bg-red-500/80 inline-block"></span>
-            <span class="w-3 h-3 rounded-full bg-amber-500/80 inline-block"></span>
-            <span class="w-3 h-3 rounded-full bg-emerald-500/80 inline-block"></span>
+    <!-- OS 3 PASSOS PARA TESTAR (CARDS GRANDES E DIRECIONAIS) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+
+      <!-- PASSO 1: AUDIÊNCIA DE CUSTÓDIA -->
+      <div class="bg-[#0f172a] border border-slate-800 hover:border-blue-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all hover:shadow-xl hover:shadow-blue-500/5 group">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center font-bold text-xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+            1
           </div>
-          <span class="text-xs text-slate-400 font-mono pl-3 border-l border-slate-800">https://tribunal.jus.br/comparecejus/gestao-vara</span>
+          <div>
+            <span class="text-[11px] font-bold text-blue-400 uppercase tracking-wider">Onde Tudo Começa</span>
+            <h2 class="text-lg font-bold text-white mt-1">Audiência de Custódia</h2>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              O réu é cadastrado em <strong>30 segundos</strong> na sala de audiência antes da soltura: captura na webcam, foto do Auto de Flagrante ou consulta ao BNMP 3.0.
+            </p>
+          </div>
         </div>
-        <div class="flex items-center gap-2">
-          <span class="text-[11px] bg-blue-900/50 text-blue-300 px-2 py-0.5 rounded border border-blue-700/60 font-mono">
-            Simulador de Back-Office da Secretaria
-          </span>
+        <div class="pt-6">
+          <a href="/cadastro-custodia" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-blue-600 hover:bg-blue-500 text-white flex items-center justify-center gap-2 transition-all shadow-md">
+            <span>Testar Cadastro na Custódia</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
         </div>
       </div>
-      <!-- Desktop Screen Iframe -->
-      <div class="w-full flex-1 min-h-[780px] bg-white">
-        <iframe id="desktopFrame" src="tela4_painel_servidor.html" class="w-full h-full min-h-[780px] border-0"></iframe>
+
+      <!-- PASSO 2: APP DO CIDADÃO -->
+      <div class="bg-[#0f172a] border border-slate-800 hover:border-emerald-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all hover:shadow-xl hover:shadow-emerald-500/5 group">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+            2
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">Apresentação Mensal</span>
+            <h2 class="text-lg font-bold text-white mt-1">Celular do Réu (ou Balcão)</h2>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              No mês, o cidadão faz a selfie com liveness e GPS. Se não tiver celular, tem direito a atendimento assistido no fórum sem filas <strong>(Res. CNJ 288/2019)</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="pt-6">
+          <a href="/app" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white flex items-center justify-center gap-2 transition-all shadow-md">
+            <span>Testar App do Cidadão</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- PASSO 3: SECRETARIA JUDICIAL -->
+      <div class="bg-[#0f172a] border border-slate-800 hover:border-indigo-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all hover:shadow-xl hover:shadow-indigo-500/5 group">
+        <div class="space-y-4">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
+            3
+          </div>
+          <div>
+            <span class="text-[11px] font-bold text-indigo-400 uppercase tracking-wider">Controle Cartorário</span>
+            <h2 class="text-lg font-bold text-white mt-1">Painel da Secretaria</h2>
+            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+              A IA organiza em verde, amarelo e vermelho. O servidor homologa, <strong>assina com ICP-Brasil</strong> e o sistema junta nos autos via <strong>MNI v2.2.2 (TPU 85)</strong>.
+            </p>
+          </div>
+        </div>
+        <div class="pt-6">
+          <a href="/painel" class="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-indigo-600 hover:bg-indigo-500 text-white flex items-center justify-center gap-2 transition-all shadow-md">
+            <span>Testar Painel da Vara</span>
+            <span class="material-symbols-outlined text-[16px]">arrow_forward</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- BARRA DE RECURSOS COMPLEMENTARES -->
+    <div class="bg-[#0c1222] border border-slate-800 rounded-2xl p-6 flex flex-wrap items-center justify-between gap-6">
+      <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center text-amber-400">
+          <span class="material-symbols-outlined text-2xl">verified</span>
+        </div>
+        <div>
+          <h3 class="text-sm font-bold text-white">Validador Público de Fé Pública (QR Code)</h3>
+          <p class="text-xs text-slate-400">Página exibida quando policiais, juízes ou promotores escaneiam a certidão.</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="/verificar" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 transition-all flex items-center gap-1.5">
+          <span>Abrir Verificador de QR Code</span>
+          <span class="material-symbols-outlined text-[16px]">open_in_new</span>
+        </a>
+        <button onclick="openPdfModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-950 text-blue-300 hover:bg-blue-900 border border-blue-800 transition-all flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-[16px]">folder_open</span>
+          <span>Ver Todos os 5 PDFs</span>
+        </button>
       </div>
     </div>
+
   </main>
 
-  <!-- Modal de Conexão com Smartphone Físico -->
-  <div id="phoneModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-all duration-300">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl max-w-md w-full p-6 text-white space-y-5 relative">
-      <button onclick="closePhoneModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
+  <!-- FOOTER LIMPO -->
+  <footer class="border-t border-slate-800/80 bg-[#090d16] px-6 py-4 text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <p>CompareceJus v2.0 • Proposta Técnica desenvolvida por Arthur Macedo para o Conselho Nacional de Justiça.</p>
+      <div class="flex items-center gap-4 font-mono text-[11px]">
+        <span>MNI v2.2.2</span>
+        <span>•</span>
+        <span>ICP-Brasil</span>
+        <span>•</span>
+        <span>Res. CNJ 288/2019</span>
+        <span>•</span>
+        <span>Res. CNJ 615/2025</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL DE CONEXÃO COM O CELULAR -->
+  <div id="phoneModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 text-white space-y-4 relative shadow-2xl">
+      <button onclick="closePhoneModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1">
         <span class="material-symbols-outlined text-xl">close</span>
       </button>
-
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center">
-          <span class="material-symbols-outlined text-2xl">smartphone</span>
-        </div>
-        <div>
-          <h3 class="text-base font-bold text-white">Conectar Smartphone Físico</h3>
-          <p class="text-xs text-slate-400">Teste o App CompareceJus direto no seu celular</p>
-        </div>
+      <div class="text-center space-y-1">
+        <h3 class="font-bold text-base">Testar no Celular Real</h3>
+        <p class="text-xs text-slate-400">Aponte a câmera do seu smartphone para o QR Code:</p>
       </div>
-
-      <!-- QR Code Container -->
-      <div class="bg-white p-4 rounded-xl flex flex-col items-center justify-center shadow-inner">
-        <img id="qrCodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=http://localhost:3000/app" alt="QR Code CompareceJus Mobile" class="w-44 h-44 object-contain rounded-lg">
-        <p class="text-[11px] text-slate-500 font-mono mt-2 text-center">Aponte a câmera nativa do seu celular</p>
+      <div class="bg-white p-3 rounded-xl flex items-center justify-center">
+        <img id="qrCodeImg" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://comparecejus.onrender.com/app" alt="QR Code" class="w-48 h-48">
       </div>
-
-      <!-- Link Direto e Instrução -->
-      <div class="space-y-2">
-        <label class="text-xs font-semibold text-slate-300">Ou digite o link no navegador do celular:</label>
-        <div class="flex items-center gap-2">
-          <input id="mobileUrlInput" type="text" readonly value="http://localhost:3000/app" class="flex-1 bg-slate-950 border border-slate-800 px-3 py-2 rounded-lg text-xs font-mono text-emerald-400 focus:outline-none">
-          <button onclick="copyMobileUrl()" id="btnCopyUrl" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-xs font-semibold rounded-lg border border-slate-700 text-slate-200 transition-colors flex items-center gap-1">
-            <span class="material-symbols-outlined text-[14px]">content_copy</span>
-            <span>Copiar</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="bg-blue-950/60 border border-blue-900/60 rounded-xl p-3 text-xs text-blue-200 space-y-1">
-        <div class="flex items-center gap-1.5 font-bold text-blue-300">
-          <span class="material-symbols-outlined text-[16px]">wifi</span>
-          <span>Dica Importante de Rede:</span>
-        </div>
-        <p class="text-slate-300 text-[11px] leading-relaxed">
-          Certifique-se de que o celular está conectado na <strong>mesma rede Wi-Fi</strong> do computador. Ao tirar a selfie no celular, seu PC atualizará instantaneamente com sinal sonoro e foto!
-        </p>
-      </div>
-
-      <div class="pt-1 flex justify-end">
-        <button onclick="closePhoneModal()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-bold transition-colors">
-          Entendi, pronto para testar!
-        </button>
+      <div class="text-center">
+        <a href="https://comparecejus.onrender.com/app" target="_blank" class="text-xs text-blue-400 hover:underline font-mono">
+          https://comparecejus.onrender.com/app
+        </a>
       </div>
     </div>
   </div>
 
-  <!-- Modal de Documentos e PDFs do Dossiê CNJ -->
-  <div id="pdfModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 transition-all duration-300">
-    <div class="bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl max-w-lg w-full p-6 text-white space-y-4 relative">
-      <button onclick="closePdfModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800">
-        <span class="material-symbols-outlined text-xl">close</span>
-      </button>
-
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-indigo-600/20 text-indigo-400 border border-indigo-500/30 flex items-center justify-center">
-          <span class="material-symbols-outlined text-2xl">picture_as_pdf</span>
+  <!-- MODAL DE LISTA DOS 5 PDFs -->
+  <div id="pdfModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 text-white space-y-4 relative shadow-2xl">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-red-400">picture_as_pdf</span>
+          <h3 class="font-bold text-sm">Dossiê Completo em PDF (CNJ)</h3>
         </div>
-        <div>
-          <h3 class="text-base font-bold text-white">Dossiê Técnico & Documentos em PDF</h3>
-          <p class="text-xs text-slate-400">Materiais oficiais preparados para o CNJ (DMF e DTI)</p>
-        </div>
-      </div>
-
-      <div class="space-y-2 text-xs">
-        <a href="docs/pdf/CompareceJus_01_Resumo_Executivo.pdf" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors group">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-red-400 text-lg">description</span>
-            <div>
-              <p class="font-bold text-white group-hover:text-blue-400 transition-colors">1. Resumo Executivo (2 páginas)</p>
-              <p class="text-[11px] text-slate-400">Problema, lacuna fora do SEEU e proposta do Módulo Cautelar</p>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-slate-400 group-hover:text-white text-base">download</span>
-        </a>
-
-        <a href="docs/pdf/CompareceJus_02_Roteiro_Apresentacao_CNJ.pdf" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors group">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-red-400 text-lg">slideshow</span>
-            <div>
-              <p class="font-bold text-white group-hover:text-blue-400 transition-colors">2. Roteiro de Apresentação CNJ</p>
-              <p class="text-[11px] text-slate-400">10 slides institucionais com cálculo de economia por vara</p>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-slate-400 group-hover:text-white text-base">download</span>
-        </a>
-
-        <a href="docs/pdf/CompareceJus_05_LGPD_e_Nao_Exclusao_Digital.pdf" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors group">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-red-400 text-lg">policy</span>
-            <div>
-              <p class="font-bold text-white group-hover:text-blue-400 transition-colors">3. LGPD, Ética IA e Não-Exclusão Digital</p>
-              <p class="text-[11px] text-slate-400">Resoluções CNJ nº 288/2019 e nº 615/2025 (Canais assistidos)</p>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-slate-400 group-hover:text-white text-base">download</span>
-        </a>
-
-        <a href="docs/pdf/CompareceJus_03_Regras_de_Negocio_e_Custodia.pdf" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors group">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-red-400 text-lg">gavel</span>
-            <div>
-              <p class="font-bold text-white group-hover:text-blue-400 transition-colors">4. Regras de Negócio e Foto da Custódia</p>
-              <p class="text-[11px] text-slate-400">As 3 formas de ingestão da Foto-Mestra e matriz de 23 sinais</p>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-slate-400 group-hover:text-white text-base">download</span>
-        </a>
-
-        <a href="docs/pdf/CompareceJus_04_Arquitetura_PDPJ_e_Seguranca.pdf" target="_blank" class="flex items-center justify-between p-3 rounded-xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700 text-slate-200 transition-colors group">
-          <div class="flex items-center gap-2.5">
-            <span class="material-symbols-outlined text-red-400 text-lg">hub</span>
-            <div>
-              <p class="font-bold text-white group-hover:text-blue-400 transition-colors">5. Arquitetura Técnica PDPJ-Br</p>
-              <p class="text-[11px] text-slate-400">MNI v2.2.2, ICP-Brasil (PJeOffice), Play Integrity e OpenShift</p>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-slate-400 group-hover:text-white text-base">download</span>
-        </a>
-      </div>
-
-      <div class="pt-2 flex justify-end">
-        <button onclick="closePdfModal()" class="w-full py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg text-xs font-semibold transition-colors">
-          Fechar
+        <button onclick="closePdfModal()" class="text-slate-400 hover:text-white p-1">
+          <span class="material-symbols-outlined text-xl">close</span>
         </button>
+      </div>
+      <div class="space-y-2 text-xs">
+        <a href="docs/pdf/CompareceJus_01_Resumo_Executivo.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
+          <p class="font-bold text-white">1. Resumo Executivo (2 páginas)</p>
+          <p class="text-[11px] text-slate-400">Problema, lacuna fora do SEEU e proposta de adesão.</p>
+        </a>
+        <a href="docs/pdf/CompareceJus_05_LGPD_e_Nao_Exclusao_Digital.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
+          <p class="font-bold text-white">2. Não-Exclusão Digital e LGPD (Res. 288/2019)</p>
+          <p class="text-[11px] text-slate-400">Garantias para réus pobres sem celular e canais assistidos.</p>
+        </a>
+        <a href="docs/pdf/CompareceJus_03_Regras_de_Negocio_e_Custodia.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
+          <p class="font-bold text-white">3. Regras de Negócio e Custódia</p>
+          <p class="text-[11px] text-slate-400">Cadastro da Foto-Mestra em 30s e matriz de 23 sinais da IA.</p>
+        </a>
+        <a href="docs/pdf/CompareceJus_04_Arquitetura_PDPJ_e_Seguranca.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
+          <p class="font-bold text-white">4. Arquitetura Técnica PDPJ-Br</p>
+          <p class="text-[11px] text-slate-400">MNI v2.2.2, PJeOffice (ICP-Brasil), Play Integrity e Docker.</p>
+        </a>
+        <a href="docs/pdf/CompareceJus_02_Roteiro_Apresentacao_CNJ.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
+          <p class="font-bold text-white">5. Roteiro de Apresentação CNJ</p>
+          <p class="text-[11px] text-slate-400">Slides explicativos com cálculo de economia por vara.</p>
+        </a>
       </div>
     </div>
   </div>
 
   <script>
-    let currentMode = 'mobile';
-    let currentMobileUrl = 'tela1_dashboard.html';
-
-    // Obter IP do servidor dinamicamente
-    fetch('/api/info')
-      .then(res => res.json())
-      .then(info => {
-        if (info && info.mobileUrl) {
-          const url = info.mobileUrl;
-          document.getElementById('mobileUrlInput').value = url;
-          document.getElementById('qrCodeImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}`;
-        }
-      })
-      .catch(() => {
-        const fallbackUrl = `http://${window.location.hostname}:3000/app`;
-        document.getElementById('mobileUrlInput').value = fallbackUrl;
-        document.getElementById('qrCodeImg').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(fallbackUrl)}`;
-      });
-
-    function openPhoneModal() {
-      const modal = document.getElementById('phoneModal');
-      modal.classList.remove('hidden');
-    }
-
-    function closePhoneModal() {
-      const modal = document.getElementById('phoneModal');
-      modal.classList.add('hidden');
-    }
-
-    function copyMobileUrl() {
-      const input = document.getElementById('mobileUrlInput');
-      input.select();
-      navigator.clipboard.writeText(input.value);
-      const btn = document.getElementById('btnCopyUrl');
-      btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">check</span><span>Copiado!</span>';
-      setTimeout(() => {
-        btn.innerHTML = '<span class="material-symbols-outlined text-[14px]">content_copy</span><span>Copiar</span>';
-      }, 2000);
-    }
-
-    function switchViewMode(mode) {
-      currentMode = mode;
-      const mobileBtn = document.getElementById('viewMobileBtn');
-      const custodiaBtn = document.getElementById('viewCustodiaBtn');
-      const desktopBtn = document.getElementById('viewDesktopBtn');
-      const verificarBtn = document.getElementById('viewVerificarBtn');
-
-      const mobileTabs = document.getElementById('mobileTabsBar');
-      const desktopTabs = document.getElementById('desktopTabsBar');
-      const mobileContainer = document.getElementById('mobileContainer');
-      const desktopContainer = document.getElementById('desktopContainer');
-      const directLink = document.getElementById('direct-link');
-      const desktopFrame = document.getElementById('desktopFrame');
-      const mockUrlBar = document.querySelector('#desktopContainer span.font-mono');
-
-      const modeBadge = document.getElementById('desktopModeBadge');
-      const featureBadge = document.getElementById('desktopFeatureBadge');
-      const auxBadge = document.getElementById('desktopAuxBadge');
-      const helpText = document.getElementById('desktopHelpText');
-
-      // Reset botões para estilo neutro
-      const neutralStyle = 'px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all flex items-center gap-1.5';
-      const activeStyle = 'px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all flex items-center gap-1.5 bg-blue-600 text-white shadow-sm';
-
-      mobileBtn.className = neutralStyle;
-      if (custodiaBtn) custodiaBtn.className = neutralStyle;
-      desktopBtn.className = neutralStyle;
-      if (verificarBtn) verificarBtn.className = neutralStyle;
-
-      if (mode === 'mobile') {
-        mobileBtn.className = activeStyle;
-        mobileTabs.classList.remove('hidden');
-        desktopTabs.classList.add('hidden');
-        mobileContainer.classList.remove('hidden');
-        desktopContainer.classList.add('hidden');
-        directLink.href = currentMobileUrl;
-      } else if (mode === 'custodia') {
-        if (custodiaBtn) custodiaBtn.className = activeStyle;
-        mobileTabs.classList.add('hidden');
-        desktopTabs.classList.remove('hidden');
-        mobileContainer.classList.add('hidden');
-        desktopContainer.classList.remove('hidden');
-
-        desktopFrame.src = 'cadastro_custodia.html';
-        directLink.href = 'cadastro_custodia.html';
-        if (mockUrlBar) mockUrlBar.innerText = 'https://tribunal.jus.br/comparecejus/sala-audiencia-custodia';
-
-        if (modeBadge) modeBadge.innerHTML = '<span class="material-symbols-outlined text-sm">how_to_reg</span> Audiência de Custódia (SISTAC / CNJ)';
-        if (featureBadge) featureBadge.innerHTML = '✓ Ingestão da Foto-Mestra em 30s';
-        if (auxBadge) auxBadge.innerHTML = '⚡ Polígono Territorial & Comarca';
-        if (helpText) helpText.innerHTML = '<span class="w-2 h-2 rounded-full bg-blue-400"></span> Simula o cadastro do réu pelo servidor ou estagiário antes da soltura.';
-      } else if (mode === 'desktop') {
-        desktopBtn.className = activeStyle;
-        mobileTabs.classList.add('hidden');
-        desktopTabs.classList.remove('hidden');
-        mobileContainer.classList.add('hidden');
-        desktopContainer.classList.remove('hidden');
-
-        desktopFrame.src = 'tela4_painel_servidor.html';
-        directLink.href = 'tela4_painel_servidor.html';
-        if (mockUrlBar) mockUrlBar.innerText = 'https://tribunal.jus.br/comparecejus/gestao-secretaria';
-
-        if (modeBadge) modeBadge.innerHTML = '<span class="material-symbols-outlined text-sm">account_balance</span> 2ª Vara Criminal • Painel da Secretaria';
-        if (featureBadge) featureBadge.innerHTML = '✓ Assinatura ICP-Brasil + MNI v2.2.2';
-        if (auxBadge) auxBadge.innerHTML = '⚡ Res. CNJ 288/2019 (Não-Exclusão Digital)';
-        if (helpText) helpText.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Simula o back-office com IA explicável, assinatura com fé pública e MNI.';
-      } else if (mode === 'verificar') {
-        if (verificarBtn) verificarBtn.className = activeStyle;
-        mobileTabs.classList.add('hidden');
-        desktopTabs.classList.remove('hidden');
-        mobileContainer.classList.add('hidden');
-        desktopContainer.classList.remove('hidden');
-
-        desktopFrame.src = 'verificar.html';
-        directLink.href = 'verificar.html';
-        if (mockUrlBar) mockUrlBar.innerText = 'https://tribunal.jus.br/comparecejus/verificar-certidao';
-
-        if (modeBadge) modeBadge.innerHTML = '<span class="material-symbols-outlined text-sm">verified</span> Validação Pública de Fé Pública';
-        if (featureBadge) featureBadge.innerHTML = '✓ Certificado Digital ICP-Brasil (AC-JUS)';
-        if (auxBadge) auxBadge.innerHTML = '⚡ Carimbo do Tempo Observatório Nacional';
-        if (helpText) helpText.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400"></span> Página acessada ao ler o QR Code da certidão por juízes, promotores ou polícia.';
-      }
-    }
-
-    function openPdfModal() {
-      document.getElementById('pdfModal').classList.remove('hidden');
-    }
-
-    function closePdfModal() {
-      document.getElementById('pdfModal').classList.add('hidden');
-    }
-
-    function setMobileScreen(url, btn) {
-      currentMobileUrl = url;
-      document.getElementById('mobileFrame').src = url;
-      document.getElementById('direct-link').href = url;
-      document.querySelectorAll('.screen-btn').forEach(b => {
-        b.className = 'screen-btn bg-slate-800/90 text-slate-300 hover:text-white px-3.5 py-1.5 rounded-lg text-xs font-semibold hover:bg-slate-700 transition-all flex items-center gap-1.5';
-      });
-      btn.className = 'screen-btn bg-blue-600 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow hover:bg-blue-500 transition-all flex items-center gap-1.5';
-    }
+    function openPhoneModal() { document.getElementById('phoneModal').classList.remove('hidden'); }
+    function closePhoneModal() { document.getElementById('phoneModal').classList.add('hidden'); }
+    function openPdfModal() { document.getElementById('pdfModal').classList.remove('hidden'); }
+    function closePdfModal() { document.getElementById('pdfModal').classList.add('hidden'); }
   </script>
+
 </body>
 </html>
