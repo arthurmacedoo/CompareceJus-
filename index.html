@@ -35,13 +35,9 @@
 
       <!-- Ações Diretas no Topo -->
       <div class="flex items-center gap-3">
-        <a href="docs/pdf/CompareceJus_01_Resumo_Executivo.pdf" target="_blank" class="px-4 py-2 rounded-xl text-xs font-bold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition-all flex items-center gap-2 shadow-sm">
-          <span class="material-symbols-outlined text-[18px] text-red-400">picture_as_pdf</span>
-          <span>Resumo Executivo (PDF)</span>
-        </a>
         <button onclick="openPhoneModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-500 text-white transition-all flex items-center gap-2 shadow-lg shadow-emerald-600/20">
           <span class="material-symbols-outlined text-[18px]">qr_code_scanner</span>
-          <span>Abrir no Celular Real</span>
+          <span>Testar no Celular Real</span>
         </button>
       </div>
     </div>
@@ -151,10 +147,6 @@
           <span>Abrir Verificador de QR Code</span>
           <span class="material-symbols-outlined text-[16px]">open_in_new</span>
         </a>
-        <button onclick="openPdfModal()" class="px-4 py-2 rounded-xl text-xs font-bold bg-blue-950 text-blue-300 hover:bg-blue-900 border border-blue-800 transition-all flex items-center gap-1.5">
-          <span class="material-symbols-outlined text-[16px]">folder_open</span>
-          <span>Ver Todos os 5 PDFs</span>
-        </button>
       </div>
     </div>
 
@@ -197,48 +189,9 @@
     </div>
   </div>
 
-  <!-- MODAL DE LISTA DOS 5 PDFs -->
-  <div id="pdfModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 text-white space-y-4 relative shadow-2xl">
-      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
-        <div class="flex items-center gap-2">
-          <span class="material-symbols-outlined text-red-400">picture_as_pdf</span>
-          <h3 class="font-bold text-sm">Dossiê Completo em PDF (CNJ)</h3>
-        </div>
-        <button onclick="closePdfModal()" class="text-slate-400 hover:text-white p-1">
-          <span class="material-symbols-outlined text-xl">close</span>
-        </button>
-      </div>
-      <div class="space-y-2 text-xs">
-        <a href="docs/pdf/CompareceJus_01_Resumo_Executivo.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
-          <p class="font-bold text-white">1. Resumo Executivo (2 páginas)</p>
-          <p class="text-[11px] text-slate-400">Problema, lacuna fora do SEEU e proposta de adesão.</p>
-        </a>
-        <a href="docs/pdf/CompareceJus_05_LGPD_e_Nao_Exclusao_Digital.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
-          <p class="font-bold text-white">2. Não-Exclusão Digital e LGPD (Res. 288/2019)</p>
-          <p class="text-[11px] text-slate-400">Garantias para réus pobres sem celular e canais assistidos.</p>
-        </a>
-        <a href="docs/pdf/CompareceJus_03_Regras_de_Negocio_e_Custodia.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
-          <p class="font-bold text-white">3. Regras de Negócio e Custódia</p>
-          <p class="text-[11px] text-slate-400">Cadastro da Foto-Mestra em 30s e matriz de 23 sinais da IA.</p>
-        </a>
-        <a href="docs/pdf/CompareceJus_04_Arquitetura_PDPJ_e_Seguranca.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
-          <p class="font-bold text-white">4. Arquitetura Técnica PDPJ-Br</p>
-          <p class="text-[11px] text-slate-400">MNI v2.2.2, PJeOffice (ICP-Brasil), Play Integrity e Docker.</p>
-        </a>
-        <a href="docs/pdf/CompareceJus_02_Roteiro_Apresentacao_CNJ.pdf" target="_blank" class="block p-3 rounded-xl bg-slate-800 hover:bg-slate-700 transition-colors border border-slate-700">
-          <p class="font-bold text-white">5. Roteiro de Apresentação CNJ</p>
-          <p class="text-[11px] text-slate-400">Slides explicativos com cálculo de economia por vara.</p>
-        </a>
-      </div>
-    </div>
-  </div>
-
   <script>
     function openPhoneModal() { document.getElementById('phoneModal').classList.remove('hidden'); }
     function closePhoneModal() { document.getElementById('phoneModal').classList.add('hidden'); }
-    function openPdfModal() { document.getElementById('pdfModal').classList.remove('hidden'); }
-    function closePdfModal() { document.getElementById('pdfModal').classList.add('hidden'); }
   </script>
 
 </body>
