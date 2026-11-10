@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CompareceJus - LGPD e Não-Exclusão Digital</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 20mm 18mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 18pt;
+    color: #0f172a;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    color: #334155;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    page-break-after: avoid;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 18px 0;
+  }
+  blockquote {
+    border-left: 4px solid #94a3b8;
+    margin: 12px 0;
+    padding: 6px 14px;
+    background-color: #f8fafc;
+    color: #475569;
+    font-style: italic;
+  }
+  .alert {
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 10pt;
+  }
+  .alert-important {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    color: #1e40af;
+  }
+  .alert-note {
+    background-color: #f8fafc;
+    border-left: 4px solid #64748b;
+    color: #334155;
+  }
+  .table-wrapper {
+    margin: 14px 0;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  code {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 8.5pt;
+    font-family: Consolas, "Courier New", monospace;
+    page-break-inside: avoid;
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+  .footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+    font-size: 8.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <h1>Conformidade com a LGPD, Ética no Uso de IA e Não-Exclusão Digital</h1>
+<p>Este documento formaliza as salvaguardas jurídicas, técnicas e humanitárias adotadas pelo <strong>CompareceJus (v2.0)</strong> para assegurar estrita aderência à <strong>Lei Geral de Proteção de Dados (Lei nº 13.709/2018 — LGPD)</strong>, à governança de Inteligência Artificial do Poder Judiciário (<strong>Resolução CNJ nº 615/2025</strong>) e à Política de Alternativas Penais (<strong>Resolução CNJ nº 288/2019</strong>).</p>
+<hr/>
+<h2>1. Fundamentação Legal e Tratamento de Dados Pessoais Sensíveis</h2>
+<p>O CompareceJus trata dados biométricos faciais (classificados como dados pessoais sensíveis pelo art. 5º, II, da LGPD) e coordenadas pontuais de geolocalização:</p>
+<p><em> <strong>Base Legal (LGPD Art. 11, II, 'a' e 'b'):</strong> O tratamento é legitimado pelo cumprimento de obrigação legal e execução de competências jurisdicionais pelo Poder Público, especificamente a fiscalização de medidas cautelares diversas da prisão impostas por Magistrados com esteio no <strong>Art. 319, incisos I e IV, do Código de Processo Penal (CPP)</strong>, acordos de não persecução penal (<strong>Art. 28-A do CPP</strong>) e suspensão condicional do processo (<strong>Art. 89 da Lei nº 9.099/1995</strong>).<br/></em> <strong>Finalidade Específica e Não-Compartilhamento (LGPD Art. 23):</strong> Os dados são processados com o propósito único e vinculado de certificar o ato processual de apresentação periódica e comprovar a permanência do cidadão nos limites da comarca autorizada, sendo expressamente vedado seu uso para vigilância generalizada ou compartilhamento comercial.<br/><em> <strong>Minimização na Verificação Pública (<code>verificar.html</code>):</strong> A consulta pública via QR Code da certidão exibe apenas o nome mascarado (<code>C</em><strong> E</strong><em> d</em> S<em><strong></code>), CPF mascarado (<code>•••.982.247-••</code>), metadados da assinatura ICP-Brasil do servidor e protocolo de juntada MNI, </strong>jamais expondo a fotografia ou o endereço residencial do réu<strong>.</p>
+<hr/>
+<h2>2. Princípio da Minimização e Não-Rastreamento Contínuo</h2>
+<p>Uma das principais salvaguardas constitucionais do CompareceJus reside na diferenciação técnica e jurídica em relação à monitoração eletrônica contínua (tornozeleira eletrônica — art. 319, IX, do CPP):</p>
+<div class="table-wrapper"><table><tr><th>Característica</th><th>Tornozeleira Eletrônica (Art. 319, IX)</th><th>CompareceJus (Art. 319, I e IV)</th></tr><tr><td></strong>Grau de Invasividade<strong></td><td>Monitoramento 24 horas ininterrupto.</td><td></strong>Coleta pontual nos 30 segundos do ato mensal.<strong></td></tr><tr><td></strong>Vigilância de Rotina<strong></td><td>Rastreia itinerários, locais de repouso e trabalho.</td><td></strong>Não armazena histórico de deslocamentos nem roda em background.<strong></td></tr><tr><td></strong>Bateria e Conectividade<strong></td><td>Exige recarga diária e sinal contínuo.</td><td>Exige apenas acesso momentâneo à internet no dia escolhido.</td></tr><tr><td></strong>Estigmatização Social<strong></td><td>Dispositivo visível no corpo do cidadão.</td><td></strong>Zero estigma corporal:<strong> realizado no smartphone ou totem institucional.</td></tr></table></div>
+<div class="alert alert-note"><strong>[NOTE]</strong> </strong>Desligamento Imediato de Sensores:</em><em> O aplicativo encerra completamente a sessão de câmera e GPS no exato instante em que o recibo criptográfico é emitido. Nenhuma permissão de localização em segundo plano (<code>ACCESS_BACKGROUND_LOCATION</code>) é solicitada pelo aplicativo.</div>
+<hr/>
+<h2>3. Governança Ética de Inteligência Artificial (Resolução CNJ nº 615/2025)</h2>
+<p>Em conformidade com as diretrizes do Conselho Nacional de Justiça para sistemas de IA no Poder Judiciário:</p>
+<h3>3.1 Supervisão Humana Obrigatória (</em>Human-in-the-Loop<em>)</h3>
+A verificação biométrica em matéria processual penal é categorizada como aplicação de <strong>Alto Risco</strong>. Por esse motivo:
+</em> A Inteligência Artificial atua <strong>exclusivamente como motor pré-analítico de triagem e organização de fila</strong>; ela <strong>não possui poderes decisórios para revogar medidas cautelares, certificar revelia, aplicar sanções ou decretar prisão preventiva</strong>.
+<em> Toda certidão judicial só adquire validade processual e fé pública após o ato volitivo do servidor judiciário de <strong>"Homologar e Assinar Digitalmente"</strong> via certificado qualificado <strong>ICP-Brasil (PJeOffice)</strong>, em cumprimento ao art. 1º, § 2º, III, da Lei nº 11.419/2006.
+<h3>3.2 Explicabilidade Algorítmica e Mitigação de Viés</h3>
+</em> <strong>Auditoria Caixa-Branca (23 Sinais Explicáveis):</strong> O sistema não utiliza escores opacos. Cada alerta aponta a regra exata acionada (<code>LONGE_DO_ENDERECO</code>, <code>BIOMETRIA_INCONCLUSIVA</code>, <code>MOCK_LOCATION_ATIVO</code>), o peso atribuído e a fundamentação em linguagem simples para o servidor e para a Defesa.
+<em> <strong>Limiares Conservadores pró-Cidadão:</strong> Em situações onde iluminação precária, câmeras de baixo custo ou características fenotípicas gerem incerteza matemática (distância euclidiana entre <code>0.45</code> e <code>0.55</code>), o sistema <strong>não rejeita o comparecimento</strong>: classifica-o como <strong>AMARELO (Inconclusivo)</strong> e encaminha para conferência visual humana do escrevente.
+<hr/>
+<h2>4. Diretrizes de Acessibilidade e Não-Exclusão Digital (Resolução CNJ nº 288/2019)</h2>
+<p>A transformação digital do Poder Judiciário não pode converter a pobreza ou a vulnerabilidade social em causa de encarceramento cautelar. O CompareceJus incorpora em seu código (<code>POST /api/servidor/comparecimento-assistido</code> e modal dedicado na <code>tela4_painel_servidor.html</code>) um <strong>Protocolo Institucional de Contingência para Hipossuficiência e Exclusão Digital</strong>:</p>
+<h3>4.1 Garantias Fundamentais de Não-Discriminação</h3>
+<li><strong>Gratuidade e Facultatividade Material:</strong> O uso do aplicativo em celular próprio é uma faculdade desoneradora. A ausência de smartphone, de pacote de dados móveis ou de energia elétrica jamais configura descumprimento de medida cautelar.</li>
+<li><strong>Protocolo de Tolerância Técnica:</strong> Tentativas frustradas por falha de conectividade ou limitação de hardware da câmera do réu são registradas automaticamente na trilha de auditoria e asseguram prazo de tolerância de <strong>5 (cinco) dias úteis</strong> para regularização sem prejuízo processual.</li>
+<h3>4.2 Canais Físicos Alternativos de Comparecimento Assistido</h3>
+Para os cidadãos em situação de hipossuficiência, população em situação de rua, idosos ou pessoas com deficiência (PcD), o sistema disponibiliza o fluxo <strong>"Registrar Comparecimento Assistido / Presencial no Fórum"</strong> através de quatro canais presenciais dignos e sem filas de papel:
+</em> <strong>Canal 1 — Balcão da Secretaria Judicial:</strong> O servidor localiza o réu em tela, confere seu documento físico ou a Foto-Mestra capturada na custódia e emite a certidão eletrônica assinada via ICP-Brasil com juntada automática no PJe/e-SAJ/eproc via MNI v2.2.2.
+<em> <strong>Canal 2 — Totem de Autoatendimento no Fórum:</strong> Equipamento instalado na recepção do Fórum com câmera e rede interna do Tribunal, operado com auxílio de servidor ou estagiário.
+</em> <strong>Canal 3 — Posto de Atendimento da Defensoria Pública:</strong> Registro realizado com assistência direta da Defensoria Pública no próprio complexo judiciário.
+<ul><li><strong>Canal 4 — Central de Alternativas Penais (CAP / CIAP):</strong> Registro unificado no momento do atendimento multidisciplinar da equipe técnica.</li>
+<p></ul>Dessa forma, o CompareceJus extingue o arcaico livro de papel para 100% dos processos da vara, ao mesmo tempo em que protege integralmente os cidadãos digitalmente excluídos.</p>
+  <div class="footer-stamp">
+    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
+    <span>Documento Técnico Institucional</span>
+  </div>
+</body>
+</html>

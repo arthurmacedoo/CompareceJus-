@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CompareceJus - Arquitetura de Produção PDPJ-Br</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 20mm 18mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 18pt;
+    color: #0f172a;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    color: #334155;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    page-break-after: avoid;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 18px 0;
+  }
+  blockquote {
+    border-left: 4px solid #94a3b8;
+    margin: 12px 0;
+    padding: 6px 14px;
+    background-color: #f8fafc;
+    color: #475569;
+    font-style: italic;
+  }
+  .alert {
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 10pt;
+  }
+  .alert-important {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    color: #1e40af;
+  }
+  .alert-note {
+    background-color: #f8fafc;
+    border-left: 4px solid #64748b;
+    color: #334155;
+  }
+  .table-wrapper {
+    margin: 14px 0;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  code {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 8.5pt;
+    font-family: Consolas, "Courier New", monospace;
+    page-break-inside: avoid;
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+  .footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+    font-size: 8.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <h1>Arquitetura Alvo para Produção • Ecossistema PDPJ-Br (Módulo Cautelar)</h1>
+<p>Este documento descreve a topologia técnica, a governança de segurança e os padrões de interoperabilidade do <strong>CompareceJus (v2.0)</strong> desenhado estritamente como um <strong>microsserviço nativo da Plataforma Digital do Poder Judiciário Brasileiro (PDPJ-Br — Resolução CNJ nº 335/2020)</strong>.</p>
+<hr/>
+<h2>1. Topologia da Solução Integrada à Nuvem PDPJ-Br</h2>
+<pre><code>mermaid
+flowchart TD
+    subgraph CLIENTE["1. Camada de Borda Mobile (Cidadão)"]
+        APP_NATIVO["App Nativo Android / iOS (Flutter / Kotlin / Swift)"]
+        INTEGRIDADE["Atestação de Hardware (Play Integrity API / App Attest / Anti-Mock GPS)"]
+        LIVENESS_SDK["Liveness 3D Certificado (ISO/IEC 30107-3 PAD Nível 2)"]
+        APP_NATIVO --- INTEGRIDADE
+        APP_NATIVO --- LIVENESS_SDK
+    end
+<p>subgraph GATEWAY["2. Gateway de Borda & Autenticação Federada (PDPJ-Br)"]<br/>        WAF["WAF Judicial & Rate Limiting"]<br/>        KEYCLOAK["SSO-JUS / Keycloak PDPJ-Br (Servidor) & Gov.br Prata/Ouro (Cidadão)"]<br/>        WAF --&gt; KEYCLOAK<br/>    end</p>
+<p>subgraph BACKEND["3. Cluster Kubernetes / Red Hat OpenShift (PDPJ-Br Cloud)"]<br/>        API_CORE["CompareceJus Core Service (OpenAPI 3.1 / RESTful)"]<br/>        MOTOR_IA["Motor Pré-Analítico de Riscos (23 Sinais Auditáveis + Anti-Spoofing)"]<br/>        ASSINADOR_ICP["Integração PJeOffice / ICP-Brasil (X.509 AC-JUS + Carimbo ACT ON)"]<br/>        BASE_DADOS[("PostgreSQL + PostGIS + Trilha Append-Only SHA-256")]<br/>        <br/>        API_CORE --&gt; MOTOR_IA<br/>        API_CORE --&gt; ASSINADOR_ICP<br/>        API_CORE --&gt; BASE_DADOS<br/>    end</p>
+<p>subgraph MENSAGERIA["4. Barramento Assíncrono de Eventos (Mensageria PDPJ-Br)"]<br/>        BROKER["RabbitMQ / Apache Kafka (Exchange: pdpj.mni.manifestacoes)"]<br/>        DLQ["Dead-Letter Queue (Retentativa Exponencial & Tolerância a Falhas)"]<br/>        API_CORE --&gt; BROKER<br/>        BROKER -.-&gt; DLQ<br/>    end</p>
+<p>subgraph BASE_BIOMETRICA["5. Ingestão da Foto-Mestra (Base da Custódia)"]<br/>        CUSTODIA_SALA["Captura Direta em Sala de Audiência de Custódia (30s)"]<br/>        EXTRATOR_APF["Extrator de Foto do Auto de Prisão em Flagrante (PDF APF/PJe)"]<br/>        BARRAMENTO_BNMP["Barramento BNMP 3.0 / TSE-ICN / Senatran"]<br/>        <br/>        CUSTODIA_SALA --&gt; API_CORE<br/>        EXTRATOR_APF --&gt; API_CORE<br/>        BARRAMENTO_BNMP -.-&gt; API_CORE<br/>    end</p>
+<p>subgraph TRIBUNAIS["6. Interoperabilidade Processual (MNI v2.2.2)"]<br/>        WORKER_MNI["Worker MNI 2.2.2 (entregarManifestacaoProcessual - TPU Cód. 85)"]<br/>        PJE["PJe (Processo Judicial Eletrônico)"]<br/>        ESAJ["e-SAJ (Tribunais Estaduais)"]<br/>        EPROC["eproc (Justiça Federal e Estadual)"]<br/>        <br/>        BROKER --&gt; WORKER_MNI<br/>        WORKER_MNI --&gt; PJE<br/>        WORKER_MNI --&gt; ESAJ<br/>        WORKER_MNI --&gt; EPROC<br/>    end</p>
+<p>CLIENTE --&gt; GATEWAY<br/>    GATEWAY --&gt; API_CORE</code></pre></p>
+<hr/>
+<h2>2. Estratégia de Segurança de Borda Mobile: Play Integrity API (Android) e App Attest / DeviceCheck (iOS)</h2>
+<div class="alert alert-important"><strong>[IMPORTANT]</strong> <strong>Distinção Formal entre Protótipo Web e Aplicativo Homologado de Produção:</strong>
+A versão web executada em navegador mobile neste repositório constitui um <strong>protótipo conceitual e funcional de demonstração</strong> para avaliação de fluxo negocial pelo CNJ (DMF e DTI). Navegadores web convencionais possuem isolamento em <em>sandbox</em> que impede a inspeção profunda de <em>kernel</em> contra aplicativos de GPS falso (<em>Mock Location</em> a nível de sistema) ou drivers de câmera virtual emulada.
+Por essa razão, <strong>o aplicativo final homologado para distribuição oficial aos réus opera obrigatoriamente em camada nativa sob atestação criptográfica de integridade de hardware</strong>.</div>
+<h3>2.1 Camada de Atestação Criptográfica de Hardware</h3>
+<li><strong>Google Play Integrity API (Android):</strong></li>
+<ul><li>Antes de abrir a câmera ou coletar o GPS, o backend do CompareceJus gera um <code>nonce</code> criptográfico único e solicita o veredito assinado pelos servidores do Google Play Services:</li>
+<li><code>MEETS_STRONG_INTEGRITY</code>: Garante que o aplicativo roda em dispositivo Android físico genuíno, com <em>bootloader</em> bloqueado, sem <em>root</em> (Magisk/Xposed) e com sistema operacional certificado por hardware (<em>Hardware-backed Keystore / StrongBox</em>).</li>
+<li><code>appLicensingVerdict</code>: Impede a execução de APKs modificados ou recompilados fora da assinatura oficial do CNJ.</li>
+</ul>2. <strong>Apple App Attest & DeviceCheck (iOS):</strong>
+<ul><li>Utiliza o <em>Secure Enclave</em> dos dispositivos Apple para gerar chaves criptográficas vinculadas ao hardware, atestando que o binário do CompareceJus não sofreu <em>jailbreak</em>, <em>hooking</em> (Frida/Cydia) ou interceptação de chamadas de localização (<code>CLLocationManager</code>).</li>
+</ul>3. <strong>Blindagem Anti-Fake GPS e Telemetria de Sensores:</strong>
+<ul><li><strong>No App Nativo:</strong> Verificação nativa de <code>Location.isFromMockProvider()</code> (Android API 18+) e <code>Location.isMock()</code> (Android API 31+), cruzada com fusão de sensores inerciais (acelerômetro/giroscópio), efemérides de satélites GNSS (SNR/CN0) e triangulação de torres celulares/BSSID Wi-Fi.</li>
+<li><strong>No Motor Pré-Analítico (<code>src/analise-ia.js</code>):</strong> Mesmo no protótipo, o motor de IA já implementa regras específicas de integridade de telemetria (<code>MOCK_LOCATION_ATIVO</code>, <code>TELEMETRIA_GPS_SINTETICA</code>, <code>EMULADOR_OU_AMBIENTE_VIRTUAL</code>, <code>CAMERA_VIRTUAL_DETECTADA</code> e <code>WEBVIEW_NAO_HOMOLOGADA</code>), bloqueando homologação automática caso detecte indícios de virtualização, câmera OBS/ManyCam ou coordenadas com entropia decimal artificial.</li>
+</ul>4. <strong>Liveness 3D Certificado (ISO/IEC 30107-3):</strong>
+<ul><li>Proteção contra ataques de apresentação (<em>Presentation Attack Detection - PAD</em> Nível 2) para barrar fotos impressas, reprodução em telas OLED/4K, máscaras 3D e injeção de vídeo em nível de driver.</li>
+<p></ul><hr/></p>
+<h2>3. Fluxo Assíncrono de Juntada Automática nos Autos via Mensageria e MNI v2.2.2</h2>
+<p>Para eliminar 100% do trabalho manual do servidor de baixar PDFs e realizar upload no sistema processual, a homologação dispara um pipeline assíncrono resiliente:</p>
+<pre><code>mermaid
+sequenceDiagram
+    autonumber
+    actor Servidor as Servidor Judiciário (Secretaria)
+    participant Painel as Painel CompareceJus (/painel)
+    participant PJeOffice as PJeOffice / Assinador PDPJ (ICP-Brasil)
+    participant Core as CompareceJus Core API
+    participant Broker as Mensageria (RabbitMQ / Kafka)
+    participant WorkerMNI as Conector MNI v2.2.2
+    participant Tribunal as PJe / e-SAJ / eproc
+<p>Servidor-&gt;&gt;Painel: Clica em "Homologar e Assinar Digitalmente" (Individual ou Lote)<br/>    Painel-&gt;&gt;PJeOffice: Solicita assinatura qualificada do hash SHA-256 da Certidão<br/>    PJeOffice--&gt;&gt;Core: Retorna envelope PKCS#7 / CMS (Certificado X.509 AC-JUS + Carimbo ACT ON)<br/>    Core-&gt;&gt;Core: Persiste Certidão com Fé Pública e atualiza status para HOMOLOGADO<br/>    Core-&gt;&gt;Broker: Publica evento JSON na fila <code>pdpj.mni.entregar_manifestacao.queue</code><br/>    Core--&gt;&gt;Painel: Retorna Protocolo imediato ao Servidor (UI não trava aguardando o Tribunal)<br/>    Broker-&gt;&gt;WorkerMNI: Consome mensagem assíncrona de juntada<br/>    WorkerMNI-&gt;&gt;Tribunal: Invoca SOAP/REST <code>entregarManifestacaoProcessual</code> (MNI v2.2.2)<br/>    Note over WorkerMNI,Tribunal: Movimento TPU/CNJ Cód. 85 (Juntada de Certidão)&lt;br/&gt;Complemento 12266 (Comparecimento Periódico)&lt;br/&gt;Tipo Documento Cód. 58 (Certidão PDF/A Assinada)<br/>    alt Tribunal Online (HTTP 200 / Recibo MNI)<br/>        Tribunal--&gt;&gt;WorkerMNI: Retorna protocolo de juntada e recibo SHA-256<br/>        WorkerMNI-&gt;&gt;Core: Atualiza <code>juntadaAutos.status = JUNTADO_AUTOMATICAMENTE_MNI</code><br/>    else Indisponibilidade Temporária do Tribunal (Timeout / 503)<br/>        WorkerMNI-&gt;&gt;Broker: Reagenda na fila de Retry com Backoff Exponencial (1m, 5m, 15m, 1h)<br/>    end</code></pre></p>
+<h3>Especificação Técnica do Payload MNI v2.2.2 (<code>src/integracao-mni.js</code>)</h3>
+<em> <strong>Operação Padrão CNJ:</strong> <code>ser:entregarManifestacaoProcessual</code> (WSDL Intercomunicação v2.2.2).
+</em> <strong>Tabelas Processuais Unificadas (TPU/CNJ — Resolução CNJ nº 46/2007):</strong>
+<ul><li><strong>Movimento Processual:</strong> Código <code>85</code> (<em>Juntada de Certidão</em>) combinado com complemento tabelado <code>12266</code> (<em>Comparecimento Periódico em Juízo / Medida Cautelar Diversa da Prisão</em>).</li>
+<li><strong>Tipo de Documento:</strong> Código <code>58</code> (<em>Certidão Judicial</em>), encapsulado em <code>application/pdf</code> (padrão PDF/A-1b) com assinatura destacada ou embutida (<code>PKCS#7 / CADES-T</code>) e manifesto JSON de auditoria.</li>
+</ul><em> <strong>Desacoplamento por Mensageria (RabbitMQ / Kafka):</strong>
+<ul><li>Tribunais estaduais e federais sofrem janelas de manutenção e oscilações de latência. O uso da </em>exchange<em> <code>pdpj.mni.manifestacoes.exchange</code> garante que a homologação em lote de centenas de processos pelo escrevente ocorra em milissegundos na interface, enquanto os </em>workers<em> realizam a entrega garantida (</em>At-Least-Once Delivery<em>) com controle de idempotência (<code>idempotencyKey</code>) e fila </em>Dead-Letter (DLQ)<em>.</li>
+<p></ul><hr/></p>
+<h2>4. Assinatura Digital Qualificada com Fé Pública (PJeOffice / ICP-Brasil)</h2>
+<p>Em estrita observância ao <strong>art. 1º, § 2º, III, e art. 11 da Lei nº 11.419/2006 (Lei do Processo Judicial Eletrônico)</strong> e à <strong>MP nº 2.200-2/2001</strong>:<br/><li><strong>Integração com PJeOffice Pro / Assinador Digital PDPJ-Br:</strong></li><br/><ul><li>Tanto na homologação individual quanto na homologação em lote, a certidão recebe assinatura digital qualificada vinculada ao certificado <strong>ICP-Brasil (A1/A3 emitido pela AC-JUS)</strong> do servidor autenticante.</li><br/></ul>2. <strong>Metadados Criptográficos Auditáveis:</strong><br/><ul><li><strong>Cadeia de Certificação:</strong> <code>Autoridade Certificadora Raiz Brasileira v10 -> AC-JUS v5 -> AC-JUS Certificadora Judicial</code>.</li><br/><li><strong>Carimbo do Tempo (RFC 3161):</strong> Sincronizado com Autoridade de Carimbo do Tempo (ACT) oficial ligada ao <strong>Observatório Nacional (ON)</strong>.</li><br/><li><strong>Verificação Pública (<code>verificar.html</code>):</strong> Qualquer magistrado, promotor, defensor ou cidadão que escanear o QR Code da certidão visualiza o selo oficial:</li><br/>     </ul>> </em>"Documento assinado digitalmente por [Nome do Servidor] ([Matrícula]) com certificado ICP-Brasil"<em>, acompanhado do serial X.509, hash SHA-256 do documento assinado e protocolo de juntada MNI v2.2.2.</p>
+<hr/>
+<h2>5. Alinhamento Arquitetural com a Nuvem PDPJ-Br (Kubernetes / OpenShift, SSO-JUS e OpenAPI)</h2>
+<p>O repositório já inclui containerização pronta na raiz ([<code>Dockerfile</code>](../Dockerfile) e [<code>docker-compose.yml</code>](../docker-compose.yml)) seguindo os requisitos técnicos da Diretoria de Tecnologia da Informação (DTI/CNJ) para publicação no <strong>Marketplace da PDPJ-Br</strong>:</p>
+<h3>5.1 Topologia Kubernetes / Red Hat OpenShift</h3>
+</em> <strong>Containers Non-Root (OpenShift Restricted SCC):</strong> O [<code>Dockerfile</code>](../Dockerfile) é construído sobre <code>node:22-alpine</code>, configurado com permissões de grupo GID <code>0</code> e execução sob UID não-privilegiado (<code>USER 1001</code>), atendendo às <em>Security Context Constraints (SCC)</em> restritas do Red Hat OpenShift utilizado pelo CNJ e pelos Tribunais.
+<em> <strong>Probes de Orquestração:</strong> Endpoint nativo <code>/api/info</code> configurado para <code>livenessProbe</code> e <code>readinessProbe</code>, permitindo escalonamento horizontal automático (</em>Horizontal Pod Autoscaler - HPA<em>).
+</em> <strong>Stateless Application Tier:</strong> Todo estado em produção é externalizado para banco relacional gerenciado (PostgreSQL HA) e Object Storage S3-compatible (MinIO/Ceph institucional para artefatos biométricos criptografados).
+<h3>5.2 Autenticação e Autorização Unificada (SSO-JUS / Keycloak)</h3>
+<em> <strong>Servidores e Magistrados:</strong> Integração nativa via <strong>OpenID Connect (OIDC) / OAuth 2.0</strong> com o broker <strong>Keycloak da PDPJ-Br (<code>sso.cloud.pdpj.jus.br</code>)</strong>, mapeando </em>claims<em> de lotação (<code>orgaoJulgador</code>, <code>comarca</code>, <code>cargo</code>, <code>matricula</code>) diretamente no controle de acesso baseado em papéis (RBAC).
+</em> <strong>Cidadãos Submetidos a Medidas Cautelares:</strong> Integração com o <strong>Login Único Gov.br</strong> (níveis Prata e Ouro — validação biométrica facial junto à base da Senatran/TSE), complementada pelo vínculo processual registrado na Audiência de Custódia.
+<h3>5.3 Padrão de APIs RESTful sob OpenAPI 3.1 / Swagger</h3>
+Todos os serviços do microsserviço seguem arquitetura RESTful documentada sob especificação OpenAPI, com comunicação JSON padronizada e publicação de eventos no barramento negocial da PDPJ-Br:
+<div class="table-wrapper"><table><tr><th>Método</th><th>Endpoint</th><th>Escopo / Papel</th><th>Descrição Funcional</th></tr><tr><td><code>GET</code></td><td><code>/api/info</code></td><td>Público / K8s Probe</td><td>Healthcheck e metadados de versão da instância na nuvem PDPJ-Br.</td></tr><tr><td><code>POST</code></td><td><code>/api/cadastro-custodia</code></td><td>Servidor (Custódia)</td><td>Registra o réu em 30s na sala de custódia com Foto-Mestra (Webcam/APF/BNMP 3.0) e polígono territorial.</td></tr><tr><td><code>POST</code></td><td><code>/api/apresentacoes</code></td><td>Cidadão (App)</td><td>Recebe biometria facial, telemetria GPS anti-mock e executa pré-análise da IA (23 regras).</td></tr><tr><td><code>POST</code></td><td><code>/api/servidor/homologar</code></td><td>Servidor (ICP-Brasil)</td><td>Homologa individualmente, assina com certificado ICP-Brasil e dispara juntada MNI v2.2.2.</td></tr><tr><td><code>POST</code></td><td><code>/api/servidor/homologar-lote</code></td><td>Servidor (ICP-Brasil)</td><td>Homologa em lote os casos verdes, assina digitalmente e enfileira juntada MNI assíncrona.</td></tr><tr><td><code>POST</code></td><td><code>/api/servidor/comparecimento-assistido</code></td><td>Servidor / Balcão</td><td>Registra comparecimento presencial assistido (Res. CNJ 288/2019 — hipossuficiência/exclusão digital).</td></tr><tr><td><code>GET</code></td><td><code>/api/public/verificar</code></td><td>Público (QR Code)</td><td>Valida autenticidade da certidão, assinatura ICP-Brasil e protocolo de juntada MNI.</td></tr></table></div>
+<hr/>
+<h2>6. Plano de Implantação Gradual (Roadmap Proposto)</h2>
+<div class="table-wrapper"><table><tr><th>Fase</th><th>Duração</th><th>Escopo Principal</th><th>Critérios de Sucesso</th></tr><tr><td><strong>Fase 1: Projeto Piloto em Vara Única</strong></td><td>90 dias</td><td>Implantação em 1 Vara Criminal ou Central de Alternativas Penais com adesão de réus em liberdade provisória.</td><td>> 85% de comparecimento digital regular; redução de 90% das filas de assinatura em livro físico.</td></tr><tr><td><strong>Fase 2: Expansão Estadual via MNI</strong></td><td>180 dias</td><td>Ativação do conector MNI v2.2.2 com PJe/e-SAJ/eproc e assinatura PJeOffice em todas as Varas Criminais do TJ piloto.</td><td>Homologação e juntada 100% automatizadas; tempo médio de homologação < 2 horas úteis.</td></tr><tr><td><strong>Fase 3: Módulo Cautelar Nacional PDPJ-Br</strong></td><td>Contínua</td><td>Publicação oficial no catálogo da PDPJ-Br como extensão cautelar integrada ao ecossistema SAREF/BNMP 3.0.</td><td>Padronização nacional do cumprimento eletrônico das medidas cautelares do art. 319 do CPP.</td></tr></table></div>
+  <div class="footer-stamp">
+    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
+    <span>Documento Técnico Institucional</span>
+  </div>
+</body>
+</html>

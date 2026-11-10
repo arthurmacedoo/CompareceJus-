@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificador de Autenticidade • CompareceJus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0b1120; color: #f8fafc; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-8">
+  <!-- Cabeçalho Institucional -->
+  <header class="max-w-2xl w-full mx-auto flex items-center justify-between pb-6 border-b border-slate-800">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-blue-700 flex items-center justify-center text-white font-bold text-xl shadow-md">
+        ⚖
+      </div>
+      <div>
+        <h1 class="text-base font-extrabold text-white tracking-tight">CompareceJus</h1>
+        <p class="text-xs text-slate-400">Portal de Validação de Fé Pública • Poder Judiciário</p>
+      </div>
+    </div>
+    <span class="text-[11px] bg-emerald-950/80 text-emerald-300 border border-emerald-800/80 px-3 py-1 rounded-full font-semibold flex items-center gap-1.5">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      Validador Oficial Ativo
+    </span>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="max-w-2xl w-full mx-auto my-8">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+      <!-- Indicador Superior -->
+      <div id="statusBadge" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 bg-slate-800 text-slate-300 border border-slate-700">
+        <span class="material-symbols-outlined text-sm animate-spin">progress_activity</span>
+        <span>Consultando registro criptográfico no Tribunal...</span>
+      </div>
+
+      <div id="conteudoResultado" class="space-y-6">
+        <!-- Título -->
+        <div>
+          <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block">Certidão de Comparecimento Judicial</span>
+          <h2 id="protocoloTitulo" class="text-2xl font-extrabold text-white mt-1 font-mono">CJ-••••-••••••-•</h2>
+          <p class="text-xs text-slate-400 mt-1">Medida Cautelar Diversa da Prisão (Art. 319, I, do Código de Processo Penal)</p>
+        </div>
+
+        <!-- Grade de Metadados Oficiais -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 space-y-1">
+            <span class="text-slate-500 block text-[11px]">Cidadão Intimado</span>
+            <span id="nomeReu" class="font-bold text-slate-200 text-sm">C. E. d. S.</span>
+            <span class="text-slate-400 text-[10px] block">Identidade preservada conforme LGPD</span>
+          </div>
+
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 space-y-1">
+            <span class="text-slate-500 block text-[11px]">Processo Judicial</span>
+            <span id="processoNum" class="font-bold text-blue-400 text-sm font-mono">0014298-••••.8.26.0100</span>
+            <span id="varaOrigem" class="text-slate-400 text-[10px] block">2ª Vara Criminal • Comarca da Capital</span>
+          </div>
+
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 space-y-1">
+            <span class="text-slate-500 block text-[11px]">Competência / Mês</span>
+            <span id="competencia" class="font-bold text-slate-200 text-sm">Outubro / 2026</span>
+            <span id="dataAto" class="text-slate-400 text-[10px] block">Data do comparecimento digital</span>
+          </div>
+
+          <div class="bg-slate-950/80 p-3.5 rounded-2xl border border-slate-800 space-y-1">
+            <span class="text-slate-500 block text-[11px]">Homologação Judicial</span>
+            <span id="homologadoPor" class="font-bold text-emerald-400 text-sm">Servidor Cartorário</span>
+            <span id="dataHomologacao" class="text-slate-400 text-[10px] block">Chave funcional registrada</span>
+          </div>
+        </div>
+
+        <!-- Bloco de Assinatura Qualificada ICP-Brasil (Lei 11.419/2006) e Juntada MNI v2.2.2 -->
+        <div id="blocoAssinaturaIcp" class="bg-emerald-950/30 border border-emerald-800/70 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-emerald-300 uppercase tracking-wider flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-emerald-400">workspace_premium</span>
+              Assinatura Digital Qualificada • Padrão ICP-Brasil (AC-JUS)
+            </span>
+            <span id="badgeAssinador" class="text-[10px] text-emerald-300 font-mono bg-emerald-900/60 border border-emerald-700 px-2 py-0.5 rounded">
+              PJeOffice / PDPJ-Br
+            </span>
+          </div>
+          <p id="textoAssinaturaIcp" class="text-xs font-semibold text-white leading-relaxed">
+            Aguardando assinatura digital qualificada do servidor responsável pela homologação...
+          </p>
+          <div id="detalhesCertificadoX509" class="text-[10px] font-mono text-slate-400 space-y-0.5 pt-1 border-t border-emerald-900/50">
+            <p id="linhaEmissorX509">Cadeia: ICP-Brasil Raiz v10 ➔ AC-JUS v5 • Lei nº 11.419/2006, art. 1º, § 2º, III</p>
+            <p id="linhaProtocoloMni">Interoperabilidade MNI v2.2.2: Aguardando juntada automática nos autos</p>
+          </div>
+        </div>
+
+        <!-- Hash de Integridade SHA-256 -->
+        <div class="bg-slate-950/90 border border-slate-800/80 rounded-2xl p-4 space-y-2">
+          <div class="flex items-center justify-between">
+            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-sm text-emerald-400">verified</span>
+              Hash Criptográfico de Fé Pública (SHA-256)
+            </span>
+            <span class="text-[10px] text-emerald-400 font-bold bg-emerald-950/80 border border-emerald-800 px-2 py-0.5 rounded">
+              ÍNTEGRO
+            </span>
+          </div>
+          <p id="hashCertidao" class="text-[11px] font-mono text-slate-300 break-all bg-slate-900/90 p-2.5 rounded-xl border border-slate-800 select-all">
+            Calculando assinatura digital...
+          </p>
+          <p class="text-[10px] text-slate-500 leading-relaxed">
+            Este hash vincula matematicamente o horário oficial de Brasília, as coordenadas da comarca e o descritor facial capturado, impedindo qualquer alteração posterior nos termos da Lei nº 11.419/2006.
+          </p>
+        </div>
+
+        <!-- Instruções para Autoridades Policiais -->
+        <div class="bg-blue-950/40 border border-blue-900/50 rounded-2xl p-4 text-xs text-blue-200 space-y-1.5">
+          <div class="flex items-center gap-2 text-blue-300 font-bold">
+            <span class="material-symbols-outlined text-base">local_police</span>
+            <span>Informação para Autoridade Policial / Oficial de Justiça:</span>
+          </div>
+          <p class="text-slate-300 text-[11px] leading-relaxed">
+            A exibição desta página atesta que o cidadão está com sua obrigação periódica em situação regular junto à Vara Criminal competente para o ciclo indicado.
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="max-w-2xl w-full mx-auto text-center text-xs text-slate-500 pt-6 border-t border-slate-800 space-y-1">
+    <p>CompareceJus • Concepção e Arquitetura por Arthur Macedo</p>
+    <p class="text-[10px] text-slate-600">Alinhado à Resolução CNJ nº 615/2025, Resolução CNJ nº 288/2019 e Lei Geral de Proteção de Dados (LGPD)</p>
+  </footer>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const protocoloParam = params.get('p') || 'CJ-2026-000101-0';
+
+    fetch(`/api/public/verificar?p=${encodeURIComponent(protocoloParam)}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data.valido) throw new Error(data.erro || 'Certidão não encontrada');
+
+        document.getElementById('protocoloTitulo').innerText = data.protocolo;
+        document.getElementById('nomeReu').innerText = data.iniciaisReu;
+        document.getElementById('processoNum').innerText = data.processoMascarado;
+        document.getElementById('varaOrigem').innerText = data.vara;
+        document.getElementById('competencia').innerText = data.competencia;
+        document.getElementById('dataAto').innerText = 'Comparecimento: ' + new Date(data.dataHoraAto).toLocaleString('pt-BR');
+        document.getElementById('homologadoPor').innerText = data.homologadoPor || 'Aguardando Homologação';
+        document.getElementById('dataHomologacao').innerText = data.dataHomologacao ? 'Homologado em: ' + new Date(data.dataHomologacao).toLocaleString('pt-BR') : 'Ato em análise cartorária';
+        document.getElementById('hashCertidao').innerText = data.hashCertidao;
+
+        const txtIcp = document.getElementById('textoAssinaturaIcp');
+        const linX509 = document.getElementById('linhaEmissorX509');
+        const linMni = document.getElementById('linhaProtocoloMni');
+
+        if (data.assinaturaIcp) {
+          const sig = data.assinaturaIcp;
+          txtIcp.innerText = `Documento assinado digitalmente por ${sig.signatario.nome} (${sig.signatario.matricula}) com certificado ICP-Brasil`;
+          linX509.innerText = `Certificado X.509: ${sig.certificadoX509.emissorDN} • Série ${sig.certificadoX509.numeroSerie.substring(0, 16)} • Carimbo ACT: ${sig.carimboTempo.protocoloRfc3161}`;
+        } else if (data.homologadoPor) {
+          txtIcp.innerText = `Documento assinado digitalmente por ${data.homologadoPor} com certificado ICP-Brasil`;
+        } else {
+          txtIcp.innerText = 'Recibo provisório pré-analisado pela IA. Assinatura ICP-Brasil será aposta pelo servidor na homologação.';
+        }
+
+        if (data.juntadaAutos) {
+          linMni.innerText = `MNI v2.2.2 (${data.juntadaAutos.operacaoMni}): Protocolo ${data.juntadaAutos.protocoloMni} • Mov. TPU ${data.juntadaAutos.movimentoProcessualTpu?.codigoNacional || 85} (${data.juntadaAutos.sistemaSigla || 'PJe'})`;
+        }
+
+        const badge = document.getElementById('statusBadge');
+        if (data.status.startsWith('HOMOLOGADO')) {
+          badge.className = 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 bg-emerald-950 text-emerald-300 border border-emerald-800';
+          badge.innerHTML = '<span class="material-symbols-outlined text-sm text-emerald-400">verified</span><span>Certidão Válida • Homologada pelo Tribunal de Justiça</span>';
+        } else if (data.status === 'AGUARDANDO_HOMOLOGACAO') {
+          badge.className = 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 bg-amber-950 text-amber-300 border border-amber-800';
+          badge.innerHTML = '<span class="material-symbols-outlined text-sm text-amber-400">pending</span><span>Recibo Provisório Registrado • Aguardando Homologação do Servidor</span>';
+        } else {
+          badge.className = 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 bg-red-950 text-red-300 border border-red-800';
+          badge.innerHTML = '<span class="material-symbols-outlined text-sm text-red-400">warning</span><span>Situação com Ressalva / Em Auditoria Judicial</span>';
+        }
+      })
+      .catch(err => {
+        const badge = document.getElementById('statusBadge');
+        badge.className = 'inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold mb-6 bg-red-950 text-red-300 border border-red-800';
+        badge.innerHTML = '<span class="material-symbols-outlined text-sm text-red-400">error</span><span>Registro Não Localizado no Sistema do Tribunal</span>';
+        document.getElementById('protocoloTitulo').innerText = protocoloParam;
+        document.getElementById('hashCertidao').innerText = 'Protocolo não encontrado no banco de dados ativo.';
+      });
+  </script>
+</body>
+</html>

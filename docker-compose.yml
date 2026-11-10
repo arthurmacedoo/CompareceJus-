@@ -1,0 +1,47 @@
+version: "3.9"
+
+# ==============================================================================
+# Topologia Local e Homologação • Ecossistema PDPJ-Br (CompareceJus v2.0)
+# Simula o pod principal conectado ao barramento MNI v2.2.2, SSO-JUS e RabbitMQ
+# ==============================================================================
+services:
+  comparecejus-core:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pdpj-comparecejus-core
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - TZ=America/Sao_Paulo
+      # Configurações de Integração PDPJ-Br / Keycloak SSO-JUS
+      - PDPJ_SSO_ISSUER=https://sso.cloud.pdpj.jus.br/auth/realms/pdpj
+      - PDPJ_CLIENT_ID=comparecejus-cautelar-service
+      # Configurações do Barramento MNI v2.2.2 e Mensageria Assíncrona
+      - MNI_WSDL_ENDPOINT=https://mni.pdpj.jus.br/servico-intercomunicacao-2.2.2/intercomunicacao?wsdl
+      - MNI_BROKER_EXCHANGE=pdpj.mni.manifestacoes.exchange
+      - MNI_BROKER_QUEUE=pdpj.mni.entregar_manifestacao.queue
+      # Configurações de Assinatura Qualificada ICP-Brasil / PJeOffice
+      - ICP_AC_ISSUER=AC JUS v5 - Autoridade Certificadora da Justica
+      - ICP_TSA_URL=http://carimbodotempo.on.br/tsa
+    volumes:
+      - comparecejus-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/info"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - pdpj-mesh
+
+volumes:
+  comparecejus-data:
+    driver: local
+
+networks:
+  pdpj-mesh:
+    driver: bridge

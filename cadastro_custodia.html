@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cadastro de Foto-Mestra na Audiência de Custódia • CompareceJus</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <!-- Barra Institucional Superior -->
+  <header class="bg-[#0c326f] text-white px-6 py-3.5 shadow-md flex flex-wrap items-center justify-between gap-4">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-white/15 border border-white/25 flex items-center justify-center font-bold text-lg">
+        ⚖
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <h1 class="text-base font-extrabold tracking-tight">CompareceJus • Base Biométrica da Audiência de Custódia</h1>
+          <span class="text-[11px] bg-amber-400 text-slate-950 font-bold px-2.5 py-0.5 rounded-full">
+            Cadastro em 30s (SISTAC / PDPJ-Br)
+          </span>
+        </div>
+        <p class="text-xs text-blue-200">Coleta Oficial da Foto-Mestra e Polígono Territorial (Resolução CNJ nº 213/2015 e Programa Fazendo Justiça)</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-2">
+      <a href="/painel" class="text-xs font-semibold bg-white/10 hover:bg-white/20 px-3.5 py-2 rounded-lg border border-white/20 transition-colors flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-sm">arrow_back</span>
+        <span>Voltar ao Painel da Vara</span>
+      </a>
+      <a href="/app" target="_blank" class="text-xs font-bold bg-emerald-600 hover:bg-emerald-500 px-3.5 py-2 rounded-lg shadow-sm transition-colors flex items-center gap-1.5">
+        <span class="material-symbols-outlined text-sm">smartphone</span>
+        <span>Testar no App do Réu ↗</span>
+      </a>
+    </div>
+  </header>
+
+  <main class="max-w-6xl w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 flex-1">
+    <!-- Coluna Esquerda: Origem e Captura da Foto-Mestra -->
+    <section class="lg:col-span-5 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs space-y-5 flex flex-col justify-between">
+      <div class="space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-700">Passo 1 de 2</span>
+            <h2 class="text-base font-bold text-slate-900">Origem da Foto-Mestra de Referência</h2>
+          </div>
+          <span class="material-symbols-outlined text-blue-700 text-2xl">badge</span>
+        </div>
+
+        <!-- Seletor das 3 Fontes Oficiais -->
+        <div class="space-y-2 text-xs">
+          <label class="font-semibold text-slate-700 block">Selecione o Canal de Ingestão Biométrica:</label>
+          <select id="origemFotoMestra" onchange="alternarFonteBiometria()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-blue-600 focus:outline-none">
+            <option value="CAPTACAO_DIRETA_CUSTODIA">1. Captura Direta na Sala de Audiência de Custódia (Webcam / Câmera)</option>
+            <option value="EXTRACAO_APF_PDF">2. Extração do PDF do Auto de Prisão em Flagrante (APF / Polícia Civil)</option>
+            <option value="BARRAMENTO_BNMP_TSE">3. Importação via Barramento BNMP 3.0 / Base Biométrica TSE-ICN</option>
+          </select>
+        </div>
+
+        <!-- Visor de Captura / Preview da Foto-Mestra -->
+        <div class="relative w-full h-64 bg-slate-950 rounded-2xl overflow-hidden border-2 border-slate-300 flex flex-col items-center justify-center text-white">
+          <video id="webcamCustodia" autoplay playsinline muted class="w-full h-full object-cover hidden"></video>
+          <img id="previewFotoMestra" alt="Preview da Foto-Mestra" class="w-full h-full object-cover hidden" />
+          <div id="placeholderCustodia" class="text-center p-4 space-y-2">
+            <span class="material-symbols-outlined text-5xl text-blue-400">photo_camera_front</span>
+            <p class="text-xs font-semibold text-slate-200">Foto-Mestra Oficial da Custódia</p>
+            <p class="text-[11px] text-slate-400 max-w-xs">Capture via webcam na sala de audiência, envie a foto extraída do APF ou consulte o BNMP 3.0.</p>
+          </div>
+          <canvas id="canvasCustodia" class="hidden"></canvas>
+        </div>
+
+        <!-- Controles de Captura / Upload / BNMP -->
+        <div class="grid grid-cols-3 gap-2 text-xs">
+          <button type="button" onclick="iniciarWebcamCustodia()" class="py-2.5 px-3 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-xl font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="material-symbols-outlined text-base">videocam</span>
+            <span>Abrir Webcam</span>
+          </button>
+          <button type="button" onclick="capturarFotoWebcam()" id="btnCapturarWebcam" class="py-2.5 px-3 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-bold flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="material-symbols-outlined text-base">photo_camera</span>
+            <span>Fotografar</span>
+          </button>
+          <button type="button" onclick="document.getElementById('inputArquivoApf').click()" class="py-2.5 px-3 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 rounded-xl font-semibold flex items-center justify-center gap-1.5 cursor-pointer">
+            <span class="material-symbols-outlined text-base">upload_file</span>
+            <span>Anexar APF/Foto</span>
+          </button>
+          <input type="file" id="inputArquivoApf" accept="image/*" class="hidden" onchange="carregarFotoArquivo(event)">
+        </div>
+
+        <button type="button" onclick="simularImportacaoBnmp()" class="w-full py-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-900 border border-indigo-200 rounded-xl text-xs font-semibold flex items-center justify-center gap-1.5 cursor-pointer">
+          <span class="material-symbols-outlined text-base">cloud_download</span>
+          <span>Consultar Foto Biométrica no Barramento BNMP 3.0 / TSE-ICN</span>
+        </button>
+      </div>
+
+      <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 text-[11px] text-slate-600 space-y-1">
+        <p class="font-bold text-slate-800 flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm text-emerald-600">verified_user</span>
+          Garantia de Cadeia de Custódia Biométrica:
+        </p>
+        <p class="leading-relaxed">
+          A Foto-Mestra recebe hash criptográfico SHA-256 no ato da audiência de custódia e passa a ser a única referência válida para o batimento facial mensal do réu.
+        </p>
+      </div>
+    </section>
+
+    <!-- Coluna Direita: Dados Processuais e Polígono Territorial -->
+    <section class="lg:col-span-7 bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+      <form onsubmit="submeterCadastroCustodia(event)" class="space-y-5 text-xs">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-blue-700">Passo 2 de 2</span>
+            <h2 class="text-base font-bold text-slate-900">Dados do Processo, Comarca e Endereço Vinculado</h2>
+          </div>
+          <span class="text-[11px] font-mono bg-slate-100 px-2.5 py-1 rounded text-slate-700">Art. 319, I e IV, CPP</span>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Nome Completo do Custodiado / Réu</label>
+            <input id="nomeReu" type="text" value="Carlos Eduardo da Silva" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-medium">
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="font-semibold text-slate-700 block mb-1">CPF</label>
+              <input id="cpfReu" type="text" value="529.982.247-25" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono">
+            </div>
+            <div>
+              <label class="font-semibold text-slate-700 block mb-1">Data de Nascimento</label>
+              <input id="nascReu" type="date" value="1994-03-15" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div class="sm:col-span-1">
+            <label class="font-semibold text-slate-700 block mb-1">Nº do Processo (Padrão CNJ)</label>
+            <input id="processoReu" type="text" value="0014298-55.2026.8.26.0100" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-mono">
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Sistema Processual (MNI)</label>
+            <select id="sistemaOrigem" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs font-semibold">
+              <option value="PJe">PJe (Processo Judicial Eletrônico)</option>
+              <option value="e-SAJ" selected>e-SAJ (TJSP / TJSC)</option>
+              <option value="eproc">eproc (TRF4 / TJRS / TJSC)</option>
+            </select>
+          </div>
+          <div>
+            <label class="font-semibold text-slate-700 block mb-1">Vara Criminal / Juízo</label>
+            <input id="varaReu" type="text" value="2ª Vara Criminal • Comarca da Capital" required class="w-full bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs">
+          </div>
+        </div>
+
+        <!-- Polígono Territorial da Comarca -->
+        <div class="bg-blue-50/60 border border-blue-200/80 rounded-xl p-4 space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-blue-950 flex items-center gap-1.5">
+              <span class="material-symbols-outlined text-base text-blue-700">radar</span>
+              Perímetro Territorial da Comarca Permitida (Geofence - Art. 319, IV, CPP)
+            </span>
+            <button type="button" onclick="usarMinhaLocalizacaoAtual()" class="text-[11px] font-bold text-blue-700 hover:underline flex items-center gap-1 cursor-pointer">
+              <span class="material-symbols-outlined text-sm">my_location</span>
+              Usar GPS deste Computador/Sala
+            </button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            <div class="sm:col-span-2">
+              <label class="text-slate-600 block mb-1 text-[11px]">Comarca Autorizada</label>
+              <input id="comarcaNome" type="text" value="São Paulo - Capital" required class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs">
+            </div>
+            <div>
+              <label class="text-slate-600 block mb-1 text-[11px]">Raio Limite (km)</label>
+              <input id="comarcaRaio" type="number" value="35" required class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-mono">
+            </div>
+            <div>
+              <label class="text-slate-600 block mb-1 text-[11px]">Tolerância Residência (m)</label>
+              <input id="enderecoRaio" type="number" value="1000" required class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs font-mono">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-1">
+              <label class="text-slate-600 block mb-1 text-[11px]">Latitude / Longitude Domicílio</label>
+              <div class="flex gap-1.5">
+                <input id="endLat" type="text" value="-23.5714" class="w-1/2 bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-xs font-mono">
+                <input id="endLng" type="text" value="-46.6389" class="w-1/2 bg-white border border-slate-300 rounded-lg px-2 py-1.5 text-xs font-mono">
+              </div>
+            </div>
+            <div class="sm:col-span-2">
+              <label class="text-slate-600 block mb-1 text-[11px]">Endereço Residencial Declarado no Termo de Custódia</label>
+              <input id="endLogradouro" type="text" value="Rua Vergueiro, 1200 - Liberdade, São Paulo - SP" required class="w-full bg-white border border-slate-300 rounded-lg px-2.5 py-1.5 text-xs">
+            </div>
+          </div>
+        </div>
+
+        <!-- Resultado do Registro -->
+        <div id="boxSucessoCustodia" class="hidden bg-emerald-50 border border-emerald-300 rounded-xl p-4 text-emerald-950 space-y-1.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-xs flex items-center gap-1.5 text-emerald-800">
+              <span class="material-symbols-outlined text-base">check_circle</span>
+              Foto-Mestra e Perímetro Cautelar Registrados na Base Oficial!
+            </span>
+            <span id="badgeOrigemSalva" class="text-[10px] font-mono bg-emerald-200/80 px-2 py-0.5 rounded font-bold">CUSTÓDIA</span>
+          </div>
+          <p id="hashFotoSalva" class="text-[11px] font-mono text-emerald-900 break-all"></p>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="submit" class="px-6 py-3 bg-[#0c326f] hover:bg-blue-900 text-white rounded-xl font-bold text-xs shadow-md transition-all flex items-center gap-2 cursor-pointer">
+            <span class="material-symbols-outlined text-base">how_to_reg</span>
+            <span>Registrar Foto-Mestra e Habilitar Comparecimento Digital</span>
+          </button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    let streamCustodia = null;
+    let fotoMestraBase64 = null;
+
+    function alternarFonteBiometria() {
+      const fonte = document.getElementById('origemFotoMestra').value;
+      if (fonte === 'BARRAMENTO_BNMP_TSE') {
+        simularImportacaoBnmp();
+      }
+    }
+
+    async function iniciarWebcamCustodia() {
+      try {
+        streamCustodia = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: false });
+        const video = document.getElementById('webcamCustodia');
+        video.srcObject = streamCustodia;
+        video.classList.remove('hidden');
+        document.getElementById('previewFotoMestra').classList.add('hidden');
+        document.getElementById('placeholderCustodia').classList.add('hidden');
+      } catch (e) {
+        alert('Webcam indisponível neste dispositivo. Você pode anexar um arquivo de imagem do APF ou importar do BNMP 3.0.');
+      }
+    }
+
+    function capturarFotoWebcam() {
+      const video = document.getElementById('webcamCustodia');
+      const canvas = document.getElementById('canvasCustodia');
+      if (streamCustodia && !video.classList.contains('hidden')) {
+        canvas.width = video.videoWidth || 480;
+        canvas.height = video.videoHeight || 360;
+        canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+        fotoMestraBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        exibirPreview(fotoMestraBase64);
+        streamCustodia.getTracks().forEach(t => t.stop());
+        video.classList.add('hidden');
+      } else {
+        iniciarWebcamCustodia();
+      }
+    }
+
+    function carregarFotoArquivo(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      document.getElementById('origemFotoMestra').value = 'EXTRACAO_APF_PDF';
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        fotoMestraBase64 = ev.target.result;
+        exibirPreview(fotoMestraBase64);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function simularImportacaoBnmp() {
+      document.getElementById('origemFotoMestra').value = 'BARRAMENTO_BNMP_TSE';
+      const canvas = document.getElementById('canvasCustodia');
+      canvas.width = 400;
+      canvas.height = 300;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, 400, 300);
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 16px Inter, sans-serif';
+      ctx.fillText('BNMP 3.0 / ICN-TSE • FOTO OFICIAL', 55, 140);
+      ctx.fillStyle = '#94a3b8';
+      ctx.font = '12px monospace';
+      ctx.fillText('Biometria importada via Barramento PDPJ-Br', 68, 168);
+      fotoMestraBase64 = canvas.toDataURL('image/jpeg', 0.85);
+      exibirPreview(fotoMestraBase64);
+    }
+
+    function exibirPreview(src) {
+      const img = document.getElementById('previewFotoMestra');
+      img.src = src;
+      img.classList.remove('hidden');
+      document.getElementById('placeholderCustodia').classList.add('hidden');
+    }
+
+    function usarMinhaLocalizacaoAtual() {
+      if (!navigator.geolocation) return;
+      navigator.geolocation.getCurrentPosition((pos) => {
+        document.getElementById('endLat').value = pos.coords.latitude.toFixed(5);
+        document.getElementById('endLng').value = pos.coords.longitude.toFixed(5);
+      });
+    }
+
+    async function submeterCadastroCustodia(e) {
+      e.preventDefault();
+      const payload = {
+        reuId: 'reu_carlos',
+        nome: document.getElementById('nomeReu').value,
+        cpf: document.getElementById('cpfReu').value,
+        nascimento: document.getElementById('nascReu').value,
+        processo: document.getElementById('processoReu').value,
+        sistemaOrigem: document.getElementById('sistemaOrigem').value,
+        vara: document.getElementById('varaReu').value,
+        origemFotoMestra: document.getElementById('origemFotoMestra').value,
+        fotoBase64: fotoMestraBase64,
+        comarca: {
+          nome: document.getElementById('comarcaNome').value,
+          lat: Number(document.getElementById('endLat').value),
+          lng: Number(document.getElementById('endLng').value),
+          raioKm: Number(document.getElementById('comarcaRaio').value),
+        },
+        endereco: {
+          logradouro: document.getElementById('endLogradouro').value,
+          lat: Number(document.getElementById('endLat').value),
+          lng: Number(document.getElementById('endLng').value),
+          raioM: Number(document.getElementById('enderecoRaio').value),
+        },
+      };
+
+      const resp = await fetch('/api/cadastro-custodia', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await resp.json();
+      if (data.sucesso) {
+        const box = document.getElementById('boxSucessoCustodia');
+        box.classList.remove('hidden');
+        document.getElementById('badgeOrigemSalva').innerText = data.reu.biometria.codigoOrigem;
+        document.getElementById('hashFotoSalva').innerText =
+          `Hash SHA-256 Foto-Mestra: ${data.reu.biometria.hashFotoMestra} • Origem: ${data.reu.biometria.origem}`;
+      }
+    }
+  </script>
+</body>
+</html>

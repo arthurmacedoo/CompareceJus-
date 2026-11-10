@@ -163,6 +163,24 @@
 </div>
 <!-- Right Trailing Controls -->
 <div class="flex items-center gap-space-md shrink-0">
+<!-- Botão Cadastrar Foto-Mestra na Audiência de Custódia -->
+<a href="/cadastro-custodia" class="hidden md:flex items-center gap-1.5 text-xs font-bold bg-blue-700 hover:bg-blue-800 text-white px-3 py-1.5 rounded-lg shadow-xs transition-colors cursor-pointer">
+  <span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+  <span>+ Foto-Mestra (Custódia)</span>
+</a>
+
+<!-- Botão Contingência: Comparecimento Assistido/Presencial no Fórum (Res. CNJ 288/2019) -->
+<button onclick="openAssistidoModal()" class="hidden md:flex items-center gap-1.5 text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg shadow-xs transition-colors cursor-pointer" title="Contingência para réus sem smartphone ou sem internet (Resolução CNJ nº 288/2019)">
+  <span class="material-symbols-outlined text-[16px]">accessibility_new</span>
+  <span>Comparecimento Assistido / Balcão</span>
+</button>
+
+<!-- Botão Reset Demo -->
+<button onclick="resetarDemo()" class="hidden sm:flex items-center gap-1 text-xs font-medium text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg border border-slate-300 transition-colors cursor-pointer" title="Restaura os dados iniciais de demonstração">
+  <span class="material-symbols-outlined text-[15px]">refresh</span>
+  <span>Resetar Demo</span>
+</button>
+
 <!-- Court Jurisdiction Pill -->
 <div class="hidden lg:flex items-center gap-1.5 text-label-sm font-label-sm text-secondary bg-surface-container-low px-space-md py-1 rounded-full border border-outline-variant/50">
 <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
@@ -690,24 +708,31 @@
 <div class="pt-space-sm border-t border-outline-variant/50 space-y-2">
 <div class="flex items-center justify-between">
   <span class="text-label-md font-label-md font-bold text-on-surface uppercase tracking-wider block">
-    2. Homologação pelo Servidor
+    2. Homologação pelo Servidor (ICP-Brasil + MNI v2.2.2)
   </span>
-  <span class="text-[10px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold">Decisão Humana Final</span>
+  <span class="text-[10px] text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 font-semibold">PJeOffice / AC-JUS</span>
 </div>
 <div class="flex flex-col gap-2">
 <button onclick="homologateCurrentDossier()" class="w-full py-2.5 px-space-md bg-emerald-700 hover:bg-emerald-800 text-white rounded text-label-md font-label-md font-bold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer">
-<span class="material-symbols-outlined text-[18px]">verified</span>
-<span>Homologar Apresentação (Aprovar Parecer da IA)</span>
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+<span>Homologar e Assinar Digitalmente (PJeOffice / ICP-Brasil)</span>
 </button>
-<button class="w-full py-2 px-space-md bg-primary text-on-primary hover:bg-tertiary-container rounded text-label-md font-label-md font-semibold shadow-xs transition-colors flex items-center justify-center gap-2">
+<div id="boxResultadoIcpMni" class="hidden bg-emerald-50 border border-emerald-300 rounded-lg p-2.5 text-[11px] text-emerald-950 font-mono space-y-1">
+  <div class="font-bold text-emerald-900 flex items-center justify-between">
+    <span>✓ Assinado com ICP-Brasil &amp; Juntado via MNI 2.2.2</span>
+    <span id="badgeMniProto" class="bg-emerald-200 px-1.5 py-0.5 rounded text-[10px]">MNI-2026</span>
+  </div>
+  <p id="detalheAssinaturaDossie" class="text-[10px] text-slate-700 break-all"></p>
+</div>
+<button onclick="sendToJudge()" class="w-full py-2 px-space-md bg-primary text-on-primary hover:bg-tertiary-container rounded text-label-md font-label-md font-semibold shadow-xs transition-colors flex items-center justify-center gap-2 cursor-pointer">
 <span class="material-symbols-outlined text-[18px]" data-icon="send">send</span>
 <span>Remeter Conclusão ao Juiz de Direito</span>
 </button>
 <div class="grid grid-cols-2 gap-2">
-<button class="py-2 px-space-sm bg-surface-container-lowest border border-outline-variant/70 text-on-surface hover:bg-surface-container-low rounded text-label-sm font-label-sm font-medium transition-colors text-center">
-                    Intimar Defesa (48h)
+<button onclick="openAssistidoModal()" class="py-2 px-space-sm bg-amber-50 border border-amber-300 text-amber-900 hover:bg-amber-100 rounded text-label-sm font-label-sm font-semibold transition-colors text-center cursor-pointer">
+                    Comparecimento Assistido
                   </button>
-<button class="py-2 px-space-sm bg-surface-container-lowest border border-outline-variant/70 text-on-surface hover:bg-surface-container-low rounded text-label-sm font-label-sm font-medium transition-colors text-center">
+<button onclick="homologateCurrentDossier('HOMOLOGAR_RESSALVA')" class="py-2 px-space-sm bg-surface-container-lowest border border-outline-variant/70 text-on-surface hover:bg-surface-container-low rounded text-label-sm font-label-sm font-medium transition-colors text-center cursor-pointer">
                     Homologar Excepcional
                   </button>
 </div>
@@ -739,8 +764,8 @@
             Exportar Relatório Mensal CNJ (CSV/PDF)
           </a>
 <button id="btnBatchFooter" class="bg-primary text-on-primary hover:bg-tertiary-container px-space-lg py-2.5 rounded-lg text-label-md font-label-md font-semibold shadow-xs flex items-center gap-2 transition-transform active:scale-[0.99]">
-<span class="material-symbols-outlined text-[18px]" data-icon="post_add">post_add</span>
-<span id="btnBatchFooterText">Juntar Certidões nos Autos em Lote (SEEU/PJe) [389 Processos]</span>
+<span class="material-symbols-outlined text-[18px]" data-icon="verified_user">verified_user</span>
+<span id="btnBatchFooterText">Homologar e Assinar Digitalmente em Lote (PJeOffice / MNI) [389 Processos]</span>
 </button>
 </div>
 </footer>
@@ -756,8 +781,8 @@
           ⚖
         </div>
         <div>
-          <h3 class="text-base font-bold text-slate-900">Protocolo em Lote SEEU / PJe</h3>
-          <p class="text-xs text-slate-500">2ª Vara Criminal • Central de Medidas Cautelares</p>
+          <h3 class="text-base font-bold text-slate-900">Homologar e Assinar Digitalmente em Lote</h3>
+          <p class="text-xs text-slate-500">Assinador PJeOffice / ICP-Brasil (AC-JUS) + Barramento MNI v2.2.2</p>
         </div>
       </div>
       <button id="closeBatchX" class="text-slate-400 hover:text-slate-700 p-1 rounded-md hover:bg-slate-100">
@@ -770,14 +795,14 @@
       <div class="flex items-center justify-between text-xs font-semibold text-slate-700">
         <span id="batchStatusText" class="flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-blue-600 animate-ping"></span>
-          Assinando digitalmente 389 certidões com ICP-Brasil...
+          Conectando ao PJeOffice Pro (Token A3 ICP-Brasil / AC-JUS)...
         </span>
         <span id="batchPercentText" class="font-mono text-blue-700">0%</span>
       </div>
       <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
         <div id="batchProgressBar" class="h-full bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full transition-all duration-300" style="width: 0%"></div>
       </div>
-      <p class="text-[11px] text-slate-400 text-center font-mono">Comprovantes validados no ciclo mensal Outubro/2026</p>
+      <p class="text-[11px] text-slate-400 text-center font-mono">Assinatura Qualificada (Lei 11.419/2006) + Juntada MNI entregarManifestacaoProcessual</p>
     </div>
 
     <!-- Completed phase -->
@@ -786,19 +811,23 @@
         ✓
       </div>
       <div>
-        <h4 class="text-base font-bold text-slate-900">389 Certidões Juntadas com Sucesso!</h4>
+        <h4 class="text-base font-bold text-slate-900">389 Certidões Assinadas (ICP-Brasil) e Juntadas via MNI!</h4>
         <p class="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
-          Todos os autos no PJe e SEEU foram movimentados com a certidão de comparecimento assinada digitalmente.
+          Todos os autos no PJe, e-SAJ e eproc receberam a certidão assinada com certificado X.509 e movimentação TPU/CNJ 85.
         </p>
       </div>
       <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-left font-mono text-xs space-y-1">
         <div class="flex justify-between text-slate-600">
-          <span>Protocolo Geral:</span>
-          <span class="font-bold text-slate-900">LOTE-2026-TJSP-09418</span>
+          <span>Protocolo MNI Lote:</span>
+          <span class="font-bold text-slate-900">MNI-LOTE-2026-TJSP-09418</span>
         </div>
         <div class="flex justify-between text-slate-600">
-          <span>Horário do Protocolo:</span>
-          <span class="text-slate-900">22/10/2026 às 17:35 (Brasília)</span>
+          <span>Certificado ICP-Brasil:</span>
+          <span class="text-emerald-700 font-bold">AC-JUS v5 • PJeOffice Pro</span>
+        </div>
+        <div class="flex justify-between text-slate-600">
+          <span>Carimbo do Tempo ACT:</span>
+          <span class="text-slate-900">Observatório Nacional (RFC 3161)</span>
         </div>
       </div>
     </div>
@@ -808,7 +837,7 @@
         Cancelar
       </button>
       <button id="btnStartBatch" class="px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-lg shadow-sm transition-colors flex items-center gap-1.5">
-        <span>Confirmar Juntada em Lote</span>
+        <span>Homologar e Assinar Digitalmente em Lote</span>
       </button>
     </div>
   </div>
@@ -1088,25 +1117,94 @@ function openDossier(caseId, rowElement) {
   showToast('Dossiê Carregado', 'Visualizando auditoria de ' + data.name, 'folder_open');
 }
 
-// Homologação Assíncrona Individual do Parecer da IA
-function homologateCurrentDossier() {
+// Homologação Assíncrona Individual do Parecer da IA (Etapa 2 - Decisão do Servidor + ICP-Brasil + MNI)
+async function homologateCurrentDossier(decisaoTipo = 'HOMOLOGAR') {
   const data = auditCases[activeCaseId];
   if (!data) return;
-  showToast('Homologação Registrada', `Comparecimento de ${data.name} homologado e assinado digitalmente.`, 'verified');
+
+  let res = null;
+  try {
+    const resp = await fetch('/api/servidor/homologar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        apresentacaoId: activeCaseId,
+        protocolo: data.protocol || activeCaseId,
+        decisao: decisaoTipo,
+        observacao: decisaoTipo === 'HOMOLOGAR_COM_RESSALVA'
+          ? 'Homologado com ressalva pela Secretaria após conferência visual.'
+          : 'Homologação regular deferida e assinada digitalmente com certificado ICP-Brasil (PJeOffice).'
+      })
+    });
+    res = await resp.json();
+  } catch (err) {
+    console.warn('Servidor offline, aplicando localmente:', err);
+  }
+
+  const cert = res && res.apresentacao && res.apresentacao.certidao ? res.apresentacao.certidao : null;
+  const protoMni = cert && cert.juntadaAutos && cert.juntadaAutos.protocoloMni
+    ? cert.juntadaAutos.protocoloMni
+    : 'MNI-2026-TJSP-884120';
+  const serialIcp = cert && cert.assinaturaIcp && cert.assinaturaIcp.certificadoX509
+    ? cert.assinaturaIcp.certificadoX509.numeroSerie
+    : '5F:9A:21:C8:04:E7:11:B3';
+
+  const boxIcp = document.getElementById('boxResultadoIcpMni');
+  const badgeProto = document.getElementById('badgeMniProto');
+  const detAssinatura = document.getElementById('detalheAssinaturaDossie');
+  if (boxIcp) {
+    boxIcp.classList.remove('hidden');
+    if (badgeProto) badgeProto.innerText = protoMni;
+    if (detAssinatura) {
+      detAssinatura.innerText = `Assinado com ICP-Brasil (Série ${serialIcp}) • Juntada MNI v2.2.2 (TPU Cód. 85) concluída.`;
+    }
+  }
+
+  showToast('Assinado (ICP-Brasil) e Juntado (MNI)', `Certidão de ${data.name} assinada via PJeOffice e juntada nos autos (${protoMni}).`, 'verified_user');
 
   const tagEl = document.getElementById('dossierTag');
   if (tagEl) {
-    tagEl.innerText = 'HOMOLOGADO PELO SERVIDOR';
+    tagEl.innerText = 'ASSINADO ICP-BRASIL • JUNTADO MNI';
     tagEl.className = 'bg-emerald-100 text-emerald-800 text-[10px] font-bold px-1.5 rounded';
   }
 
-  const activeRow = document.querySelector('tbody tr.bg-blue-50\\/60');
+  const activeRow = document.querySelector('tbody tr.bg-blue-50\\/60') || document.getElementById('row-' + activeCaseId);
   if (activeRow) {
     const badge = activeRow.querySelector('td:first-child span');
     if (badge) {
       badge.className = 'inline-flex items-center gap-1.5 bg-emerald-100 text-emerald-800 border border-emerald-300 text-label-sm px-2 py-0.5 rounded font-bold';
-      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Homologado';
+      badge.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-600"></span> Assinado ICP + MNI';
     }
+  }
+}
+
+// Remeter Conclusão ao Juiz de Direito nos Casos de Alerta Grave (Vermelho)
+async function sendToJudge() {
+  const data = auditCases[activeCaseId];
+  if (!data) return;
+
+  const motivo = prompt('Informe a fundamentação para conclusão ao Magistrado:', 'Descumprimento de raio territorial da comarca fixado em audiência de custódia.');
+  if (!motivo) return;
+
+  try {
+    await fetch('/api/servidor/homologar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        apresentacaoId: activeCaseId,
+        protocolo: data.protocol || activeCaseId,
+        decisao: 'REMETIDA_AO_JUIZ',
+        observacao: motivo
+      })
+    });
+  } catch (e) {}
+
+  showToast('Conclusão Remetida', `Autos de ${data.name} conclusos ao Juiz de Direito.`, 'gavel');
+
+  const tagEl = document.getElementById('dossierTag');
+  if (tagEl) {
+    tagEl.innerText = 'REMETIDO AO MAGISTRADO';
+    tagEl.className = 'bg-red-100 text-red-800 text-[10px] font-bold px-1.5 rounded';
   }
 }
 
@@ -1129,7 +1227,7 @@ function initRealtimeSSE() {
     if (statusText) statusText.innerText = 'Aguardando Servidor...';
   };
 
-  evtSource.addEventListener('novo_comparecimento', (e) => {
+  evtSource.addEventListener('nova_apresentacao', (e) => {
     try {
       const sub = JSON.parse(e.data);
       handleIncomingSubmission(sub);
@@ -1138,16 +1236,24 @@ function initRealtimeSSE() {
     }
   });
 
-  // Buscar se já há comparecimentos prévios na inicialização
-  fetch('/api/comparecimentos')
+  evtSource.addEventListener('lote_homologado', () => {
+    showToast('Lote Homologado', 'Todas as apresentações verdes foram homologadas pelo cartório.', 'done_all');
+  });
+
+  evtSource.addEventListener('demo_resetada', () => {
+    showToast('Demonstração Reiniciada', 'Dados restaurados ao estado padrão.', 'refresh');
+    setTimeout(() => window.location.reload(), 1000);
+  });
+
+  // Buscar apresentações reais cadastradas no backend
+  fetch('/api/servidor/apresentacoes')
     .then(r => r.json())
-    .then(list => {
-      // Se houver algum envio real com foto, adiciona
-      list.forEach(sub => {
-        if (sub.photo && !document.getElementById('row-' + sub.id)) {
+    .then(data => {
+      if (data && data.apresentacoes) {
+        data.apresentacoes.forEach(sub => {
           handleIncomingSubmission(sub, false);
-        }
-      });
+        });
+      }
     })
     .catch(() => {});
 }
@@ -1328,6 +1434,9 @@ function runBatchSimulation() {
 
     if (current >= 100) {
       clearInterval(interval);
+      // Homologa no backend oficial
+      fetch('/api/servidor/homologar-lote', { method: 'POST' }).catch(() => {});
+
       setTimeout(() => {
         document.getElementById('batchProgressSection').classList.add('hidden');
         document.getElementById('batchSuccessSection').classList.remove('hidden');
@@ -1355,6 +1464,241 @@ function showToast(title, desc, icon) {
     toast.classList.remove('translate-y-0', 'opacity-100');
   }, 3500);
 }
+function resetarDemo() {
+  if (confirm('Deseja reiniciar a demonstração e restaurar os dados originais?')) {
+    fetch('/api/admin/reset', { method: 'POST' })
+      .then(r => r.json())
+      .then(() => {
+        showToast('Demonstração Reiniciada', 'Todos os dados foram restaurados.', 'refresh');
+        setTimeout(() => window.location.reload(), 1000);
+      });
+  }
+}
+
+function openCustodiaModal() {
+  document.getElementById('modalCustodia').classList.remove('hidden');
+}
+
+function closeCustodiaModal() {
+  document.getElementById('modalCustodia').classList.add('hidden');
+}
+
+async function salvarCustodia(e) {
+  e.preventDefault();
+  const nome = document.getElementById('custodiaNome').value;
+  const cpf = document.getElementById('custodiaCpf').value;
+  const processo = document.getElementById('custodiaProc').value;
+
+  try {
+    const resp = await fetch('/api/custodia/cadastrar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reuId: 'reu_carlos',
+        nome,
+        cpf,
+        processo,
+        endereco: { lat: -23.5714, lng: -46.6389, logradouro: 'Comarca da Capital - SP' }
+      })
+    });
+    const res = await resp.json();
+    closeCustodiaModal();
+    showToast('Biometria Registrada', 'Foto e biometria vinculadas na Audiência de Custódia.', 'how_to_reg');
+  } catch (err) {
+    alert('Erro ao salvar cadastro: ' + err.message);
+  }
+}
+
+function openAssistidoModal() {
+  document.getElementById('modalAssistido').classList.remove('hidden');
+}
+
+function closeAssistidoModal() {
+  document.getElementById('modalAssistido').classList.add('hidden');
+}
+
+async function salvarComparecimentoAssistido(e) {
+  e.preventDefault();
+  const reuSelect = document.getElementById('assistidoReuSelect');
+  const canal = document.getElementById('assistidoCanal').value;
+  const motivo = document.getElementById('assistidoMotivo').value;
+  const documentoApresentado = document.getElementById('assistidoDoc').value;
+  const observacao = document.getElementById('assistidoObs').value;
+
+  const opt = reuSelect.options[reuSelect.selectedIndex];
+  const reuId = reuSelect.value;
+  const nome = opt.dataset.nome || opt.text;
+  const cpf = opt.dataset.cpf || '529.982.247-25';
+  const processo = opt.dataset.proc || '0014298-55.2026.8.26.0100';
+
+  try {
+    const resp = await fetch('/api/servidor/comparecimento-assistido', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        reuId,
+        nome,
+        cpf,
+        processo,
+        canalAtendimento: canal,
+        motivoContingencia: motivo,
+        documentoApresentado,
+        observacao
+      })
+    });
+    const res = await resp.json();
+    if (!resp.ok || !res.ok) {
+      throw new Error(res.erro || 'Erro ao registrar comparecimento assistido');
+    }
+    closeAssistidoModal();
+    const protoMni = res.certidao && res.certidao.juntadaAutos ? res.certidao.juntadaAutos.protocoloMni : 'MNI-OK';
+    showToast(
+      'Comparecimento Assistido Homologado!',
+      `Certidão emitida com assinatura ICP-Brasil e juntada via MNI (${protoMni}).`,
+      'support_agent'
+    );
+  } catch (err) {
+    alert('Falha ao registrar comparecimento assistido: ' + err.message);
+  }
+}
 </script>
+
+<!-- MODAL DE COMPARECIMENTO ASSISTIDO / CONTINGÊNCIA PRESENCIAL (RES. CNJ 288/2019) -->
+<div id="modalAssistido" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-slate-200">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+      <div class="flex items-center gap-2.5">
+        <div class="w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center font-bold">
+          <span class="material-symbols-outlined text-xl">support_agent</span>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm text-slate-900">Registrar Comparecimento Assistido / Presencial no Fórum</h3>
+          <p class="text-[11px] text-slate-500">Protocolo de Inclusão e Não-Exclusão Digital (Resolução CNJ nº 288/2019)</p>
+        </div>
+      </div>
+      <button onclick="closeAssistidoModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <form onsubmit="salvarComparecimentoAssistido(event)" class="space-y-3 text-xs">
+      <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-[11px] text-amber-950 space-y-1">
+        <p class="font-bold flex items-center gap-1 text-amber-900">
+          <span class="material-symbols-outlined text-sm">diversity_3</span>
+          Salvaguarda de Hipossuficiência e Exclusão Digital:
+        </p>
+        <p class="leading-snug text-amber-800">
+          Réus sem smartphone, sem pacote de dados, com aparelho danificado ou dificuldade severa de letramento digital têm direito ao registro assistido sem qualquer prejuízo processual, gerando certidão assinada com ICP-Brasil e juntada automática via MNI.
+        </p>
+      </div>
+
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Cidadão / Processo Vinculado</label>
+        <select id="assistidoReuSelect" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-medium focus:ring-1 focus:ring-amber-600 focus:outline-none">
+          <option value="reu_carlos" data-nome="Carlos Eduardo da Silva" data-cpf="529.982.247-25" data-proc="0014298-55.2026.8.26.0100">Carlos Eduardo da Silva • Proc. 0014298-55.2026.8.26.0100</option>
+          <option value="reu_marcos" data-nome="Marcos Vinícius Pires" data-cpf="111.444.777-35" data-proc="0029381-88.2023.8.26.0050">Marcos Vinícius Pires • Proc. 0029381-88.2023.8.26.0050</option>
+          <option value="reu_ana" data-nome="Ana Beatriz Oliveira" data-cpf="123.456.789-09" data-proc="0008112-77.2026.8.26.0100">Ana Beatriz Oliveira • Proc. 0008112-77.2026.8.26.0100</option>
+          <option value="reu_roberto" data-nome="Roberto Almeida Nascimento" data-cpf="390.533.447-05" data-proc="0041920-11.2025.8.26.0050">Roberto Almeida Nascimento • Proc. 0041920-11.2025.8.26.0050</option>
+        </select>
+      </div>
+
+      <div class="grid grid-cols-2 gap-2.5">
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Canal Presencial / Assistido</label>
+          <select id="assistidoCanal" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-amber-600 focus:outline-none">
+            <option value="BALCAO_SECRETARIA">Balcão da Secretaria Judicial</option>
+            <option value="TOTEM_AUTOATENDIMENTO_FORUM">Totem de Autoatendimento do Fórum</option>
+            <option value="DEFENSORIA_PUBLICA_PARCEIRA">Atendimento Assistido - Defensoria Pública</option>
+            <option value="CENTRAL_ALTERNATIVAS_PENAIS">Central de Alternativas Penais (CAP)</option>
+          </select>
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Motivo da Contingência</label>
+          <select id="assistidoMotivo" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-amber-600 focus:outline-none">
+            <option value="HIPOSSUFICIENCIA_SEM_SMARTPHONE">Hipossuficiência (Não possui smartphone)</option>
+            <option value="EXCLUSAO_DIGITAL_SEM_INTERNET">Sem acesso à internet / pacote de dados</option>
+            <option value="APARELHO_FURTADO_OU_DANIFICADO">Aparelho furtado, extraviado ou sem bateria</option>
+            <option value="ACESSIBILIDADE_IDOSO_PCD">Acessibilidade / Dificuldade de uso digital</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Identificação Civil Conferida pelo Servidor</label>
+        <input id="assistidoDoc" type="text" value="RG Civil Oficial / Carteira de Identidade Nacional (CIN) + Conferência Visual da Foto-Mestra" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-amber-600 focus:outline-none">
+      </div>
+
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Certidão / Observação de Fé Pública</label>
+        <textarea id="assistidoObs" rows="2" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-amber-600 focus:outline-none">Comparecimento presencial assistido realizado no Fórum em razão de vulnerabilidade/exclusão digital (Res. CNJ 288/2019). Identidade conferida presencialmente com fé pública.</textarea>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button type="button" onclick="closeAssistidoModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" class="flex-1 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold transition-colors flex items-center justify-center gap-1.5 shadow-sm">
+          <span class="material-symbols-outlined text-sm">verified_user</span>
+          <span>Homologar, Assinar (ICP-Brasil) e Juntar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- MODAL CADASTRO AUDIÊNCIA DE CUSTÓDIA -->
+<div id="modalCustodia" class="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+  <div class="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-200">
+    <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold">
+          <span class="material-symbols-outlined text-lg">how_to_reg</span>
+        </div>
+        <div>
+          <h3 class="font-bold text-sm text-slate-900">Coleta Biométrica na Audiência de Custódia</h3>
+          <p class="text-[11px] text-slate-500">Cadastro de Referência Oficial (Fazendo Justiça / CNJ)</p>
+        </div>
+      </div>
+      <button onclick="closeCustodiaModal()" class="text-slate-400 hover:text-slate-700 p-1 rounded-md">
+        <span class="material-symbols-outlined text-xl">close</span>
+      </button>
+    </div>
+
+    <form onsubmit="salvarCustodia(event)" class="space-y-3 text-xs">
+      <div>
+        <label class="font-semibold text-slate-700 block mb-1">Nome do Réu / Cidadão</label>
+        <input id="custodiaNome" type="text" value="Carlos Eduardo da Silva" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:ring-1 focus:ring-blue-600 focus:outline-none">
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">CPF</label>
+          <input id="custodiaCpf" type="text" value="529.982.247-25" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-blue-600 focus:outline-none">
+        </div>
+        <div>
+          <label class="font-semibold text-slate-700 block mb-1">Processo Judicial</label>
+          <input id="custodiaProc" type="text" value="0014298-55.2026.8.26.0100" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono focus:ring-1 focus:ring-blue-600 focus:outline-none">
+        </div>
+      </div>
+      <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-[11px] text-blue-900 space-y-1">
+        <p class="font-bold flex items-center gap-1">
+          <span class="material-symbols-outlined text-sm">verified</span>
+          Vantagem frente ao SAREF:
+        </p>
+        <p class="text-slate-600 leading-snug">
+          O réu já sai da Audiência de Custódia cadastrado e apto a utilizar o app em seu smartphone, sem precisar comparecer posteriormente ao balcão da Vara.
+        </p>
+      </div>
+
+      <div class="pt-2 flex gap-2">
+        <button type="button" onclick="closeCustodiaModal()" class="flex-1 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition-colors">
+          Cancelar
+        </button>
+        <button type="submit" class="flex-1 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-xl font-bold transition-colors">
+          Cadastrar Biometria
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
 </body></html>

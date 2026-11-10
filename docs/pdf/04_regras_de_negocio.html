@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CompareceJus - Regras de Negócio e Custódia</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 20mm 18mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 18pt;
+    color: #0f172a;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    color: #334155;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    page-break-after: avoid;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 18px 0;
+  }
+  blockquote {
+    border-left: 4px solid #94a3b8;
+    margin: 12px 0;
+    padding: 6px 14px;
+    background-color: #f8fafc;
+    color: #475569;
+    font-style: italic;
+  }
+  .alert {
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 10pt;
+  }
+  .alert-important {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    color: #1e40af;
+  }
+  .alert-note {
+    background-color: #f8fafc;
+    border-left: 4px solid #64748b;
+    color: #334155;
+  }
+  .table-wrapper {
+    margin: 14px 0;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  code {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 8.5pt;
+    font-family: Consolas, "Courier New", monospace;
+    page-break-inside: avoid;
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+  .footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+    font-size: 8.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <h1>Regras de Negócio, Cadastro na Custódia e Matriz de Riscos da IA • CompareceJus</h1>
+<p>Este documento detalha o ciclo de vida dos atos judiciais, as 3 formas oficiais de ingestão da Foto-Mestra (Base da Custódia), a matriz de 23 sinais pré-analíticos da Inteligência Artificial, a governança de homologação com assinatura ICP-Brasil e o protocolo de contingência para exclusão digital.</p>
+<hr/>
+<h2>1. Ciclo de Vida da Apresentação (Máquina de Estados)</h2>
+<p>O sistema segue rigorosamente o princípio da supervisão humana obrigatória (<strong>Human-in-the-Loop</strong>), de modo que o processamento algorítmico da IA nunca gera decisão terminativa sem o crivo do servidor judiciário investido de fé pública.</p>
+<pre><code>mermaid
+stateDiagram-v2
+    [<em>] --&gt; CADASTRO_CUSTODIA: Ingestão da Foto-Mestra (Webcam Custódia / PDF APF / BNMP 3.0)
+    CADASTRO_CUSTODIA --&gt; PENDENTE_CICLO: Ciclo mensal aberto
+    PENDENTE_CICLO --&gt; AGUARDANDO_HOMOLOGACAO: Réu envia biometria + GPS pelo App
+    PENDENTE_CICLO --&gt; COMPARECIMENTO_ASSISTIDO: Réu vulnerável comparece ao Fórum/Totem/Defensoria (Res. CNJ 288/2019)
+    
+    state AGUARDANDO_HOMOLOGACAO {
+        [</em>] --&gt; PRE_ANALISE_IA: Motor algorítmico analisa 23 sinais (Biometria + Geo + Hardware)
+        PRE_ANALISE_IA --&gt; CLASSIFICACAO_VERDE: Sem inconformidades
+        PRE_ANALISE_IA --&gt; CLASSIFICACAO_AMARELA: Ponto de atenção (endereço/iluminação)
+        PRE_ANALISE_IA --&gt; CLASSIFICACAO_VERMELHA: Fora da comarca / fraude / mock GPS / rosto divergente
+    }
+    
+    AGUARDANDO_HOMOLOGACAO --&gt; HOMOLOGADO: Servidor homologa e assina com ICP-Brasil (PJeOffice)
+    AGUARDANDO_HOMOLOGACAO --&gt; HOMOLOGADO_COM_RESSALVA: Servidor homologa com anotação e assina (ICP-Brasil)
+    AGUARDANDO_HOMOLOGACAO --&gt; NOVA_APRESENTACAO_SOLICITADA: Servidor solicita nova foto
+    AGUARDANDO_HOMOLOGACAO --&gt; REMETIDA_AO_JUIZ: Servidor conclui com parecer ao Magistrado
+    
+    COMPARECIMENTO_ASSISTIDO --&gt; HOMOLOGADO: Registro assistido assinado pelo Servidor (ICP-Brasil)
+    NOVA_APRESENTACAO_SOLICITADA --&gt; AGUARDANDO_HOMOLOGACAO: Réu reenvia no prazo
+    HOMOLOGADO --&gt; CERTIDAO_EMITIDA: Certidão assinada (X.509 AC-JUS + Carimbo ACT ON + QR Code)
+    HOMOLOGADO_COM_RESSALVA --&gt; CERTIDAO_EMITIDA
+    CERTIDAO_EMITIDA --&gt; JUNTADA_AUTOS: Juntada automática via MNI v2.2.2 (entregarManifestacaoProcessual - TPU 85)
+    JUNTADA_AUTOS --&gt; [<em>]
+    
+    PENDENTE_CICLO --&gt; DESCUMPRIMENTO_CERTIFICADO: Prazo encerrou sem apresentação ou contingência
+    DESCUMPRIMENTO_CERTIFICADO --&gt; REMETIDA_AO_JUIZ: Certidão de descumprimento conclusa ao Juiz</code></pre>
+<hr/>
+<h2>2. Origem e Cadastro da Foto-Mestra (Base Biométrica da Custódia)</h2>
+<p>Um ponto crítico de segurança jurídica e operacional é garantir que a <strong>Foto-Mestra (biometria de referência)</strong> contra a qual os comparecimentos mensais serão confrontados tenha origem oficial, rastreável e imune a autofraude no primeiro acesso.</p>
+<p>O CompareceJus implementa <strong>3 formas complementares de ingestão da Foto-Mestra</strong> (disponíveis na tela <code>/cadastro-custodia</code> e no endpoint <code>POST /api/cadastro-custodia</code>), permitindo que o servidor ou estagiário conclua o cadastro em <strong>menos de 30 segundos</strong> na própria sala de audiência:</p>
+<div class="table-wrapper"><table><tr><th>Modalidade de Ingestão</th><th>Código Técnico</th><th>Como Funciona na Prática</th><th>Fonte de Confiança</th></tr><tr><td><strong>1. Captura Direta na Sala de Audiência de Custódia</strong></td><td><code>CAPTURA_DIRETA_AUDIENCIA_CUSTODIA</code></td><td>Ao término da audiência que concede a liberdade provisória (art. 319, CPP), o servidor captura a foto do custodiado via webcam da sala de audiência (ou tablet institucional) em 5 segundos, já definindo o polígono territorial da comarca e o endereço declarado.</td><td>Presença física perante o Magistrado, MP, Defensoria e Servidor com fé pública.</td></tr><tr><td><strong>2. Extração da Foto do Auto de Prisão em Flagrante (APF)</strong></td><td><code>EXTRACAO_PDF_APF</code></td><td>Caso o réu já tenha se retirado ou a audiência ocorra por videoconferência, o servidor faz o upload/extração da fotografia oficial constante na peça do Auto de Prisão em Flagrante (APF) ou Boletim de Identificação Criminal juntado pela Polícia Judiciária nos autos do PJe/e-SAJ/eproc.</td><td>Documento público policial constante nos autos judiciais.</td></tr><tr><td><strong>3. Consulta ao Barramento BNMP 3.0 / TSE-ICN</strong></td><td><code>BARRAMENTO_BNMP3_TSE</code></td><td>Integração automatizada via CPF/RJI com o <strong>Banco Nacional de Medidas Penais e Prisões (BNMP 3.0 / CNJ)</strong>, com o módulo de Identificação Civil do programa </em>Fazendo Justiça<em> (CNJ/PNUD) ou com a Base da Identificação Civil Nacional (<strong>TSE-ICN / Senatran</strong>), importando o template facial oficial sem necessidade de nova captura.</td><td>Bases biométricas governamentais federais e judiciárias.</td></tr></table></div>
+<hr/>
+<h2>3. A Matriz de Sinais do Motor de Pré-Análise da IA (23 Regras Auditáveis)</h2>
+<p>A IA do Tribunal (<code>src/analise-ia.js</code>) analisa a telemetria recebida através de um conjunto determinístico e explicável de regras heurísticas, biométricas e de integridade de hardware, com pontuação aditiva de risco (0 a 100):</p>
+<div class="table-wrapper"><table><tr><th>Código do Sinal</th><th>Categoria</th><th>Descrição da Verificação</th><th>Nível de Risco</th><th>Peso</th></tr><tr><td><code>FORA_DA_COMARCA</code></td><td>Territorial</td><td>Coordenadas fora do raio fixado para a Comarca autorizada pelo Juízo (Art. 319, IV, CPP).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>BIOMETRIA_DIVERGENTE</code></td><td>Identidade</td><td>Distância euclidiana do descritor facial > 0.55 em relação à Foto-Mestra da custódia.</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>LIVENESS_FALHOU</code></td><td>Antifraude</td><td>Falha na prova de vida ativa (desafios dinâmicos de piscar os olhos / rotação).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>ROSTO_AUSENTE</code></td><td>Qualidade</td><td>Nenhum rosto humano detectado no enquadramento.</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>MULTIPLOS_ROSTOS</code></td><td>Antifraude</td><td>Mais de uma face detectada no enquadramento da selfie.</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>FOTO_REUTILIZADA</code></td><td>Antifraude</td><td>Hash SHA-256 da imagem idêntico a envio anterior (foto estática ou replay).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>DISPOSITIVO_COMPARTILHADO</code></td><td>Antifraude</td><td>Mesmo identificador de hardware utilizado para réus distintos.</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>DESLOCAMENTO_IMPOSSIVEL</code></td><td>Territorial</td><td>Velocidade implícita entre apresentações > 900 km/h (teletransporte / spoofing).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>AUTOMACAO_DETECTADA</code></td><td>Antifraude</td><td>Sinalizador de controle por robô/webdriver ativo no navegador (<code>navigator.webdriver</code>).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>EMULADOR_OU_AMBIENTE_VIRTUAL</code></td><td>Hardware</td><td>Detecção de User-Agent/GPU de emulador Android/iOS ou máquina virtual (BlueStacks, Genymotion, Nox, SwiftShader).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>CAMERA_VIRTUAL_DETECTADA</code></td><td>Hardware</td><td>Detecção de driver de injeção de vídeo ou câmera virtual (OBS Virtual Camera, ManyCam, DroidCam, Iriun).</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>MOCK_LOCATION_ATIVO</code></td><td>Hardware / Geo</td><td>Flag de localização simulada (<code>isFromMockProvider</code> / <code>mocked</code>) reportada pela API de telemetria do dispositivo.</td><td><strong>ALTO</strong></td><td>40</td></tr><tr><td><code>LONGE_DO_ENDERECO</code></td><td>Territorial</td><td>Dentro da comarca, porém a mais de 1.000m do endereço residencial declarado na custódia.</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>BIOMETRIA_INCONCLUSIVA</code></td><td>Identidade</td><td>Distância facial entre 0.45 e 0.55 (iluminação atípica, câmera de baixa resolução ou adereços).</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>GPS_IMPRECISO</code></td><td>Territorial</td><td>Margem de erro reportada pelo GPS superior a 300 metros.</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>GPS_PRECISAO_IRREAL</code></td><td>Antifraude</td><td>Margem de erro < 1 metro (padrão típico de injeção estática de coordenadas).</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>TELEMETRIA_GPS_SINTETICA</code></td><td>Hardware / Geo</td><td>Coordenadas com casas decimais truncadas/exatas (ausência de entropia natural de satélites GNSS).</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>WEBVIEW_NAO_HOMOLOGADA</code></td><td>Hardware</td><td>Acesso originado de WebView embutida modificada ou container não homologado.</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>GPS_DESATUALIZADO</code></td><td>Territorial</td><td>Leitura de coordenadas em cache com mais de 2 minutos de idade.</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>BIOMETRIA_NAO_PROCESSADA</code></td><td>Contingência</td><td>Modelo neural indisponível no cliente; requer conferência visual humana.</td><td><strong>MÉDIO</strong></td><td>15</td></tr><tr><td><code>FORA_DO_PRAZO</code></td><td>Temporal</td><td>Envio efetuado fora da janela mensal autorizada.</td><td><strong>BAIXO</strong></td><td>5</td></tr><tr><td><code>RELOGIO_DIVERGENTE</code></td><td>Temporal</td><td>Horário do dispositivo diverge mais de 10 min do fuso oficial de Brasília.</td><td><strong>BAIXO</strong></td><td>5</td></tr><tr><td><code>MUITAS_TENTATIVAS</code></td><td>Usabilidade</td><td>Mais de 3 tentativas de captura consecutivas antes do envio.</td><td><strong>BAIXO</strong></td><td>5</td></tr></table></div>
+<h3>Critério de Classificação Final</h3>
+</em> 🔴 <strong>VERMELHO:</strong> Presença de <strong>ao menos 1 sinal ALTO</strong>. Ação: Bloqueio de homologação em lote; auditoria humana obrigatória; sugestão de remessa dos autos conclusos ao Juiz de Direito.
+<em> 🟡 <strong>AMARELO:</strong> Ausência de sinal ALTO, mas presença de <strong>ao menos 1 sinal MÉDIO</strong>. Ação: Conferência visual pelo escrevente antes de homologar e assinar.
+</em> 🟢 <strong>VERDE:</strong> Somente sinais BAIXOS ou ausência total de inconformidades. Ação: Habilitado para <strong>Homologação e Assinatura Digital ICP-Brasil em Lote (1 clique)</strong> com juntada automática via MNI.
+<hr/>
+<h2>4. Diretrizes de Acessibilidade e Não-Exclusão Digital (Resolução CNJ nº 288/2019)</h2>
+<p>Em estrita observância à <strong>Resolução CNJ nº 288/2019</strong> (Política Institucional do Poder Judiciário para a promoção da aplicação de alternativas penais, com enfoque restaurativo, em substituição à privação de liberdade) e aos princípios constitucionais da dignidade da pessoa humana e do amplo acesso à Justiça:</p>
+<h3>4.1 Proibição de Penalização por Hipossuficiência ou Falha Tecnológica</h3>
+<li><strong>Natureza Desoneradora do Aplicativo:</strong> O CompareceJus é um instrumento de facilitação do cumprimento da medida cautelar e de eficiência cartorária, <strong>jamais um requisito econômico excludente</strong>.</li>
+<li><strong>Vedação à Revogação Automática:</strong> Nenhum réu pode sofrer revogação de liberdade provisória ou decretação de prisão preventiva em decorrência de:</li>
+<ul><li>Não possuir aparelho smartphone compatível;</li>
+<li>Ausência de pacote de dados móveis ou internet residencial;</li>
+<li>Furto, roubo, extravio, quebra de câmera ou esgotamento de bateria do aparelho;</li>
+<li>Dificuldades cognitivas, idade avançada, deficiência visual/motora ou baixo letramento digital.</li>
+<p></ul><h3>4.2 Canais Alternativos Físicos e Registro Assistido no Sistema</h3><br/>Para garantir que 100% dos comparecimentos — inclusive os presenciais — gerem certidão eletrônica padronizada e juntada automática via MNI (extinguindo em definitivo o livro de papel), o painel da secretaria (<code>tela4_painel_servidor.html</code>, endpoint <code>POST /api/servidor/comparecimento-assistido</code>) dispõe do módulo <strong>"Registrar Comparecimento Assistido / Presencial no Fórum"</strong>, operando em 4 canais físicos:<br/><li><strong>Balcão da Secretaria Judicial (Atendimento Rápido):</strong> O servidor seleciona o réu, confere seu documento oficial com a Foto-Mestra da tela e clica em <em>"Homologar, Assinar (ICP-Brasil) e Juntar"</em>, emitindo recibo impresso ou por SMS/WhatsApp institucional em 15 segundos.</li><br/><li><strong>Totem de Autoatendimento no Átrio do Fórum:</strong> Terminal com câmera e conectividade interna do Tribunal disponível na entrada do Fórum para cidadãos sem celular próprio.</li><br/><li><strong>Posto da Defensoria Pública:</strong> Registro assistido realizado por servidores ou estagiários da Defensoria Pública conveniada.</li><br/><li><strong>Central Integrada de Alternativas Penais (CIAP / CAP):</strong> Registro conjunto durante o acompanhamento psicossocial periódico.</li></p>
+<h3>4.3 Protocolo de Tolerância Operacional</h3>
+<ul><li>Caso o réu tente realizar a apresentação pelo celular e enfrente falha técnica recorrente de biometria ou conexão, a tentativa fica registrada na trilha de auditoria como <strong>Comparecimento Tempestivo em Contingência</strong>, concedendo prazo suplementar de <strong>5 (cinco) dias úteis</strong> para complementação remota ou comparecimento assistido sem configuração de inadimplemento cautelar.</li>
+<p></ul><hr/></p>
+<h2>5. Regras de Competência e Periodicidade</h2>
+<li><strong>Janela Regular:</strong> Aberta do 1º ao último dia do mês corrente (fuso horário oficial <code>America/Sao_Paulo</code>).</li>
+<li><strong>Unicidade do Ato:</strong> O réu realiza 1 apresentação por mês de competência. Novas tentativas são bloqueadas, salvo se o cartório emitir despacho solicitando reenvio (<code>NOVA_APRESENTACAO_SOLICITADA</code>).</li>
+<li><strong>Módulo de Justificativa Judicial:</strong> O réu impossibilitado de comparecer (por internação, doença ou trabalho) protocola justificativa pelo app com anexo comprobatório, gerando protocolo <code>JUST-AAAA-NNNNNN-D</code> para análise da secretaria.</li>
+<li><strong>Fechamento Automático de Ciclo (Gestão de Descumprimento):</strong> No 1º dia útil subsequente, o sistema lista apenas os réus que não se apresentaram pelo app, não realizaram comparecimento assistido no Fórum e não protocolaram justificativa tempestiva, gerando minuta de Certidão de Descumprimento para apreciação do Magistrado (Art. 312, parágrafo único, do CPP).</li>
+  <div class="footer-stamp">
+    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
+    <span>Documento Técnico Institucional</span>
+  </div>
+</body>
+</html>

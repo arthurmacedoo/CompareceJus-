@@ -304,18 +304,38 @@
 </div>
 
 <script>
-let currentProtocol = 'CJ-2026-94810-SP';
+let currentProtocol = 'CJ-2026-000105-4';
 let currentHash = '7f8a9b4c2e105d8f63aa82c199e4b772d1f0e24b';
-let currentDate = '23/10/2026 às 14:15';
+let currentDate = new Date().toLocaleString('pt-BR');
+let currentStatus = 'AGUARDANDO_HOMOLOGACAO';
 
 document.addEventListener('DOMContentLoaded', () => {
   try {
     const raw = sessionStorage.getItem('comparece_latest');
     if (raw) {
       const data = JSON.parse(raw);
-      if (data.protocol) currentProtocol = data.protocol;
-      if (data.hash) currentHash = data.hash;
-      if (data.date && data.time) currentDate = `${data.date} às ${data.time}`;
+      if (data.protocolo || data.protocol) currentProtocol = data.protocolo || data.protocol;
+      if (data.reciboHash || data.hash) currentHash = data.reciboHash || data.hash;
+      if (data.recebidoEm) currentDate = new Date(data.recebidoEm).toLocaleString('pt-BR');
+      if (data.status) currentStatus = data.status;
+
+      // Se estiver aguardando homologação do servidor (Etapa 1 concluída)
+      const isHomologado = currentStatus.startsWith('HOMOLOGADO');
+      const titleEl = document.querySelector('h1');
+      const iconWrap = titleEl ? titleEl.previousElementSibling : null;
+
+      if (titleEl && !isHomologado) {
+        titleEl.innerText = 'Recibo de Apresentação';
+        titleEl.className = 'font-title-sm text-title-sm text-amber-900 font-bold tracking-tight';
+        if (iconWrap) {
+          iconWrap.className = 'w-12 h-12 rounded-full bg-amber-50 border border-amber-200 flex items-center justify-center mb-3 text-amber-600';
+          iconWrap.innerHTML = '<span class="material-symbols-outlined text-2xl font-bold">hourglass_top</span>';
+        }
+        const subtitle = titleEl.nextElementSibling;
+        if (subtitle) {
+          subtitle.innerHTML = '<span class="inline-block bg-amber-100 text-amber-800 text-[11px] font-bold px-2.5 py-0.5 rounded-full mt-1">Pré-Análise da IA Concluída • Aguardando Homologação</span>';
+        }
+      }
 
       // Atualizar textos na tela
       const cells = document.querySelectorAll('dd, span, p');
@@ -323,13 +343,22 @@ document.addEventListener('DOMContentLoaded', () => {
         if (el.innerText.includes('22 de Outubro de 2026') || el.innerText.includes('às')) {
           el.innerText = currentDate;
         }
-        if (el.innerText.includes('CJ-2026-94810-SP')) {
+        if (el.innerText.includes('CJ-2026') || el.innerText.includes('94810')) {
           el.innerText = currentProtocol;
         }
         if (el.innerText.includes('7f8a9b4c2e')) {
-          el.innerText = currentHash.substring(0, 10) + '...';
+          el.innerText = currentHash.substring(0, 14) + '...';
         }
       });
+
+      // Atualizar imagem do QR Code para validação pública real
+      const verifyUrl = `${window.location.origin}/verificar?p=${encodeURIComponent(currentProtocol)}`;
+      const qrContainer = document.querySelector('svg[aria-label="QR Code de validação"]');
+      if (qrContainer && qrContainer.parentElement) {
+        qrContainer.parentElement.innerHTML = `
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(verifyUrl)}" alt="QR Code Oficial" class="w-28 h-28 object-contain rounded-lg">
+        `;
+      }
     }
   } catch (e) {
     console.log(e);
@@ -337,20 +366,21 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function downloadReceipt() {
-  showToast('Gerando Certidão em PDF...', 'download');
+  showToast('Gerando Comprovante em PDF...', 'download');
   setTimeout(() => {
     window.print();
   }, 400);
 }
 
 function shareReceipt() {
-  const shareText = `⚖️ *COMPROVANTE DE COMPARECIMENTO JUDICIAL*\n\n` +
+  const shareText = `⚖️ *COMPROVANTE DE APRESENTAÇÃO JUDICIAL (COMPARECEJUS)*\n\n` +
     `Cidadão: Carlos Eduardo da Silva\n` +
-    `Processo: 0014298-55.2026.8.26.0100 (2ª Vara Criminal SP)\n` +
-    `Data/Hora: ${currentDate}\n` +
+    `Processo: 0014298-55.2026.8.26.0100 (2ª Vara Criminal Capital - SP)\n` +
+    `Data do Registro: ${currentDate}\n` +
     `Protocolo: ${currentProtocol}\n` +
-    `Hash Autenticidade: ${currentHash}\n\n` +
-    `Certidão assinada digitalmente pelo sistema CompareceJus.`;
+    `Situação: ${currentStatus === 'AGUARDANDO_HOMOLOGACAO' ? 'Pré-analisado pela IA (Aguardando homologação)' : 'Homologado pelo Tribunal'}\n` +
+    `Hash de Autenticidade: ${currentHash}\n\n` +
+    `Validação pública: ${window.location.origin}/verificar?p=${encodeURIComponent(currentProtocol)}`;
 
   if (navigator.share) {
     navigator.share({
@@ -359,7 +389,7 @@ function shareReceipt() {
     }).catch(() => {});
   } else if (navigator.clipboard) {
     navigator.clipboard.writeText(shareText);
-    showToast('Texto do comprovante copiado!', 'content_copy');
+    showToast('Texto do comprovante copiado com sucesso!', 'content_copy');
   } else {
     showToast('Compartilhamento não suportado neste navegador', 'info');
   }

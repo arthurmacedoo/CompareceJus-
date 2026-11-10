@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>CompareceJus - Resumo Executivo</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 18mm 20mm 18mm;
+    @bottom-right {
+      content: counter(page);
+    }
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    line-height: 1.6;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+  h1 {
+    font-size: 18pt;
+    color: #0f172a;
+    border-bottom: 2px solid #2563eb;
+    padding-bottom: 6px;
+    margin-top: 0;
+    margin-bottom: 14px;
+  }
+  h2 {
+    font-size: 14pt;
+    color: #1e3a8a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12pt;
+    color: #334155;
+    margin-top: 14px;
+    margin-bottom: 6px;
+    page-break-after: avoid;
+  }
+  p {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: justify;
+  }
+  ul, ol {
+    margin-top: 0;
+    margin-bottom: 12px;
+    padding-left: 24px;
+  }
+  li {
+    margin-bottom: 4px;
+  }
+  hr {
+    border: none;
+    border-top: 1px solid #e2e8f0;
+    margin: 18px 0;
+  }
+  blockquote {
+    border-left: 4px solid #94a3b8;
+    margin: 12px 0;
+    padding: 6px 14px;
+    background-color: #f8fafc;
+    color: #475569;
+    font-style: italic;
+  }
+  .alert {
+    border-radius: 6px;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 10pt;
+  }
+  .alert-important {
+    background-color: #eff6ff;
+    border-left: 4px solid #2563eb;
+    color: #1e40af;
+  }
+  .alert-note {
+    background-color: #f8fafc;
+    border-left: 4px solid #64748b;
+    color: #334155;
+  }
+  .table-wrapper {
+    margin: 14px 0;
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5pt;
+  }
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 6px 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+  }
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+  code {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 4px;
+    border-radius: 4px;
+    font-size: 9pt;
+    font-family: Consolas, "Courier New", monospace;
+  }
+  pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 8.5pt;
+    font-family: Consolas, "Courier New", monospace;
+    page-break-inside: avoid;
+  }
+  pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+  }
+  .footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px dashed #cbd5e1;
+    font-size: 8.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+  }
+</style>
+</head>
+<body>
+  <h1>CompareceJus (v2.0): Resumo Executivo para o CNJ (DMF e DTI)</h1>
+<p><strong>Microsserviço Nativo da PDPJ-Br ("Módulo Cautelar") para Apresentação Periódica Digital em Liberdade Provisória e Medidas Cautelares Diversas da Prisão (Art. 319 do CPP).</strong><br/>Autor: Arthur Macedo · Arquitetura: Nativa PDPJ-Br / MNI v2.2.2 / ICP-Brasil (PJeOffice)</p>
+<hr/>
+<h2>1. O Problema Institucional</h2>
+<p>O comparecimento periódico em juízo (<strong>art. 319, I, do CPP</strong>), a proibição de ausentar-se da comarca (<strong>art. 319, IV, do CPP</strong>), as condições do Acordo de Não Persecução Penal (<strong>art. 28-A do CPP</strong>) e da suspensão condicional do processo (<strong>art. 89 da Lei nº 9.099/1995</strong>) obrigam centenas de milhares de pessoas a comparecer mensalmente aos fóruns brasileiros <strong>apenas para assinar um livro ou ficha de papel</strong>.<br/><ul><li><strong>Para as Varas Criminais e Secretarias:</strong> filas no balcão, milhares de horas de servidores gastas com conferência manual e digitalização de fichas, livros físicos sujeitos a extravio e assinaturas sem comprovação geocartográfica de permanência na comarca.</li><br/><li><strong>Para o Jurisdicionado:</strong> perda de um dia de trabalho e custo de deslocamento mensal, atingindo de forma desproporcional trabalhadores informais e hipossuficientes.</li><br/><li><strong>A Lacuna Arquitetural Atual:</strong> o <strong>SAREF</strong> (CNJ/TJDFT) solucionou esse gargalo com excelência para a <strong>execução penal integrada ao SEEU</strong>. Contudo, os réus da fase de conhecimento (Audiência de Custódia, Liberdade Provisória, Cautelares, ANPP e Sursis Processual) tramitam no <strong>PJe, e-SAJ e eproc</strong>, <strong>não estão no SEEU</strong> e permanecem desassistidos pela transformação digital.</li></p>
+<p></ul><hr/></p>
+<h2>2. A Solução: Módulo Cautelar Nativo da PDPJ-Br</h2>
+<p>O <strong>CompareceJus (v2.0)</strong> foi projetado estritamente sob os padrões da <strong>Plataforma Digital do Poder Judiciário Brasileiro (PDPJ-Br — Resolução CNJ nº 335/2020)</strong> para operar como o <strong>Módulo Cautelar</strong> integrado aos sistemas de processo eletrônico:</p>
+<div class="table-wrapper"><table><tr><th>Etapa</th><th>Ator / Camada</th><th>Operação Técnica e Jurídica</th></tr><tr><td><strong>0. Cadastro na Custódia (30s)</strong></td><td>Servidor na <strong>Sala de Audiência de Custódia</strong> (<code>/cadastro-custodia</code>)</td><td>Vincula o réu em 30 segundos com <strong>Foto-Mestra</strong> via: (1) Captura direta na webcam da custódia, (2) Extração do PDF do Auto de Prisão em Flagrante (APF), ou (3) Consulta ao barramento <strong>BNMP 3.0 / TSE-ICN</strong>, definindo o polígono da comarca e o endereço residencial.</td></tr><tr><td><strong>1. Apresentação Remota ou Assistida</strong></td><td>Cidadão no App (ou Balcão/Totem em contingência)</td><td>Coleta pontual de GPS anti-mock, prova de vida ativa/passiva, selfie e declaração de veracidade. Para vulneráveis sem celular, há o <strong>Comparecimento Assistido no Fórum</strong> (Res. CNJ nº 288/2019).</td></tr><tr><td><strong>2. Pré-Análise Auditável (IA)</strong></td><td><strong>Motor de IA do Tribunal</strong> (<code>src/analise-ia.js</code>)</td><td>Avalia <strong>23 sinais explicáveis</strong> (biometria facial, geofencing comarca × endereço, detecção de Mock GPS, emuladores e câmeras virtuais), gerando escore de 0 a 100 e triagem 🟢🟡🔴. O cidadão recebe <strong>recibo imediato</strong>.</td></tr><tr><td><strong>3. Homologação e Assinatura Qualificada</strong></td><td><strong>Servidor Judiciário</strong> no expediente (<code>/painel</code>)</td><td>Analisa os alertas e homologa (os verdes em lote de 1 clique) assinando digitalmente via <strong>PJeOffice / ICP-Brasil (Certificado X.509 AC-JUS + Carimbo do Tempo ACT Observatório Nacional — Lei nº 11.419/2006)</strong>.</td></tr><tr><td><strong>4. Juntada Automática via MNI v2.2.2</strong></td><td><strong>Conector MNI + Mensageria PDPJ-Br</strong> (<code>src/integracao-mni.js</code>)</td><td>Dispara assincronamente (RabbitMQ/Kafka) a operação <code>entregarManifestacaoProcessual</code> do <strong>MNI v2.2.2</strong>, juntando a certidão PDF/A no <strong>PJe, e-SAJ ou eproc</strong> com movimentação <strong>TPU/CNJ Cód. 85 (Complemento 12266)</strong>.</td></tr></table></div>
+<div class="alert alert-important"><strong>[IMPORTANT]</strong> <strong>Supervisão Humana Obrigatória (Resolução CNJ nº 615/2025):</strong> A Inteligência Artificial nunca profere decisão nem revoga benefício cautelar. Ela atua exclusivamente como filtro pré-analítico para o servidor investido de fé pública.</div>
+<hr/>
+<h2>3. Blindagem dos 6 Requisitos Críticos de Arquitetura Judiciária (v2.0)</h2>
+<li><strong>Interoperabilidade MNI v2.2.2 Zero-Toque (<code>src/integracao-mni.js</code>):</strong> O servidor não baixa nem sobe PDFs manualmente. Ao homologar, o sistema publica evento na mensageria (RabbitMQ/Kafka) e invoca <code>entregarManifestacaoProcessual</code> com código TPU/CNJ <code>85</code> (<em>Juntada de Certidão</em>) e <code>12266</code> (<em>Comparecimento Periódico</em>).</li>
+<li><strong>Fé Pública e Assinatura Qualificada ICP-Brasil (Lei 11.419/2006):</strong> Homologação individual e em lote integrada ao fluxo <strong>PJeOffice / Assinador PDPJ</strong>, gravando cadeia X.509 (<code>AC-JUS v5</code>), carimbo do tempo RFC 3161 (Observatório Nacional) e verificação pública em <code>/verificar</code> (<em>"Documento assinado digitalmente por [Servidor/Matrícula] com certificado ICP-Brasil"</em>).</li>
+<li><strong>Segurança de Hardware Mobile (Play Integrity & App Attest):</strong> O dossiê arquitetural distingue claramente o protótipo web demonstrativo da versão de distribuição aos réus, que opera sob atestação criptográfica de hardware (<em>Google Play Integrity API</em> no Android e <em>Apple App Attest / DeviceCheck</em> no iOS) combinada com checagens de telemetria contra Fake GPS, emuladores e câmeras virtuais (<code>src/analise-ia.js</code>).</li>
+<li><strong>Origem Oficial da Foto-Mestra na Custódia (<code>/cadastro-custodia</code>):</strong> Elimina qualquer brecha de autofraude no primeiro acesso ao estabelecer 3 fontes oficiais de ingestão da biometria de referência na própria audiência de custódia (Webcam da sala, PDF do APF ou Barramento BNMP 3.0 / TSE).</li>
+<li><strong>Contingência para Hipossuficiência e Exclusão Digital (Res. CNJ 288/2019):</strong> Módulo nativo no painel da secretaria para <em>"Registrar Comparecimento Assistido / Presencial no Fórum"</em> (balcão, totem de autoatendimento ou Defensoria Pública), garantindo que réus sem smartphone ou sem internet jamais sofram cerceamento ou prisão por vulnerabilidade econômica.</li>
+<li><strong>Pronto para a Nuvem PDPJ-Br (Kubernetes / OpenShift):</strong> Empacotado com <code>Dockerfile</code> non-root (UID 1001 compatível com <em>Restricted SCC</em> do Red Hat OpenShift) e <code>docker-compose.yml</code>, autenticação federada via <strong>SSO-JUS / Keycloak</strong> e APIs RESTful documentadas sob <strong>OpenAPI 3.1</strong>.</li>
+<hr/>
+<h2>4. Proposta de Encaminhamento ao CNJ</h2>
+<li><strong>Apresentação Técnica (30 minutos)</strong> junto ao Departamento de Monitoramento e Fiscalização do Sistema Carcerário (DMF) e à Diretoria de Tecnologia da Informação (DTI/PDPJ-Br).</li>
+<li><strong>Avaliação de Incorporação como "Módulo Cautelar"</strong> na Plataforma Digital do Poder Judiciário (PDPJ-Br) / ecossistema SAREF, ou autorização de <strong>Projeto Piloto de 90 a 180 dias</strong> em Vara Criminal / Central de Alternativas Penais.</li>
+  <div class="footer-stamp">
+    <span>CompareceJus v2.0 • Proposta Técnica PDPJ-Br / CNJ</span>
+    <span>Documento Técnico Institucional</span>
+  </div>
+</body>
+</html>
